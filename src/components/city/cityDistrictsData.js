@@ -24,11 +24,11 @@ export const CITY_DISTRICTS = [
     category: "Industrial Automation",
     color: "#7928CA",
     accentColor: "#A855F7",
-    position: [-18, 4.5, -8], // 3D world space position
+    position: [-16, 3.5, -12],
     markerOffset: [0, 6, 0],
     cameraTarget: {
-      position: [-10, 18, 12],
-      lookAt: [-18, 2, -8]
+      position: [-8, 16, 8],
+      lookAt: [-16, 2, -12]
     },
     useCaseIds: ["t6-u1", "t6-u2"],
     primaryCaseId: "t6-u1",
@@ -45,11 +45,11 @@ export const CITY_DISTRICTS = [
     category: "Infrastructure",
     color: "#00F2FE",
     accentColor: "#38BDF8",
-    position: [0, 8, 2],
-    markerOffset: [0, 10.5, 0],
+    position: [0, 6, 0],
+    markerOffset: [0, 10, 0],
     cameraTarget: {
       position: [12, 22, 22],
-      lookAt: [0, 6, 2]
+      lookAt: [0, 4, 0]
     },
     useCaseIds: ["t3-u2"],
     primaryCaseId: "t3-u2",
@@ -66,11 +66,11 @@ export const CITY_DISTRICTS = [
     category: "Healthcare",
     color: "#FF2E93",
     accentColor: "#F43F5E",
-    position: [-12, 3.5, 18],
+    position: [-14, 3.5, 14],
     markerOffset: [0, 5.5, 0],
     cameraTarget: {
-      position: [-4, 15, 32],
-      lookAt: [-12, 2, 18]
+      position: [-6, 15, 28],
+      lookAt: [-14, 2, 14]
     },
     useCaseIds: ["t2-u1", "t2-u2"],
     primaryCaseId: "t2-u1",
@@ -87,11 +87,11 @@ export const CITY_DISTRICTS = [
     category: "Biotechnology",
     color: "#00F2FE",
     accentColor: "#06B6D4",
-    position: [20, 4, -14],
+    position: [14, 3.5, -14],
     markerOffset: [0, 6, 0],
     cameraTarget: {
-      position: [28, 16, 2],
-      lookAt: [20, 2, -14]
+      position: [24, 16, 2],
+      lookAt: [14, 2, -14]
     },
     useCaseIds: ["t1-u1", "t1-u2"],
     primaryCaseId: "t1-u1",
@@ -108,11 +108,11 @@ export const CITY_DISTRICTS = [
     category: "Logistics & Maritime",
     color: "#00E1D9",
     accentColor: "#0EA5E9",
-    position: [-38, 2, -22],
-    markerOffset: [0, 5, 0],
+    position: [-36, 1.5, -16],
+    markerOffset: [0, 5.5, 0],
     cameraTarget: {
-      position: [-26, 16, -6],
-      lookAt: [-38, 1, -22]
+      position: [-24, 16, -2],
+      lookAt: [-36, 1, -16]
     },
     useCaseIds: ["t7-u1", "t9-u1"],
     primaryCaseId: "t7-u1",
@@ -129,11 +129,11 @@ export const CITY_DISTRICTS = [
     category: "Mining",
     color: "#FF7849",
     accentColor: "#F97316",
-    position: [8, 14, -36],
+    position: [10, 8, -36],
     markerOffset: [0, 7.5, 0],
     cameraTarget: {
-      position: [18, 26, -18],
-      lookAt: [8, 10, -36]
+      position: [20, 24, -18],
+      lookAt: [10, 6, -36]
     },
     useCaseIds: ["t8-u1", "t8-u2"],
     primaryCaseId: "t8-u1",
@@ -150,10 +150,10 @@ export const CITY_DISTRICTS = [
     category: "Agriculture",
     color: "#05FFA1",
     accentColor: "#10B981",
-    position: [32, 2.5, 12],
+    position: [32, 2.8, 12],
     markerOffset: [0, 5, 0],
     cameraTarget: {
-      position: [38, 15, 26],
+      position: [40, 16, 28],
       lookAt: [32, 1, 12]
     },
     useCaseIds: ["t4-u1", "t4-u2"],
@@ -171,11 +171,11 @@ export const CITY_DISTRICTS = [
     category: "Energy",
     color: "#FFE600",
     accentColor: "#FBBF24",
-    position: [24, 3, -2],
+    position: [24, 3, -26],
     markerOffset: [0, 5.5, 0],
     cameraTarget: {
-      position: [32, 16, 12],
-      lookAt: [24, 2, -2]
+      position: [34, 16, -12],
+      lookAt: [24, 2, -26]
     },
     useCaseIds: ["t5-u1", "t5-u2"],
     primaryCaseId: "t5-u1",
@@ -192,11 +192,11 @@ export const CITY_DISTRICTS = [
     category: "Logistics",
     color: "#38EF7D",
     accentColor: "#22C55E",
-    position: [-22, 3.5, 4],
+    position: [-26, 3, 6],
     markerOffset: [0, 5, 0],
     cameraTarget: {
-      position: [-12, 15, 18],
-      lookAt: [-22, 2, 4]
+      position: [-14, 15, 20],
+      lookAt: [-26, 2, 6]
     },
     useCaseIds: ["t10-u1"],
     primaryCaseId: "t10-u1",
@@ -213,11 +213,11 @@ export const CITY_DISTRICTS = [
     category: "Advanced Manufacturing",
     color: "#00DFD8",
     accentColor: "#14B8A6",
-    position: [-8, 3, -16],
+    position: [-6, 3, -20],
     markerOffset: [0, 5, 0],
     cameraTarget: {
-      position: [2, 14, -4],
-      lookAt: [-8, 1, -16]
+      position: [4, 15, -6],
+      lookAt: [-6, 1, -20]
     },
     useCaseIds: ["t9-u1", "t9-u2"],
     primaryCaseId: "t9-u1",
@@ -234,11 +234,11 @@ export const CITY_DISTRICTS = [
     category: "Autonomous Logistics",
     color: "#00F2FE",
     accentColor: "#38BDF8",
-    position: [12, 5.5, 18],
+    position: [0, 14, 0],
     markerOffset: [0, 6, 0],
     cameraTarget: {
-      position: [22, 18, 30],
-      lookAt: [12, 3, 18]
+      position: [14, 26, 20],
+      lookAt: [0, 12, 0]
     },
     useCaseIds: ["t10-u2"],
     primaryCaseId: "t10-u2",
@@ -255,11 +255,11 @@ export const CITY_DISTRICTS = [
     category: "Transportation",
     color: "#FFB800",
     accentColor: "#F59E0B",
-    position: [-28, 2.5, 16],
+    position: [-28, 3, 16],
     markerOffset: [0, 5, 0],
     cameraTarget: {
-      position: [-16, 14, 28],
-      lookAt: [-28, 1, 16]
+      position: [-16, 15, 30],
+      lookAt: [-28, 2, 16]
     },
     useCaseIds: ["t3-u1"],
     primaryCaseId: "t3-u1",
@@ -276,11 +276,11 @@ export const CITY_DISTRICTS = [
     category: "Emergency Intelligence",
     color: "#00E1D9",
     accentColor: "#06B6D4",
-    position: [-10, 4.5, -30],
+    position: [-12, 4, -30],
     markerOffset: [0, 6, 0],
     cameraTarget: {
-      position: [2, 16, -16],
-      lookAt: [-10, 2, -30]
+      position: [0, 16, -14],
+      lookAt: [-12, 2, -30]
     },
     useCaseIds: ["t7-u2"],
     primaryCaseId: "t7-u2",
