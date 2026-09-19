@@ -41,8 +41,8 @@ export default function City3DCanvas({
   }, [selectedDistrictId]);
 
   // Global overview defaults
-  const OVERVIEW_CAM_POS = new THREE.Vector3(38, 42, 48);
-  const OVERVIEW_LOOK_AT = new THREE.Vector3(0, 2.5, 0);
+  const OVERVIEW_CAM_POS = new THREE.Vector3(56, 64, 78);
+  const OVERVIEW_LOOK_AT = new THREE.Vector3(0, 3, 0);
 
   // District Selection & Camera Glide
   const handleSelectDistrict = useCallback((districtId) => {
@@ -74,7 +74,7 @@ export default function City3DCanvas({
     const offset = new THREE.Vector3();
     offset.subVectors(cameraRef.current.position, controlsRef.current.target);
     const length = offset.length();
-    const newLength = Math.max(16, Math.min(110, length + direction * 10));
+    const newLength = Math.max(18, Math.min(160, length + direction * 12));
     offset.setLength(newLength);
     cameraRef.current.position.addVectors(controlsRef.current.target, offset);
   }, []);
@@ -94,10 +94,10 @@ export default function City3DCanvas({
     // 1. Scene & Atmosphere
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x080e1a);
-    scene.fog = new THREE.Fog(0x080e1a, 70, 230);
+    scene.fog = new THREE.Fog(0x080e1a, 95, 340);
 
     // 2. Camera
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.5, 1000);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.5, 1200);
     camera.position.copy(OVERVIEW_CAM_POS);
     cameraRef.current = camera;
 
@@ -122,8 +122,8 @@ export default function City3DCanvas({
     controls.enableDamping = true;
     controls.dampingFactor = 0.045;
     controls.maxPolarAngle = Math.PI / 2.08;
-    controls.minDistance = 14;
-    controls.maxDistance = 110;
+    controls.minDistance = 18;
+    controls.maxDistance = 180;
     controls.target.copy(OVERVIEW_LOOK_AT);
     controlsRef.current = controls;
 
@@ -133,25 +133,25 @@ export default function City3DCanvas({
     controls.addEventListener('start', onUserInteraction);
 
     // 5. Balanced Cinematic Sunlight & Ambient Irradiance
-    const ambientLight = new THREE.AmbientLight(0xdbeafe, 1.35);
+    const ambientLight = new THREE.AmbientLight(0xdbeafe, 1.4);
     scene.add(ambientLight);
 
-    const hemiLight = new THREE.HemisphereLight(0x38bdf8, 0x0f172a, 0.95);
-    hemiLight.position.set(0, 60, 0);
+    const hemiLight = new THREE.HemisphereLight(0x38bdf8, 0x0f172a, 1.0);
+    hemiLight.position.set(0, 80, 0);
     scene.add(hemiLight);
 
-    // Warm Sun Directional Light (Zero shadow acne via normalBias)
-    const sunLight = new THREE.DirectionalLight(0xfff8ed, 2.4);
-    sunLight.position.set(45, 70, 35);
+    // Warm Sun Directional Light
+    const sunLight = new THREE.DirectionalLight(0xfff8ed, 2.5);
+    sunLight.position.set(65, 95, 50);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
     sunLight.shadow.mapSize.height = 2048;
     sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = 180;
-    sunLight.shadow.camera.left = -55;
-    sunLight.shadow.camera.right = 55;
-    sunLight.shadow.camera.top = 55;
-    sunLight.shadow.camera.bottom = -55;
+    sunLight.shadow.camera.far = 280;
+    sunLight.shadow.camera.left = -90;
+    sunLight.shadow.camera.right = 90;
+    sunLight.shadow.camera.top = 90;
+    sunLight.shadow.camera.bottom = -90;
     sunLight.shadow.bias = -0.0002;
     sunLight.shadow.normalBias = 0.04;
     scene.add(sunLight);

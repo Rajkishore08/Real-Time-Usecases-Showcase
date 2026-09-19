@@ -1,18 +1,18 @@
 import * as THREE from 'three';
 
 /**
- * High-Fidelity PBR Material Palette for 3D Digital Twin City
- * Tuned for architectural realism, realistic roads, power grid, agriculture, and zero Z-fighting.
+ * Grand High-Fidelity PBR Material Palette for 3D Digital Twin City
+ * Tuned for architectural realism, realistic traffic flow, high-speed rail, and grand bridges.
  */
 export function createCityMaterials() {
   return {
-    // Water & Marine
+    // Water & Ocean
     water: new THREE.MeshStandardMaterial({
-      color: 0x0a3b66,
-      roughness: 0.15,
-      metalness: 0.85,
+      color: 0x0a3866,
+      roughness: 0.12,
+      metalness: 0.88,
       transparent: true,
-      opacity: 0.92
+      opacity: 0.94
     }),
 
     // Terrain & Landscapes
@@ -53,7 +53,7 @@ export function createCityMaterials() {
       flatShading: true
     }),
 
-    // Roads & Markings (with polygonOffset to prevent any Z-fighting)
+    // Roads, Bridges & Rails
     roadAsphalt: new THREE.MeshStandardMaterial({
       color: 0x1e293b,
       roughness: 0.7,
@@ -86,10 +86,20 @@ export function createCityMaterials() {
       polygonOffsetFactor: -0.5,
       polygonOffsetUnits: -0.5
     }),
-    curbStone: new THREE.MeshStandardMaterial({
-      color: 0xcfd8dc,
-      roughness: 0.7,
-      metalness: 0.1
+    bridgeSteelWhite: new THREE.MeshStandardMaterial({
+      color: 0xf1f5f9,
+      roughness: 0.3,
+      metalness: 0.4
+    }),
+    bridgeSteelOrange: new THREE.MeshStandardMaterial({
+      color: 0xea580c,
+      roughness: 0.4,
+      metalness: 0.6
+    }),
+    railTrackSteel: new THREE.MeshStandardMaterial({
+      color: 0x64748b,
+      roughness: 0.3,
+      metalness: 0.9
     }),
 
     // Architectural Facades & Glass
@@ -130,6 +140,11 @@ export function createCityMaterials() {
       opacity: 0.85
     }),
 
+    // Trains & Rapid Transit
+    trainBodySilver: new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.2, metalness: 0.85 }),
+    trainStripeCyan: new THREE.MeshStandardMaterial({ color: 0x00f2fe, roughness: 0.2, metalness: 0.8 }),
+    trainGlass: new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.85 }),
+
     // Agriculture & Crops
     cropWheatGold: new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.85, metalness: 0.05 }),
     cropLushGreen: new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.85, metalness: 0.05 }),
@@ -137,9 +152,8 @@ export function createCityMaterials() {
     siloGalvanized: new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.25, metalness: 0.85 }),
     tractorGreen: new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.3, metalness: 0.4 }),
     tractorYellowWheel: new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.4, metalness: 0.2 }),
-    timberFence: new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.9, metalness: 0.02 }),
 
-    // Power Grid & Electrical
+    // Power Grid & High Voltage
     transformerBody: new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.35, metalness: 0.7 }),
     pylonSteel: new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.3, metalness: 0.85 }),
     insulatorCeramic: new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.2, metalness: 0.3 }),
@@ -170,7 +184,7 @@ export function createCityMaterials() {
     personCloth3: new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.7 }),
     personCloth4: new THREE.MeshStandardMaterial({ color: 0x4b5563, roughness: 0.7 }),
 
-    // Industrial Logistics
+    // Cargo & Industry
     industrialSteel: new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.4, metalness: 0.75 }),
     industrialYellow: new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.45, metalness: 0.4 }),
     containerBlue: new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.5, metalness: 0.3 }),
@@ -178,20 +192,21 @@ export function createCityMaterials() {
     containerGreen: new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.5, metalness: 0.3 }),
     containerOrange: new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.5, metalness: 0.3 }),
 
-    // Foliage & Nature
+    // Foliage
     treeTrunk: new THREE.MeshStandardMaterial({ color: 0x5c4033, roughness: 0.9, metalness: 0.05 }),
     treeLeaves1: new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.85, metalness: 0.05, flatShading: true }),
     treeLeaves2: new THREE.MeshStandardMaterial({ color: 0x166534, roughness: 0.85, metalness: 0.05, flatShading: true }),
 
-    // Streetlights & Accents
+    // Lighting & Accents
     streetlightEmissive: new THREE.MeshBasicMaterial({ color: 0xfef08a }),
     accentRed: new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3, metalness: 0.3 }),
-    accentCyan: new THREE.MeshStandardMaterial({ color: 0x00f2fe, roughness: 0.2, metalness: 0.8 })
+    accentCyan: new THREE.MeshStandardMaterial({ color: 0x00f2fe, roughness: 0.2, metalness: 0.8 }),
+    cableLine: new THREE.LineBasicMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.8 })
   };
 }
 
 /**
- * Builds the realistic 3D city scene with logical roads, power grid, agriculture, and vehicle movement.
+ * Builds the spacious 3D Grand Digital Twin City with moving trains, bridges, and road-aligned traffic.
  */
 export function buildCityScene(scene, materials) {
   const mat = materials || createCityMaterials();
@@ -201,36 +216,40 @@ export function buildCityScene(scene, materials) {
   // Dynamic animated entities list
   const animatedItems = {
     vehicles: [],
+    trains: [],
     boats: [],
     pedestrians: [],
     windTurbines: [],
     drones: []
   };
 
-  // 1. Water Plane Base
-  const waterGeo = new THREE.PlaneGeometry(260, 260, 1, 1);
+  // 1. Vast Water Plane Base
+  const waterGeo = new THREE.PlaneGeometry(380, 380, 1, 1);
   const waterMesh = new THREE.Mesh(waterGeo, mat.water);
   waterMesh.rotation.x = -Math.PI / 2;
   waterMesh.position.y = 0;
   waterMesh.receiveShadow = true;
   cityGroup.add(waterMesh);
 
-  // 2. Terrain & Island Topography
+  // 2. Expanded Archipelago Islands & Topography
   buildTerrain(cityGroup, mat);
 
-  // 3. Roads, Bridges & Street Markings
+  // 3. Roads, Grand Bridges & Railway Viaducts
   buildRoadsAndBridges(cityGroup, mat);
 
-  // 4. Moving City Traffic (100% Road-Aligned)
+  // 4. Moving Trains on Elevated Viaduct
+  buildMovingTrains(cityGroup, mat, animatedItems);
+
+  // 5. Moving City Traffic (100% Forward Tangent Motion)
   buildMovingVehicles(cityGroup, mat, animatedItems);
 
-  // 5. Moving Boats & Maritime Vessels
+  // 6. Moving Maritime Vessels
   buildMovingBoats(cityGroup, mat, animatedItems);
 
-  // 6. Walking Pedestrians in Plazas & Walkways
+  // 7. Walking Pedestrians
   buildPedestrians(cityGroup, mat, animatedItems);
 
-  // 7. Industry Districts & Specialized Infrastructure
+  // 8. Spacious Industry Districts
   buildCommercialDistrict(cityGroup, mat);
   buildManufacturingDistrict(cityGroup, mat);
   buildHealthcareDistrict(cityGroup, mat);
@@ -246,73 +265,93 @@ export function buildCityScene(scene, materials) {
 
   scene.add(cityGroup);
 
-  // High-Performance Smooth Animation Loop Callback
+  // High-Performance Animation Update Callback
   const updateCity = (time) => {
-    // 1. Update Road-Aligned Vehicles
+    // 1. Update Road Vehicles with Accurate Forward Orientation
     animatedItems.vehicles.forEach((v) => {
       if (v.type === 'ring') {
-        const angle = v.startAngle + time * v.speed;
-        v.mesh.position.x = Math.cos(angle) * v.radius;
-        v.mesh.position.z = Math.sin(angle) * v.radius;
-        v.mesh.rotation.y = -angle + (v.speed > 0 ? Math.PI / 2 : -Math.PI / 2);
+        const delta = v.speed * 0.04;
+        const currentAngle = v.startAngle + time * v.speed;
+        const currentX = Math.cos(currentAngle) * v.radius;
+        const currentZ = Math.sin(currentAngle) * v.radius;
+
+        // Calculate next lookAt position along circle tangent
+        const nextAngle = currentAngle + (v.speed > 0 ? delta : -delta);
+        const nextX = Math.cos(nextAngle) * v.radius;
+        const nextZ = Math.sin(nextAngle) * v.radius;
+
+        v.mesh.position.set(currentX, 3.04, currentZ);
+        v.mesh.lookAt(nextX, 3.04, nextZ); // 100% Guaranteed Forward Heading!
       } else if (v.type === 'straight_ns') {
-        const span = 44;
+        const span = 72;
         const progress = (time * v.speed + v.offset) % span;
         const z = -span / 2 + progress;
-        v.mesh.position.z = v.direction > 0 ? z : -z;
-        v.mesh.position.x = v.laneX;
+        const posZ = v.direction > 0 ? z : -z;
+        v.mesh.position.set(v.laneX, 3.04, posZ);
         v.mesh.rotation.y = v.direction > 0 ? 0 : Math.PI;
       } else if (v.type === 'straight_ew') {
-        const span = 44;
+        const span = 72;
         const progress = (time * v.speed + v.offset) % span;
         const x = -span / 2 + progress;
-        v.mesh.position.x = v.direction > 0 ? x : -x;
-        v.mesh.position.z = v.laneZ;
+        const posX = v.direction > 0 ? x : -x;
+        v.mesh.position.set(posX, 3.04, v.laneZ);
         v.mesh.rotation.y = v.direction > 0 ? Math.PI / 2 : -Math.PI / 2;
       } else if (v.type === 'port_spur') {
-        const span = 14;
+        const span = 24;
         const progress = (time * v.speed + v.offset) % span;
-        const x = -36 + progress;
-        v.mesh.position.x = v.direction > 0 ? x : -22 - progress;
-        v.mesh.position.z = v.laneZ;
+        const x = -56 + progress;
+        const posX = v.direction > 0 ? x : -32 - progress;
+        v.mesh.position.set(posX, 3.04, v.laneZ);
         v.mesh.rotation.y = v.direction > 0 ? Math.PI / 2 : -Math.PI / 2;
       }
     });
 
-    // 2. Update Moving Boats in Water
-    animatedItems.boats.forEach((b) => {
-      const angle = b.startAngle + time * b.speed;
-      b.mesh.position.x = b.centerX + Math.cos(angle) * b.radiusX;
-      b.mesh.position.z = b.centerZ + Math.sin(angle) * b.radiusZ;
-      b.mesh.rotation.y = -angle + Math.PI / 2;
-      b.mesh.rotation.z = Math.sin(time * 1.8 + b.startAngle) * 0.03;
-      b.mesh.rotation.x = Math.cos(time * 1.5 + b.startAngle) * 0.02;
+    // 2. Update Moving Trains along Viaduct
+    animatedItems.trains.forEach((t) => {
+      const span = 90;
+      const progress = (time * t.speed + t.offset) % span;
+      const z = -45 + progress;
+      const posZ = t.direction > 0 ? z : -z;
+      t.mesh.position.set(t.trackX, 6.8, posZ);
+      t.mesh.rotation.y = t.direction > 0 ? 0 : Math.PI;
     });
 
-    // 3. Update Walking Pedestrians
+    // 3. Update Moving Boats in Water
+    animatedItems.boats.forEach((b) => {
+      const currentAngle = b.startAngle + time * b.speed;
+      const nextAngle = currentAngle + 0.05;
+      const currentX = b.centerX + Math.cos(currentAngle) * b.radiusX;
+      const currentZ = b.centerZ + Math.sin(currentAngle) * b.radiusZ;
+      const nextX = b.centerX + Math.cos(nextAngle) * b.radiusX;
+      const nextZ = b.centerZ + Math.sin(nextAngle) * b.radiusZ;
+
+      b.mesh.position.set(currentX, 0.4, currentZ);
+      b.mesh.lookAt(nextX, 0.4, nextZ);
+      // Gentle roll and pitch
+      b.mesh.rotation.z += Math.sin(time * 1.8 + b.startAngle) * 0.03;
+      b.mesh.rotation.x += Math.cos(time * 1.5 + b.startAngle) * 0.02;
+    });
+
+    // 4. Update Pedestrians
     animatedItems.pedestrians.forEach((p) => {
       const cycle = Math.sin(time * p.walkSpeed + p.offset);
       p.mesh.position.x = p.startX + cycle * p.rangeX;
       p.mesh.position.z = p.startZ + cycle * p.rangeZ;
-      if (cycle > 0.05) {
-        p.mesh.rotation.y = p.targetAngle;
-      } else if (cycle < -0.05) {
-        p.mesh.rotation.y = p.targetAngle + Math.PI;
-      }
+      p.mesh.rotation.y = cycle > 0 ? p.targetAngle : p.targetAngle + Math.PI;
     });
 
-    // 4. Update Wind Turbines
+    // 5. Update Wind Turbines
     animatedItems.windTurbines.forEach((rotor) => {
-      rotor.rotation.z = time * 2.2;
+      rotor.rotation.z = time * 2.4;
     });
 
-    // 5. Update Drone Flight Path
+    // 6. Update Drones
     animatedItems.drones.forEach((drone) => {
-      const radius = 16;
+      const radius = 22;
       const speed = 0.35;
       drone.position.x = Math.cos(time * speed) * radius;
       drone.position.z = Math.sin(time * speed) * radius;
-      drone.position.y = 14 + Math.sin(time * 1.5) * 0.7;
+      drone.position.y = 18 + Math.sin(time * 1.5) * 0.8;
       drone.rotation.y = -(time * speed) + Math.PI / 2;
     });
   };
@@ -325,175 +364,188 @@ export function buildCityScene(scene, materials) {
 }
 
 // --------------------------------------------------------------------------
-// 1. Terrain & Natural Geography
+// 1. Expanded Archipelago Terrain & Islands
 // --------------------------------------------------------------------------
 function buildTerrain(group, mat) {
-  // Main Central Island (Elevation at y = 2.8)
-  const mainIslandGeo = new THREE.CylinderGeometry(45, 47, 2.8, 48);
+  // Main Central Island (Grand radius R = 72, Surface at y = 3.0)
+  const mainIslandGeo = new THREE.CylinderGeometry(72, 75, 3.0, 64);
   const mainIsland = new THREE.Mesh(mainIslandGeo, mat.groundGrass);
-  mainIsland.position.set(0, 1.4, 0);
+  mainIsland.position.set(0, 1.5, 0);
   mainIsland.receiveShadow = true;
   group.add(mainIsland);
 
-  // Sandy Shoreline Fringe
-  const coastGeo = new THREE.CylinderGeometry(47, 49.5, 2.4, 48);
+  // Sandy Coastal Fringe
+  const coastGeo = new THREE.CylinderGeometry(75, 78.5, 2.6, 64);
   const coast = new THREE.Mesh(coastGeo, mat.groundSand);
-  coast.position.set(0, 1.2, 0);
+  coast.position.set(0, 1.3, 0);
   coast.receiveShadow = true;
   group.add(coast);
 
-  // Western Deepwater Port Wharf
-  const portQuayGeo = new THREE.BoxGeometry(26, 1.6, 28);
+  // Western Deepwater Port Wharf Pier (x = -58, y = 1.8)
+  const portQuayGeo = new THREE.BoxGeometry(34, 1.8, 38);
   const portQuay = new THREE.Mesh(portQuayGeo, mat.concretePlaza);
-  portQuay.position.set(-36, 0.8, -16);
+  portQuay.position.set(-58, 0.9, -20);
   portQuay.receiveShadow = true;
   group.add(portQuay);
 
-  // Northern Mountain Range (Mining Elevation)
-  const m1 = new THREE.Mesh(new THREE.ConeGeometry(18, 16, 8), mat.groundRock);
-  m1.position.set(10, 8.5, -38);
+  // Northern Mountain Range (Mining Peaks)
+  const m1 = new THREE.Mesh(new THREE.ConeGeometry(24, 24, 8), mat.groundRock);
+  m1.position.set(15, 12, -56);
   m1.castShadow = true;
   m1.receiveShadow = true;
   group.add(m1);
 
-  const m2 = new THREE.Mesh(new THREE.ConeGeometry(15, 13, 7), mat.groundQuarry);
-  m2.position.set(-8, 6.5, -40);
+  const m2 = new THREE.Mesh(new THREE.ConeGeometry(18, 18, 7), mat.groundQuarry);
+  m2.position.set(-10, 9, -58);
   m2.castShadow = true;
   m2.receiveShadow = true;
   group.add(m2);
 
-  const m3 = new THREE.Mesh(new THREE.ConeGeometry(12, 10, 6), mat.groundRock);
-  m3.position.set(24, 5, -34);
+  const m3 = new THREE.Mesh(new THREE.ConeGeometry(16, 14, 6), mat.groundRock);
+  m3.position.set(36, 7, -50);
   m3.castShadow = true;
   group.add(m3);
 }
 
 // --------------------------------------------------------------------------
-// 2. Realistic Road Network & Infrastructure
+// 2. Roads, Grand Bridges & Railway Viaduct
 // --------------------------------------------------------------------------
 function buildRoadsAndBridges(group, mat) {
-  // 1. Main Ring Highway (R = 24.0, Width = 4.5)
-  const ringRoad = new THREE.Mesh(new THREE.RingGeometry(21.75, 26.25, 48), mat.roadAsphalt);
+  // 1. Grand Ring Highway (Radius R = 40.0, Width = 6.5)
+  const ringRoad = new THREE.Mesh(new THREE.RingGeometry(36.75, 43.25, 64), mat.roadAsphalt);
   ringRoad.rotation.x = -Math.PI / 2;
-  ringRoad.position.set(0, 2.82, 0);
+  ringRoad.position.set(0, 3.02, 0);
   ringRoad.receiveShadow = true;
   group.add(ringRoad);
 
-  // Ring Road Yellow Center Divider Line (R = 24.0)
-  const ringDivider = new THREE.Mesh(new THREE.RingGeometry(23.94, 24.06, 48), mat.roadMarkingYellow);
+  // Yellow Center Double-Divider Line
+  const ringDivider = new THREE.Mesh(new THREE.RingGeometry(39.92, 40.08, 64), mat.roadMarkingYellow);
   ringDivider.rotation.x = -Math.PI / 2;
-  ringDivider.position.set(0, 2.83, 0);
+  ringDivider.position.set(0, 3.03, 0);
   group.add(ringDivider);
 
-  // 2. North-South Avenue (from z = -24 to +24, width = 5.6)
-  const roadNS = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 48), mat.roadAsphalt);
+  // 2. North-South Grand Avenue (from z = -40 to +40, width = 7.0)
+  const roadNS = new THREE.Mesh(new THREE.PlaneGeometry(7.0, 80), mat.roadAsphalt);
   roadNS.rotation.x = -Math.PI / 2;
-  roadNS.position.set(0, 2.82, 0);
+  roadNS.position.set(0, 3.02, 0);
   roadNS.receiveShadow = true;
   group.add(roadNS);
 
-  // North-South White Dashed Divider
-  for (let z = -21; z <= 21; z += 3.5) {
-    if (Math.abs(z) < 2.5) continue; // Intersection gap
-    const dash = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 1.8), mat.roadMarkingWhite);
+  for (let z = -36; z <= 36; z += 4.5) {
+    if (Math.abs(z) < 3.5) continue;
+    const dash = new THREE.Mesh(new THREE.PlaneGeometry(0.25, 2.4), mat.roadMarkingWhite);
     dash.rotation.x = -Math.PI / 2;
-    dash.position.set(0, 2.83, z);
+    dash.position.set(0, 3.03, z);
     group.add(dash);
   }
 
-  // 3. East-West Avenue (from x = -24 to +24, width = 5.6)
-  const roadEW = new THREE.Mesh(new THREE.PlaneGeometry(48, 5.6), mat.roadAsphalt);
+  // 3. East-West Grand Avenue (from x = -40 to +40, width = 7.0)
+  const roadEW = new THREE.Mesh(new THREE.PlaneGeometry(80, 7.0), mat.roadAsphalt);
   roadEW.rotation.x = -Math.PI / 2;
-  roadEW.position.set(0, 2.82, 0);
+  roadEW.position.set(0, 3.02, 0);
   roadEW.receiveShadow = true;
   group.add(roadEW);
 
-  // East-West White Dashed Divider
-  for (let x = -21; x <= 21; x += 3.5) {
-    if (Math.abs(x) < 2.5) continue; // Intersection gap
-    const dash = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.2), mat.roadMarkingWhite);
+  for (let x = -36; x <= 36; x += 4.5) {
+    if (Math.abs(x) < 3.5) continue;
+    const dash = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.25), mat.roadMarkingWhite);
     dash.rotation.x = -Math.PI / 2;
-    dash.position.set(x, 2.83, 0);
+    dash.position.set(x, 3.03, 0);
     group.add(dash);
   }
 
-  // 4. Western Port Spur Road (connecting Ring Highway to Port at z = -16)
-  const portSpur = new THREE.Mesh(new THREE.PlaneGeometry(16, 4.8), mat.roadAsphalt);
-  portSpur.rotation.x = -Math.PI / 2;
-  portSpur.position.set(-28, 2.82, -16);
-  portSpur.receiveShadow = true;
-  group.add(portSpur);
-
-  // 5. Eastern Farmland Access Road (connecting Ring Highway to Agriculture at z = 12)
-  const farmSpur = new THREE.Mesh(new THREE.PlaneGeometry(12, 4.2), mat.roadAsphalt);
-  farmSpur.rotation.x = -Math.PI / 2;
-  farmSpur.position.set(26, 2.82, 12);
-  farmSpur.receiveShadow = true;
-  group.add(farmSpur);
-
-  // 6. Northern Mining Access Road (connecting Ring Highway to Mountains at x = 10)
-  const mineSpur = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 14), mat.roadAsphalt);
-  mineSpur.rotation.x = -Math.PI / 2;
-  mineSpur.position.set(10, 2.82, -28);
-  mineSpur.receiveShadow = true;
-  group.add(mineSpur);
-
-  // 7. Southwest Suspension Bridge (to Logistics Hub at z = 16)
-  const bridgeDeck = new THREE.Mesh(new THREE.BoxGeometry(18, 0.6, 5.2), mat.roadAsphalt);
-  bridgeDeck.position.set(-28, 3.1, 16);
+  // 4. Western Port Spur Road & Grand Suspension Bridge (Connecting x = -40 to -58 at z = -20)
+  const bridgeDeck = new THREE.Mesh(new THREE.BoxGeometry(26, 0.8, 6.5), mat.roadAsphalt);
+  bridgeDeck.position.set(-47, 3.3, -20);
   bridgeDeck.castShadow = true;
   group.add(bridgeDeck);
 
-  const pylon1 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 8.5, 5.8), mat.buildingWhite);
-  pylon1.position.set(-32, 5.8, 16);
-  pylon1.castShadow = true;
-  group.add(pylon1);
+  // Suspension Bridge Towers (18m tall white towers)
+  [-54, -40].forEach((px) => {
+    const towerGroup = new THREE.Group();
+    towerGroup.position.set(px, 3.0, -20);
 
-  const pylon2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 8.5, 5.8), mat.buildingWhite);
-  pylon2.position.set(-24, 5.8, 16);
-  pylon2.castShadow = true;
-  group.add(pylon2);
+    const leg1 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 18, 1.2), mat.bridgeSteelWhite);
+    leg1.position.set(0, 9, -3.8);
+    leg1.castShadow = true;
+    towerGroup.add(leg1);
 
-  // Pedestrian Zebra Crosswalks at Ring Intersections
-  const crosswalks = [
-    { x: 0, z: 21.8, rot: 0 },
-    { x: 0, z: -21.8, rot: 0 },
-    { x: 21.8, z: 0, rot: Math.PI / 2 },
-    { x: -21.8, z: 0, rot: Math.PI / 2 }
-  ];
+    const leg2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 18, 1.2), mat.bridgeSteelWhite);
+    leg2.position.set(0, 9, 3.8);
+    leg2.castShadow = true;
+    towerGroup.add(leg2);
 
-  crosswalks.forEach(cw => {
-    const cwGroup = new THREE.Group();
-    cwGroup.position.set(cw.x, 2.83, cw.z);
-    cwGroup.rotation.y = cw.rot;
+    const crossbeam = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.2, 8.8), mat.bridgeSteelWhite);
+    crossbeam.position.set(0, 16, 0);
+    towerGroup.add(crossbeam);
 
-    for (let s = -2.0; s <= 2.0; s += 0.8) {
-      const stripe = new THREE.Mesh(new THREE.PlaneGeometry(0.35, 3.2), mat.roadMarkingWhite);
-      stripe.rotation.x = -Math.PI / 2;
-      stripe.position.set(s, 0, 0);
-      cwGroup.add(stripe);
-    }
-    group.add(cwGroup);
+    group.add(towerGroup);
   });
 
-  // Modern Streetlamps along Ring Highway Perimeter
-  for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+  // Glowing Suspension Cables
+  [-3.8, 3.8].forEach((zOff) => {
+    const cableGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-60, 3.3, -20 + zOff),
+      new THREE.Vector3(-54, 19, -20 + zOff),
+      new THREE.Vector3(-47, 4.5, -20 + zOff),
+      new THREE.Vector3(-40, 19, -20 + zOff),
+      new THREE.Vector3(-34, 3.3, -20 + zOff)
+    ]);
+    const cable = new THREE.Line(cableGeo, mat.cableLine);
+    group.add(cable);
+  });
+
+  // 5. Eastern Agricultural Highway Bridge (Connecting mainland to farm at z = 20)
+  const farmBridge = new THREE.Mesh(new THREE.BoxGeometry(18, 0.8, 5.5), mat.roadAsphalt);
+  farmBridge.position.set(47, 3.2, 20);
+  farmBridge.castShadow = true;
+  group.add(farmBridge);
+
+  // 6. Elevated High-Speed Rail Viaduct System (along x = -30, height y = 6.5)
+  const viaductDeck = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.6, 90), mat.buildingWarmGray);
+  viaductDeck.position.set(-30, 6.5, 0);
+  viaductDeck.castShadow = true;
+  group.add(viaductDeck);
+
+  // Steel Rails on Viaduct
+  [-0.9, 0.9].forEach((rx) => {
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.2, 90), mat.railTrackSteel);
+    rail.position.set(-30 + rx, 6.9, 0);
+    group.add(rail);
+  });
+
+  // Viaduct Concrete Support Pillars
+  for (let pz = -40; pz <= 40; pz += 10) {
+    const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.9, 6.5, 12), mat.concretePlaza);
+    pillar.position.set(-30, 3.25, pz);
+    pillar.castShadow = true;
+    group.add(pillar);
+  }
+
+  // 7. Downtown Glass Skybridge (Connecting Skyscrapers at x = -6 to +6 at y = 14)
+  const skybridge = new THREE.Mesh(new THREE.BoxGeometry(12, 1.8, 2.4), mat.buildingGlassAzure);
+  skybridge.position.set(0, 14, -6);
+  skybridge.castShadow = true;
+  group.add(skybridge);
+
+  // Streetlamps along Ring Highway
+  for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
     const lampGroup = new THREE.Group();
-    const lx = Math.cos(a) * 26.8;
-    const lz = Math.sin(a) * 26.8;
-    lampGroup.position.set(lx, 2.8, lz);
+    const lx = Math.cos(a) * 44.2;
+    const lz = Math.sin(a) * 44.2;
+    lampGroup.position.set(lx, 3.0, lz);
     lampGroup.rotation.y = -a;
 
-    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 4.2, 8), mat.industrialSteel);
-    pole.position.y = 2.1;
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 4.5, 8), mat.industrialSteel);
+    pole.position.y = 2.25;
     lampGroup.add(pole);
 
-    const arm = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.08, 0.08), mat.industrialSteel);
-    arm.position.set(-0.35, 4.15, 0);
+    const arm = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.09, 0.09), mat.industrialSteel);
+    arm.position.set(-0.45, 4.45, 0);
     lampGroup.add(arm);
 
-    const fixture = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), mat.streetlightEmissive);
-    fixture.position.set(-0.7, 4.05, 0);
+    const fixture = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), mat.streetlightEmissive);
+    fixture.position.set(-0.85, 4.35, 0);
     lampGroup.add(fixture);
 
     group.add(lampGroup);
@@ -501,7 +553,70 @@ function buildRoadsAndBridges(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 3. Moving Vehicles (Strictly Road-Aligned)
+// 3. Moving High-Speed Bullet Trains
+// --------------------------------------------------------------------------
+function buildMovingTrains(group, mat, animatedItems) {
+  function createBulletTrain() {
+    const train = new THREE.Group();
+
+    // Aerodynamic Nose Locomotive
+    const loco = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.4, 6.5), mat.trainBodySilver);
+    loco.position.set(0, 0.9, 5.5);
+    loco.castShadow = true;
+    train.add(loco);
+
+    // Cyan High-Speed Stripe
+    const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.82, 0.3, 6.4), mat.trainStripeCyan);
+    stripe.position.set(0, 0.8, 5.5);
+    train.add(stripe);
+
+    // Window Glass Strip
+    const glass1 = new THREE.Mesh(new THREE.BoxGeometry(1.82, 0.4, 5.2), mat.trainGlass);
+    glass1.position.set(0, 1.15, 5.5);
+    train.add(glass1);
+
+    // Passenger Coach 1
+    const coach1 = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.4, 6.0), mat.trainBodySilver);
+    coach1.position.set(0, 0.9, -1.0);
+    coach1.castShadow = true;
+    train.add(coach1);
+
+    const glass2 = new THREE.Mesh(new THREE.BoxGeometry(1.82, 0.4, 5.2), mat.trainGlass);
+    glass2.position.set(0, 1.15, -1.0);
+    train.add(glass2);
+
+    // Passenger Coach 2
+    const coach2 = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.4, 6.0), mat.trainBodySilver);
+    coach2.position.set(0, 0.9, -7.5);
+    coach2.castShadow = true;
+    train.add(coach2);
+
+    const glass3 = new THREE.Mesh(new THREE.BoxGeometry(1.82, 0.4, 5.2), mat.trainGlass);
+    glass3.position.set(0, 1.15, -7.5);
+    train.add(glass3);
+
+    // Headlight Beam
+    const hl = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.2, 0.1), mat.headlightGlow);
+    hl.position.set(0, 0.7, 8.8);
+    train.add(hl);
+
+    return train;
+  }
+
+  const trainMesh = createBulletTrain();
+  group.add(trainMesh);
+
+  animatedItems.trains.push({
+    mesh: trainMesh,
+    trackX: -30,
+    speed: 12.0,
+    direction: 1,
+    offset: 0
+  });
+}
+
+// --------------------------------------------------------------------------
+// 4. Moving Road Vehicles (100% Tangent-Aligned Forward Motion)
 // --------------------------------------------------------------------------
 function buildMovingVehicles(group, mat, animatedItems) {
   const carPaints = [
@@ -517,84 +632,83 @@ function buildMovingVehicles(group, mat, animatedItems) {
     const car = new THREE.Group();
 
     if (isBus) {
-      const body = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.3, 4.8), mat.carPaintBlue);
+      const body = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.4, 5.2), mat.carPaintBlue);
       body.position.y = 0.95;
       body.castShadow = true;
       car.add(body);
 
-      const glass = new THREE.Mesh(new THREE.BoxGeometry(1.62, 0.45, 4.2), mat.carGlass);
+      const glass = new THREE.Mesh(new THREE.BoxGeometry(1.82, 0.45, 4.6), mat.carGlass);
       glass.position.set(0, 1.2, 0);
       car.add(glass);
     } else if (isVan) {
-      const cab = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.0, 1.3), mat.carPaintWhite);
-      cab.position.set(0, 0.8, 0.9);
+      const cab = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.1, 1.4), mat.carPaintWhite);
+      cab.position.set(0, 0.85, 1.0);
       cab.castShadow = true;
       car.add(cab);
 
-      const box = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.3, 2.2), mat.buildingWarmGray);
-      box.position.set(0, 0.95, -0.6);
+      const box = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.4, 2.5), mat.buildingWarmGray);
+      box.position.set(0, 1.0, -0.6);
       box.castShadow = true;
       car.add(box);
     } else {
-      const chassis = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.5, 2.8), paintMaterial);
-      chassis.position.y = 0.42;
+      const chassis = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.55, 3.0), paintMaterial);
+      chassis.position.y = 0.45;
       chassis.castShadow = true;
       car.add(chassis);
 
-      const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.4, 1.5), mat.carGlass);
-      cabin.position.set(0, 0.78, -0.2);
+      const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.45, 1.6), mat.carGlass);
+      cabin.position.set(0, 0.82, -0.2);
       cabin.castShadow = true;
       car.add(cabin);
     }
 
     // Wheels
-    const wheelGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.18, 10);
+    const wheelGeo = new THREE.CylinderGeometry(0.26, 0.26, 0.2, 10);
     wheelGeo.rotateZ(Math.PI / 2);
 
     [
-      [-0.65, 0.24, 0.8],
-      [0.65, 0.24, 0.8],
-      [-0.65, 0.24, -0.8],
-      [0.65, 0.24, -0.8]
+      [-0.72, 0.26, 0.9],
+      [0.72, 0.26, 0.9],
+      [-0.72, 0.26, -0.9],
+      [0.72, 0.26, -0.9]
     ].forEach(([wx, wy, wz]) => {
       const wheel = new THREE.Mesh(wheelGeo, mat.carTire);
       wheel.position.set(wx, wy, wz);
       car.add(wheel);
     });
 
-    // Headlights
-    const hl1 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.1, 0.04), mat.headlightGlow);
-    hl1.position.set(-0.4, 0.45, 1.42);
+    // Headlights (at front +Z)
+    const hl1 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.12, 0.05), mat.headlightGlow);
+    hl1.position.set(-0.45, 0.48, 1.52);
     car.add(hl1);
 
-    const hl2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.1, 0.04), mat.headlightGlow);
-    hl2.position.set(0.4, 0.45, 1.42);
+    const hl2 = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.12, 0.05), mat.headlightGlow);
+    hl2.position.set(0.45, 0.48, 1.52);
     car.add(hl2);
 
-    // Taillights
-    const tl = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.1, 0.04), mat.taillightGlow);
-    tl.position.set(0, 0.45, -1.42);
+    // Taillights (at rear -Z)
+    const tl = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.12, 0.05), mat.taillightGlow);
+    tl.position.set(0, 0.48, -1.52);
     car.add(tl);
 
     return car;
   }
 
-  // 1. Ring Highway Traffic (Outer Lane R = 25.0 Clockwise, Inner Lane R = 23.0 Counter-Clockwise)
+  // 1. Ring Highway Traffic (Outer Lane R = 41.5 Clockwise, Inner Lane R = 38.5 Counter-Clockwise)
   const ringTraffic = [
-    { radius: 25.0, speed: 0.35, startAngle: 0, isBus: false, isVan: false },
-    { radius: 25.0, speed: 0.32, startAngle: Math.PI * 0.5, isBus: true, isVan: false },
-    { radius: 25.0, speed: 0.38, startAngle: Math.PI * 1.1, isBus: false, isVan: false },
-    { radius: 25.0, speed: 0.34, startAngle: Math.PI * 1.6, isBus: false, isVan: true },
-    { radius: 23.0, speed: -0.34, startAngle: Math.PI * 0.2, isBus: false, isVan: false },
-    { radius: 23.0, speed: -0.37, startAngle: Math.PI * 0.8, isBus: false, isVan: false },
-    { radius: 23.0, speed: -0.31, startAngle: Math.PI * 1.4, isBus: false, isVan: true },
-    { radius: 23.0, speed: -0.35, startAngle: Math.PI * 1.8, isBus: false, isVan: false }
+    { radius: 41.5, speed: 0.28, startAngle: 0, isBus: false, isVan: false },
+    { radius: 41.5, speed: 0.26, startAngle: Math.PI * 0.5, isBus: true, isVan: false },
+    { radius: 41.5, speed: 0.30, startAngle: Math.PI * 1.1, isBus: false, isVan: false },
+    { radius: 41.5, speed: 0.27, startAngle: Math.PI * 1.6, isBus: false, isVan: true },
+    { radius: 38.5, speed: -0.27, startAngle: Math.PI * 0.2, isBus: false, isVan: false },
+    { radius: 38.5, speed: -0.29, startAngle: Math.PI * 0.8, isBus: false, isVan: false },
+    { radius: 38.5, speed: -0.25, startAngle: Math.PI * 1.4, isBus: false, isVan: true },
+    { radius: 38.5, speed: -0.28, startAngle: Math.PI * 1.8, isBus: false, isVan: false }
   ];
 
   ringTraffic.forEach((cfg, idx) => {
     const paint = carPaints[idx % carPaints.length];
     const mesh = createCarMesh(paint, cfg.isBus, cfg.isVan);
-    mesh.position.y = 2.84;
     group.add(mesh);
 
     animatedItems.vehicles.push({
@@ -606,18 +720,17 @@ function buildMovingVehicles(group, mat, animatedItems) {
     });
   });
 
-  // 2. North-South & East-West Avenues (Right-hand traffic within lane boundaries)
+  // 2. North-South & East-West Avenues
   const avenueTraffic = [
-    { type: 'straight_ns', laneX: 1.4, direction: 1, speed: 6.5, offset: 0, paintIdx: 0 },
-    { type: 'straight_ns', laneX: -1.4, direction: -1, speed: 6.0, offset: 12, paintIdx: 1 },
-    { type: 'straight_ew', laneZ: 1.4, direction: 1, speed: 6.2, offset: 4, paintIdx: 2 },
-    { type: 'straight_ew', laneZ: -1.4, direction: -1, speed: 5.8, offset: 18, paintIdx: 3 }
+    { type: 'straight_ns', laneX: 1.8, direction: 1, speed: 7.5, offset: 0, paintIdx: 0 },
+    { type: 'straight_ns', laneX: -1.8, direction: -1, speed: 7.0, offset: 18, paintIdx: 1 },
+    { type: 'straight_ew', laneZ: 1.8, direction: 1, speed: 7.2, offset: 6, paintIdx: 2 },
+    { type: 'straight_ew', laneZ: -1.8, direction: -1, speed: 6.8, offset: 24, paintIdx: 3 }
   ];
 
   avenueTraffic.forEach((cfg) => {
     const paint = carPaints[cfg.paintIdx % carPaints.length];
     const mesh = createCarMesh(paint, false, false);
-    mesh.position.y = 2.84;
     group.add(mesh);
 
     animatedItems.vehicles.push({
@@ -631,16 +744,15 @@ function buildMovingVehicles(group, mat, animatedItems) {
     });
   });
 
-  // 3. Port Logistics Spur Freight Trucks
+  // 3. Port Logistics Freight Trucks
   const portTrucks = [
-    { laneZ: -15.4, direction: 1, speed: 4.5, offset: 0, paintIdx: 4 },
-    { laneZ: -16.6, direction: -1, speed: 4.2, offset: 7, paintIdx: 5 }
+    { laneZ: -19.2, direction: 1, speed: 5.5, offset: 0, paintIdx: 4 },
+    { laneZ: -20.8, direction: -1, speed: 5.2, offset: 10, paintIdx: 5 }
   ];
 
   portTrucks.forEach((cfg) => {
     const paint = carPaints[cfg.paintIdx % carPaints.length];
     const mesh = createCarMesh(paint, false, true);
-    mesh.position.y = 2.84;
     group.add(mesh);
 
     animatedItems.vehicles.push({
@@ -655,48 +767,44 @@ function buildMovingVehicles(group, mat, animatedItems) {
 }
 
 // --------------------------------------------------------------------------
-// 4. Moving Boats in Open Water
+// 5. Moving Boats in Deepwater Channels
 // --------------------------------------------------------------------------
 function buildMovingBoats(group, mat, animatedItems) {
   function createBoat(isFerry = false, isPatrol = false) {
     const boat = new THREE.Group();
 
     if (isFerry) {
-      const hull = new THREE.Mesh(new THREE.BoxGeometry(3.8, 1.1, 9), mat.boatHullNavy);
-      hull.position.y = 0.35;
+      const hull = new THREE.Mesh(new THREE.BoxGeometry(4.5, 1.3, 11), mat.boatHullNavy);
+      hull.position.y = 0.4;
       hull.castShadow = true;
       boat.add(hull);
 
-      const cabin = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.3, 6.5), mat.boatHullWhite);
-      cabin.position.set(0, 1.3, -0.4);
+      const cabin = new THREE.Mesh(new THREE.BoxGeometry(3.8, 1.5, 8), mat.boatHullWhite);
+      cabin.position.set(0, 1.5, -0.5);
       boat.add(cabin);
 
-      const glass = new THREE.Mesh(new THREE.BoxGeometry(3.25, 0.5, 5.8), mat.carGlass);
-      glass.position.set(0, 1.4, -0.4);
+      const glass = new THREE.Mesh(new THREE.BoxGeometry(3.85, 0.6, 7.2), mat.carGlass);
+      glass.position.set(0, 1.6, -0.5);
       boat.add(glass);
     } else if (isPatrol) {
-      const hull = new THREE.Mesh(new THREE.BoxGeometry(2.8, 1.0, 7), mat.boatHullRed);
-      hull.position.y = 0.35;
+      const hull = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.1, 8), mat.boatHullRed);
+      hull.position.y = 0.4;
       hull.castShadow = true;
       boat.add(hull);
 
-      const wheelhouse = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.4, 2.8), mat.boatHullWhite);
-      wheelhouse.position.set(0, 1.3, 0.4);
+      const wheelhouse = new THREE.Mesh(new THREE.BoxGeometry(2.5, 1.5, 3.2), mat.boatHullWhite);
+      wheelhouse.position.set(0, 1.5, 0.5);
       boat.add(wheelhouse);
-
-      const stack = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 1.2, 8), mat.industrialYellow);
-      stack.position.set(0, 2.2, -0.7);
-      boat.add(stack);
     } else {
-      const hull = new THREE.Mesh(new THREE.BoxGeometry(4.4, 1.2, 12), mat.buildingDarkSteel);
-      hull.position.y = 0.35;
+      const hull = new THREE.Mesh(new THREE.BoxGeometry(5.2, 1.4, 15), mat.buildingDarkSteel);
+      hull.position.y = 0.4;
       hull.castShadow = true;
       boat.add(hull);
 
       const colors = [mat.containerBlue, mat.containerRed, mat.containerGreen];
-      for (let z = -3.5; z <= 2.5; z += 2.8) {
-        const c = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.3, 2.4), colors[(Math.abs(z)) % colors.length]);
-        c.position.set(0, 1.4, z);
+      for (let z = -4.5; z <= 3.5; z += 3.2) {
+        const c = new THREE.Mesh(new THREE.BoxGeometry(4.0, 1.5, 2.8), colors[(Math.abs(z)) % colors.length]);
+        c.position.set(0, 1.6, z);
         c.castShadow = true;
         boat.add(c);
       }
@@ -706,9 +814,9 @@ function buildMovingBoats(group, mat, animatedItems) {
   }
 
   const boatConfigs = [
-    { isFerry: true, isPatrol: false, centerX: 0, centerZ: 0, radiusX: 58, radiusZ: 58, speed: 0.11, startAngle: 0 },
-    { isFerry: false, isPatrol: false, centerX: -15, centerZ: -10, radiusX: 54, radiusZ: 48, speed: 0.08, startAngle: Math.PI * 0.6 },
-    { isFerry: false, isPatrol: true, centerX: 15, centerZ: 15, radiusX: 50, radiusZ: 52, speed: 0.13, startAngle: Math.PI * 1.3 }
+    { isFerry: true, isPatrol: false, centerX: 0, centerZ: 0, radiusX: 92, radiusZ: 92, speed: 0.08, startAngle: 0 },
+    { isFerry: false, isPatrol: false, centerX: -25, centerZ: -15, radiusX: 86, radiusZ: 80, speed: 0.06, startAngle: Math.PI * 0.6 },
+    { isFerry: false, isPatrol: true, centerX: 25, centerZ: 25, radiusX: 84, radiusZ: 86, speed: 0.10, startAngle: Math.PI * 1.3 }
   ];
 
   boatConfigs.forEach(cfg => {
@@ -728,7 +836,7 @@ function buildMovingBoats(group, mat, animatedItems) {
 }
 
 // --------------------------------------------------------------------------
-// 5. Walking Pedestrians on Sidewalks & Plazas
+// 6. Walking Pedestrians
 // --------------------------------------------------------------------------
 function buildPedestrians(group, mat, animatedItems) {
   const clothMats = [mat.personCloth1, mat.personCloth2, mat.personCloth3, mat.personCloth4];
@@ -736,40 +844,40 @@ function buildPedestrians(group, mat, animatedItems) {
   function createPersonMesh(clothMat) {
     const person = new THREE.Group();
 
-    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.65, 8), clothMat);
-    torso.position.y = 0.52;
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 0.75, 8), clothMat);
+    torso.position.y = 0.58;
     torso.castShadow = true;
     person.add(torso);
 
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), mat.personSkin);
-    head.position.y = 0.98;
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), mat.personSkin);
+    head.position.y = 1.1;
     head.castShadow = true;
     person.add(head);
 
-    const legGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.42, 6);
+    const legGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.48, 6);
     const leg1 = new THREE.Mesh(legGeo, mat.buildingDarkSteel);
-    leg1.position.set(-0.07, 0.21, 0);
+    leg1.position.set(-0.08, 0.24, 0);
     person.add(leg1);
 
     const leg2 = new THREE.Mesh(legGeo, mat.buildingDarkSteel);
-    leg2.position.set(0.07, 0.21, 0);
+    leg2.position.set(0.08, 0.24, 0);
     person.add(leg2);
 
     return person;
   }
 
-  const pedestrianSpots = [
-    { startX: 2, startZ: 4, rangeX: 3.5, rangeZ: 0.5, walkSpeed: 1.6, targetAngle: 0, offset: 0 },
-    { startX: -3, startZ: 6, rangeX: 0.5, rangeZ: 4, walkSpeed: 1.4, targetAngle: Math.PI / 2, offset: 1.2 },
-    { startX: 5, startZ: -2, rangeX: 2.5, rangeZ: 2, walkSpeed: 1.5, targetAngle: Math.PI / 4, offset: 2.5 },
-    { startX: -10, startZ: 14, rangeX: 3.5, rangeZ: 0.4, walkSpeed: 1.5, targetAngle: 0, offset: 0.8 },
-    { startX: 12, startZ: -8, rangeX: 0.4, rangeZ: 3.5, walkSpeed: 1.7, targetAngle: Math.PI / 2, offset: 3.1 }
+  const spots = [
+    { startX: 4, startZ: 6, rangeX: 4.5, rangeZ: 0.5, walkSpeed: 1.6, targetAngle: 0, offset: 0 },
+    { startX: -5, startZ: 8, rangeX: 0.5, rangeZ: 5.0, walkSpeed: 1.4, targetAngle: Math.PI / 2, offset: 1.2 },
+    { startX: 8, startZ: -4, rangeX: 3.5, rangeZ: 2.5, walkSpeed: 1.5, targetAngle: Math.PI / 4, offset: 2.5 },
+    { startX: -18, startZ: 20, rangeX: 4.5, rangeZ: 0.5, walkSpeed: 1.5, targetAngle: 0, offset: 0.8 },
+    { startX: 18, startZ: -16, rangeX: 0.5, rangeZ: 4.5, walkSpeed: 1.7, targetAngle: Math.PI / 2, offset: 3.1 }
   ];
 
-  pedestrianSpots.forEach((spot, idx) => {
+  spots.forEach((spot, idx) => {
     const cloth = clothMats[idx % clothMats.length];
     const mesh = createPersonMesh(cloth);
-    mesh.position.set(spot.startX, 2.82, spot.startZ);
+    mesh.position.set(spot.startX, 3.02, spot.startZ);
     group.add(mesh);
 
     animatedItems.pedestrians.push({
@@ -786,45 +894,45 @@ function buildPedestrians(group, mat, animatedItems) {
 }
 
 // --------------------------------------------------------------------------
-// 6. Commercial Real Estate & Downtown City Core
+// 7. Commercial Real Estate & Downtown City Core
 // --------------------------------------------------------------------------
 function buildCommercialDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(0, 2.8, 0);
+  dGroup.position.set(0, 3.0, 0);
   dGroup.userData = { districtId: "commercial" };
 
-  // Central Pedestrian Plaza (Inside ring road, outside vehicle lanes)
-  const plaza = new THREE.Mesh(new THREE.BoxGeometry(16, 0.2, 16), mat.concretePlaza);
+  // Central Pedestrian Plaza
+  const plaza = new THREE.Mesh(new THREE.BoxGeometry(22, 0.2, 22), mat.concretePlaza);
   plaza.position.set(0, 0.1, 0);
   plaza.receiveShadow = true;
   dGroup.add(plaza);
 
-  // Tower 1 (Glass Headquarters Skyscraper)
-  const t1 = new THREE.Mesh(new THREE.BoxGeometry(5.2, 18, 5.2), mat.buildingGlassAzure);
-  t1.position.set(-4.5, 9, -4.5);
+  // Tower 1 (Main Glass Headquarters Skyscraper)
+  const t1 = new THREE.Mesh(new THREE.BoxGeometry(6.5, 24, 6.5), mat.buildingGlassAzure);
+  t1.position.set(-6, 12, -6);
   t1.castShadow = true;
   dGroup.add(t1);
 
-  // Tower 2 (Stepped Modern Office Tower)
-  const t2Base = new THREE.Mesh(new THREE.BoxGeometry(5.5, 10, 5.5), mat.buildingWhite);
-  t2Base.position.set(4.5, 5, -4.5);
+  // Tower 2 (Stepped Modern Corporate Tower)
+  const t2Base = new THREE.Mesh(new THREE.BoxGeometry(7, 14, 7), mat.buildingWhite);
+  t2Base.position.set(6, 7, -6);
   t2Base.castShadow = true;
   dGroup.add(t2Base);
 
-  const t2Top = new THREE.Mesh(new THREE.BoxGeometry(4.0, 6.5, 4.0), mat.buildingGlassCyan);
-  t2Top.position.set(4.5, 13.25, -4.5);
+  const t2Top = new THREE.Mesh(new THREE.BoxGeometry(5.0, 8, 5.0), mat.buildingGlassCyan);
+  t2Top.position.set(6, 18, -6);
   t2Top.castShadow = true;
   dGroup.add(t2Top);
 
-  // Tower 3 (Dark Slate Corporate Tower)
-  const t3 = new THREE.Mesh(new THREE.BoxGeometry(4.8, 14, 4.8), mat.buildingDarkSteel);
-  t3.position.set(-4.5, 7, 4.5);
+  // Tower 3 (Dark Slate Tower)
+  const t3 = new THREE.Mesh(new THREE.BoxGeometry(6.0, 18, 6.0), mat.buildingDarkSteel);
+  t3.position.set(-6, 9, 6);
   t3.castShadow = true;
   dGroup.add(t3);
 
-  // Tower 4 (Curved Innovation Atrium)
-  const t4 = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 3.0, 11, 16), mat.buildingWhite);
-  t4.position.set(4.5, 5.5, 4.5);
+  // Tower 4 (Innovation Atrium)
+  const t4 = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 4.0, 14, 18), mat.buildingWhite);
+  t4.position.set(6, 7, 6);
   t4.castShadow = true;
   dGroup.add(t4);
 
@@ -832,32 +940,32 @@ function buildCommercialDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 7. Manufacturing & Robotics District
+// 8. Manufacturing & Robotics District
 // --------------------------------------------------------------------------
 function buildManufacturingDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(-16, 2.8, -12);
+  dGroup.position.set(-26, 3.0, -20);
   dGroup.userData = { districtId: "manufacturing" };
 
   // Main High-Bay Assembly Plant
-  const plant = new THREE.Mesh(new THREE.BoxGeometry(12, 5.2, 8), mat.buildingDarkSteel);
-  plant.position.set(0, 2.6, 0);
+  const plant = new THREE.Mesh(new THREE.BoxGeometry(16, 6.5, 10), mat.buildingDarkSteel);
+  plant.position.set(0, 3.25, 0);
   plant.castShadow = true;
   plant.receiveShadow = true;
   dGroup.add(plant);
 
   // Sawtooth Roof Skylights
-  for (let i = -4; i <= 4; i += 2.5) {
-    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.3, 1.1, 4), mat.buildingGlassCyan);
-    roof.position.set(i, 5.75, 0);
+  for (let i = -6; i <= 6; i += 3.0) {
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(1.6, 1.4, 4), mat.buildingGlassCyan);
+    roof.position.set(i, 7.2, 0);
     roof.rotation.y = Math.PI / 4;
     dGroup.add(roof);
   }
 
-  // Cylindrical Material Silos
-  for (let s = -1.8; s <= 1.8; s += 1.8) {
-    const silo = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.0, 5.5, 14), mat.industrialSteel);
-    silo.position.set(-7.5, 2.75, s);
+  // Cylindrical Material Storage Silos
+  for (let s = -2.5; s <= 2.5; s += 2.5) {
+    const silo = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, 7.0, 16), mat.industrialSteel);
+    silo.position.set(-10.5, 3.5, s);
     silo.castShadow = true;
     dGroup.add(silo);
   }
@@ -866,62 +974,62 @@ function buildManufacturingDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 8. Healthcare & Medical Technology Campus
+// 9. Healthcare & Medical Technology Campus
 // --------------------------------------------------------------------------
 function buildHealthcareDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(-14, 2.8, 14);
+  dGroup.position.set(-22, 3.0, 22);
   dGroup.userData = { districtId: "healthcare" };
 
   // Hospital Main Cross-Shaped Pavilion
-  const hMain = new THREE.Mesh(new THREE.BoxGeometry(10, 7.0, 5.0), mat.buildingWhite);
-  hMain.position.set(0, 3.5, 0);
+  const hMain = new THREE.Mesh(new THREE.BoxGeometry(13, 8.5, 6.5), mat.buildingWhite);
+  hMain.position.set(0, 4.25, 0);
   hMain.castShadow = true;
   dGroup.add(hMain);
 
-  const hWing = new THREE.Mesh(new THREE.BoxGeometry(5.0, 7.0, 10), mat.buildingGlassCyan);
-  hWing.position.set(0, 3.5, 0);
+  const hWing = new THREE.Mesh(new THREE.BoxGeometry(6.5, 8.5, 13), mat.buildingGlassCyan);
+  hWing.position.set(0, 4.25, 0);
   hWing.castShadow = true;
   dGroup.add(hWing);
 
-  // Rooftop Helipad with Cross
-  const helipad = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 0.25, 16), mat.concretePlaza);
-  helipad.position.set(0, 7.15, 0);
+  // Rooftop Helipad
+  const helipad = new THREE.Mesh(new THREE.CylinderGeometry(2.8, 2.8, 0.3, 18), mat.concretePlaza);
+  helipad.position.set(0, 8.65, 0);
   dGroup.add(helipad);
 
-  const crossH = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.08, 0.5), mat.accentRed);
-  crossH.position.set(0, 7.3, 0);
+  const crossH = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.1, 0.6), mat.accentRed);
+  crossH.position.set(0, 8.85, 0);
   dGroup.add(crossH);
 
-  const crossV = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 1.8), mat.accentRed);
-  crossV.position.set(0, 7.3, 0);
+  const crossV = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 2.2), mat.accentRed);
+  crossV.position.set(0, 8.85, 0);
   dGroup.add(crossV);
 
   group.add(dGroup);
 }
 
 // --------------------------------------------------------------------------
-// 9. Biotechnology & Research Labs
+// 10. Biotechnology & Research Labs Campus
 // --------------------------------------------------------------------------
 function buildBiotechDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(14, 2.8, -14);
+  dGroup.position.set(24, 3.0, -22);
   dGroup.userData = { districtId: "biotech" };
 
-  // Geodesic Bio-Dome
-  const dome = new THREE.Mesh(new THREE.SphereGeometry(4.2, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), mat.buildingGlassEmerald);
+  // Center Geodesic Bio-Dome
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(5.5, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), mat.buildingGlassEmerald);
   dome.position.set(0, 0, 0);
   dome.castShadow = true;
   dGroup.add(dome);
 
   // Research Lab Wings
-  const lab1 = new THREE.Mesh(new THREE.BoxGeometry(5.5, 4.0, 3.2), mat.buildingWhite);
-  lab1.position.set(5.5, 2.0, 0);
+  const lab1 = new THREE.Mesh(new THREE.BoxGeometry(7.0, 5.0, 4.2), mat.buildingWhite);
+  lab1.position.set(7.0, 2.5, 0);
   lab1.castShadow = true;
   dGroup.add(lab1);
 
-  const lab2 = new THREE.Mesh(new THREE.BoxGeometry(5.5, 4.0, 3.2), mat.buildingWhite);
-  lab2.position.set(-5.5, 2.0, 0);
+  const lab2 = new THREE.Mesh(new THREE.BoxGeometry(7.0, 5.0, 4.2), mat.buildingWhite);
+  lab2.position.set(-7.0, 2.5, 0);
   lab2.castShadow = true;
   dGroup.add(lab2);
 
@@ -929,45 +1037,45 @@ function buildBiotechDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 10. Smart Maritime Port & Deepwater Pier
+// 11. Smart Maritime Port & Automated Terminal
 // --------------------------------------------------------------------------
 function buildPortsDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(-36, 1.5, -16);
+  dGroup.position.set(-58, 1.8, -22);
   dGroup.userData = { districtId: "ports" };
 
-  // Cargo Freighter Vessel Docked at Pier
-  const hull = new THREE.Mesh(new THREE.BoxGeometry(22, 2.8, 6.0), mat.buildingDarkSteel);
-  hull.position.set(0, 0.7, -10);
+  // Cargo Freighter Vessel Docked at Berth
+  const hull = new THREE.Mesh(new THREE.BoxGeometry(28, 3.5, 7.5), mat.buildingDarkSteel);
+  hull.position.set(0, 0.8, -12);
   hull.castShadow = true;
   dGroup.add(hull);
 
-  // Stacked Cargo Containers on Vessel
+  // Stacked Containers on Vessel
   const colors = [mat.containerBlue, mat.containerRed, mat.containerGreen, mat.containerOrange];
-  for (let x = -7; x <= 5; x += 3.0) {
+  for (let x = -10; x <= 8; x += 3.6) {
     for (let y = 0; y < 2; y++) {
-      const c = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.1, 2.0), colors[(Math.abs(x * 2 + y)) % colors.length]);
-      c.position.set(x, 2.4 + y * 1.2, -10);
+      const c = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.3, 2.5), colors[(Math.abs(x * 2 + y)) % colors.length]);
+      c.position.set(x, 2.8 + y * 1.4, -12);
       c.castShadow = true;
       dGroup.add(c);
     }
   }
 
   // Quay Gantry Cranes
-  for (let q = -5; q <= 5; q += 6.5) {
+  for (let q = -7; q <= 7; q += 8.5) {
     const craneGroup = new THREE.Group();
-    craneGroup.position.set(q, 0, -3);
+    craneGroup.position.set(q, 0, -4);
 
-    const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 8, 0.45), mat.industrialYellow);
-    leg1.position.set(-1.6, 4, 0);
+    const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.55, 10, 0.55), mat.industrialYellow);
+    leg1.position.set(-2.0, 5, 0);
     craneGroup.add(leg1);
 
-    const leg2 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 8, 0.45), mat.industrialYellow);
-    leg2.position.set(1.6, 4, 0);
+    const leg2 = new THREE.Mesh(new THREE.BoxGeometry(0.55, 10, 0.55), mat.industrialYellow);
+    leg2.position.set(2.0, 5, 0);
     craneGroup.add(leg2);
 
-    const boom = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.5, 10.5), mat.industrialYellow);
-    boom.position.set(0, 8, -2.0);
+    const boom = new THREE.Mesh(new THREE.BoxGeometry(6.5, 0.65, 14), mat.industrialYellow);
+    boom.position.set(0, 10, -2.5);
     boom.castShadow = true;
     craneGroup.add(boom);
 
@@ -978,28 +1086,28 @@ function buildPortsDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 11. Underground Mining & Quarry
+// 12. Underground Mining & Extraction Ridge
 // --------------------------------------------------------------------------
 function buildMiningDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(10, 2.8, -36);
+  dGroup.position.set(15, 3.0, -54);
   dGroup.userData = { districtId: "mining" };
 
-  // Extraction Headframe Tower
-  const tower = new THREE.Mesh(new THREE.BoxGeometry(4.2, 10, 4.2), mat.industrialSteel);
-  tower.position.set(0, 5, 0);
+  // Mine Shaft Headframe Tower
+  const tower = new THREE.Mesh(new THREE.BoxGeometry(5.5, 13, 5.5), mat.industrialSteel);
+  tower.position.set(0, 6.5, 0);
   tower.castShadow = true;
   dGroup.add(tower);
 
   // Sheave Wheel
-  const wheel = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.35, 14), mat.industrialYellow);
+  const wheel = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, 0.45, 16), mat.industrialYellow);
   wheel.rotation.z = Math.PI / 2;
-  wheel.position.set(0, 10.2, 0);
+  wheel.position.set(0, 13.2, 0);
   dGroup.add(wheel);
 
   // Ore Conveyor Ramp
-  const ramp = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.35, 9), mat.buildingDarkSteel);
-  ramp.position.set(0, 3.2, 4.5);
+  const ramp = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.45, 12), mat.buildingDarkSteel);
+  ramp.position.set(0, 4.2, 6);
   ramp.rotation.x = -Math.PI / 6;
   ramp.castShadow = true;
   dGroup.add(ramp);
@@ -1008,102 +1116,101 @@ function buildMiningDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 12. Smart Agriculture & Precision Farming (Realistic Rural Layout)
+// 13. Smart Agriculture & Precision Farming (Spacious Rural Zone)
 // --------------------------------------------------------------------------
 function buildAgricultureDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(32, 2.8, 12);
+  dGroup.position.set(54, 3.0, 20);
   dGroup.userData = { districtId: "agriculture" };
 
   // Farm Loam Soil Bed
-  const fieldBed = new THREE.Mesh(new THREE.PlaneGeometry(22, 16), mat.farmlandLoam);
+  const fieldBed = new THREE.Mesh(new THREE.PlaneGeometry(28, 22), mat.farmlandLoam);
   fieldBed.rotation.x = -Math.PI / 2;
   fieldBed.position.set(0, 0.02, 0);
   fieldBed.receiveShadow = true;
   dGroup.add(fieldBed);
 
-  // Parallel Crop Rows (Wheat Gold & Lush Green Furrows)
-  for (let z = -6.5; z <= 6.5; z += 1.3) {
+  // Parallel Crop Furrows (Golden Wheat & Lush Green Rows)
+  for (let z = -9.0; z <= 9.0; z += 1.8) {
     const isWheat = Math.round(z * 10) % 2 === 0;
     const row = new THREE.Mesh(
-      new THREE.BoxGeometry(18, 0.25, 0.65), 
+      new THREE.BoxGeometry(24, 0.3, 0.9), 
       isWheat ? mat.cropWheatGold : mat.cropLushGreen
     );
-    row.position.set(0, 0.15, z);
+    row.position.set(0, 0.18, z);
     row.castShadow = true;
     dGroup.add(row);
   }
 
-  // Red & White Country Barn
-  const barnBody = new THREE.Mesh(new THREE.BoxGeometry(6.5, 3.2, 4.5), mat.barnRed);
-  barnBody.position.set(-7.5, 1.6, -9.5);
+  // Red Country Barn with Gambrel Roof
+  const barnBody = new THREE.Mesh(new THREE.BoxGeometry(8.5, 4.2, 6.0), mat.barnRed);
+  barnBody.position.set(-10, 2.1, -12);
   barnBody.castShadow = true;
   dGroup.add(barnBody);
 
-  const barnRoof = new THREE.Mesh(new THREE.ConeGeometry(4.2, 1.8, 4), mat.buildingWhite);
-  barnRoof.position.set(-7.5, 4.1, -9.5);
+  const barnRoof = new THREE.Mesh(new THREE.ConeGeometry(5.5, 2.4, 4), mat.buildingWhite);
+  barnRoof.position.set(-10, 5.4, -12);
   barnRoof.rotation.y = Math.PI / 4;
   barnRoof.castShadow = true;
   dGroup.add(barnRoof);
 
   // Galvanized Metal Grain Silos
-  for (let s = -1.5; s <= 1.5; s += 2.8) {
-    const silo = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 5.2, 14), mat.siloGalvanized);
-    silo.position.set(7.5, 2.6, s - 9.5);
+  for (let s = -2.2; s <= 2.2; s += 3.8) {
+    const silo = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 6.8, 16), mat.siloGalvanized);
+    silo.position.set(10, 3.4, s - 12);
     silo.castShadow = true;
     dGroup.add(silo);
 
-    const cap = new THREE.Mesh(new THREE.ConeGeometry(1.3, 0.9, 14), mat.siloGalvanized);
-    cap.position.set(7.5, 5.65, s - 9.5);
+    const cap = new THREE.Mesh(new THREE.ConeGeometry(1.7, 1.2, 16), mat.siloGalvanized);
+    cap.position.set(10, 7.4, s - 12);
     dGroup.add(cap);
   }
 
-  // Modern Farm Tractor with Oversized Rear Wheels
+  // Modern Agricultural Tractor
   const tractor = new THREE.Group();
-  tractor.position.set(-2, 0.4, 9.5);
-  tractor.rotation.y = Math.PI / 6;
+  tractor.position.set(-3, 0.5, 12);
+  tractor.rotation.y = Math.PI / 5;
 
-  const tBody = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.8, 2.2), mat.tractorGreen);
-  tBody.position.y = 0.5;
+  const tBody = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.0, 2.8), mat.tractorGreen);
+  tBody.position.y = 0.65;
   tBody.castShadow = true;
   tractor.add(tBody);
 
-  const tCab = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.7, 1.1), mat.carGlass);
-  tCab.position.set(0, 1.15, -0.3);
+  const tCab = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.9, 1.4), mat.carGlass);
+  tCab.position.set(0, 1.5, -0.4);
   tractor.add(tCab);
 
-  // Large Rear Wheels
-  const rearWheelGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.28, 12);
+  // Large Rear Tread Wheels
+  const rearWheelGeo = new THREE.CylinderGeometry(0.65, 0.65, 0.35, 14);
   rearWheelGeo.rotateZ(Math.PI / 2);
   const rw1 = new THREE.Mesh(rearWheelGeo, mat.tractorYellowWheel);
-  rw1.position.set(-0.75, 0.5, -0.6);
+  rw1.position.set(-0.95, 0.65, -0.8);
   tractor.add(rw1);
   const rw2 = new THREE.Mesh(rearWheelGeo, mat.tractorYellowWheel);
-  rw2.position.set(0.75, 0.5, -0.6);
+  rw2.position.set(0.95, 0.65, -0.8);
   tractor.add(rw2);
 
   // Smaller Front Wheels
-  const frontWheelGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.2, 10);
+  const frontWheelGeo = new THREE.CylinderGeometry(0.38, 0.38, 0.25, 12);
   frontWheelGeo.rotateZ(Math.PI / 2);
   const fw1 = new THREE.Mesh(frontWheelGeo, mat.tractorYellowWheel);
-  fw1.position.set(-0.7, 0.3, 0.7);
+  fw1.position.set(-0.9, 0.38, 0.9);
   tractor.add(fw1);
   const fw2 = new THREE.Mesh(frontWheelGeo, mat.tractorYellowWheel);
-  fw2.position.set(0.7, 0.3, 0.7);
+  fw2.position.set(0.9, 0.38, 0.9);
   tractor.add(fw2);
 
   dGroup.add(tractor);
 
-  // Center-Pivot Irrigation Truss Spanning Field
-  const pivotBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 16, 8), mat.industrialSteel);
-  pivotBoom.position.set(0, 1.8, 0);
+  // Center-Pivot Irrigation Truss
+  const pivotBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 22, 8), mat.industrialSteel);
+  pivotBoom.position.set(0, 2.4, 0);
   pivotBoom.rotation.z = Math.PI / 2;
   dGroup.add(pivotBoom);
 
-  // Irrigation A-Frame Supports
-  [-7, 0, 7].forEach((x) => {
-    const aFrame = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.8, 3), mat.industrialSteel);
-    aFrame.position.set(x, 0.9, 0);
+  [-9, 0, 9].forEach((x) => {
+    const aFrame = new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.4, 3), mat.industrialSteel);
+    aFrame.position.set(x, 1.2, 0);
     dGroup.add(aFrame);
   });
 
@@ -1111,39 +1218,37 @@ function buildAgricultureDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 13. High-Voltage Power Grid & Connected Transmission Pylons
+// 14. High-Voltage Power Grid & Connected Transmission Pylons
 // --------------------------------------------------------------------------
 function buildEnergyGridDistrict(group, mat, animatedItems) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(24, 2.8, -26);
+  dGroup.position.set(42, 3.0, -42);
   dGroup.userData = { districtId: "grid" };
 
-  // Substation Gravel Switchyard
-  const gravelPad = new THREE.Mesh(new THREE.PlaneGeometry(16, 14), mat.substationGravel);
+  // Substation Gravel Switchyard Pad
+  const gravelPad = new THREE.Mesh(new THREE.PlaneGeometry(22, 18), mat.substationGravel);
   gravelPad.rotation.x = -Math.PI / 2;
   gravelPad.position.set(0, 0.02, 0);
   gravelPad.receiveShadow = true;
   dGroup.add(gravelPad);
 
-  // Substation Transformers with Cooling Radiators
-  for (let t = -4; t <= 4; t += 4) {
+  // High-Voltage Transformers with Cooling Fins
+  for (let t = -6; t <= 6; t += 6) {
     const transGroup = new THREE.Group();
     transGroup.position.set(t, 0, 0);
 
-    const body = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.2, 2.2), mat.transformerBody);
-    body.position.y = 1.1;
+    const body = new THREE.Mesh(new THREE.BoxGeometry(3.2, 2.8, 2.8), mat.transformerBody);
+    body.position.y = 1.4;
     body.castShadow = true;
     transGroup.add(body);
 
-    // Cooling Fins
-    const fins = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.6, 0.4), mat.pylonSteel);
-    fins.position.set(0, 1.0, 1.2);
+    const fins = new THREE.Mesh(new THREE.BoxGeometry(3.5, 2.0, 0.5), mat.pylonSteel);
+    fins.position.set(0, 1.3, 1.5);
     transGroup.add(fins);
 
-    // Porcelain Insulators on Top
-    [-0.7, 0, 0.7].forEach((ix) => {
-      const ins = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 0.9, 8), mat.insulatorCeramic);
-      ins.position.set(ix, 2.65, 0);
+    [-0.9, 0, 0.9].forEach((ix) => {
+      const ins = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.22, 1.1, 8), mat.insulatorCeramic);
+      ins.position.set(ix, 3.35, 0);
       transGroup.add(ins);
     });
 
@@ -1151,10 +1256,10 @@ function buildEnergyGridDistrict(group, mat, animatedItems) {
   }
 
   // Solar Photovoltaic Array (Tilted at 25 degrees)
-  for (let r = -2; r <= 2; r += 2) {
-    for (let c = -4; c <= 4; c += 2.6) {
-      const panel = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.08, 1.4), mat.solarPanel);
-      panel.position.set(c, 0.6, r - 9.5);
+  for (let r = -3; r <= 3; r += 3) {
+    for (let c = -6; c <= 6; c += 3.2) {
+      const panel = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.1, 1.8), mat.solarPanel);
+      panel.position.set(c, 0.8, r - 12);
       panel.rotation.x = Math.PI / 7;
       panel.castShadow = true;
       dGroup.add(panel);
@@ -1162,20 +1267,20 @@ function buildEnergyGridDistrict(group, mat, animatedItems) {
   }
 
   // Wind Turbine Generation Mast
-  const wtMast = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.42, 14, 12), mat.buildingWhite);
-  wtMast.position.set(8, 7, 6);
+  const wtMast = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.55, 18, 14), mat.buildingWhite);
+  wtMast.position.set(12, 9, 8);
   wtMast.castShadow = true;
   dGroup.add(wtMast);
 
   const wtRotor = new THREE.Group();
-  wtRotor.position.set(8, 14, 6.4);
+  wtRotor.position.set(12, 18, 8.5);
 
-  const hub = new THREE.Mesh(new THREE.SphereGeometry(0.45, 12, 12), mat.buildingWhite);
+  const hub = new THREE.Mesh(new THREE.SphereGeometry(0.55, 12, 12), mat.buildingWhite);
   wtRotor.add(hub);
 
   for (let b = 0; b < 3; b++) {
-    const blade = new THREE.Mesh(new THREE.BoxGeometry(0.24, 4.4, 0.06), mat.buildingWhite);
-    blade.position.y = 2.2;
+    const blade = new THREE.Mesh(new THREE.BoxGeometry(0.3, 5.8, 0.08), mat.buildingWhite);
+    blade.position.y = 2.9;
     blade.rotation.z = (b * Math.PI * 2) / 3;
     blade.rotation.x = 0.1;
     wtRotor.add(blade);
@@ -1188,27 +1293,25 @@ function buildEnergyGridDistrict(group, mat, animatedItems) {
 
   // 3 High-Voltage Lattice Steel Transmission Pylons
   const pylonPositions = [
-    new THREE.Vector3(6, 0, -4),   // Pylon 1 in Substation
-    new THREE.Vector3(-4, 0, 8),   // Pylon 2 Mid-Corridor
-    new THREE.Vector3(-12, 0, 18)  // Pylon 3 City Edge
+    new THREE.Vector3(8, 0, -5),
+    new THREE.Vector3(-6, 0, 10),
+    new THREE.Vector3(-18, 0, 24)
   ];
 
   function createTransmissionPylon() {
     const pylon = new THREE.Group();
 
-    // Lattice Mast
-    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.6, 12, 4), mat.pylonSteel);
-    mast.position.y = 6;
+    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.75, 15, 4), mat.pylonSteel);
+    mast.position.y = 7.5;
     mast.castShadow = true;
     pylon.add(mast);
 
-    // Crossarms
-    const arm1 = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.2, 0.2), mat.pylonSteel);
-    arm1.position.y = 10;
+    const arm1 = new THREE.Mesh(new THREE.BoxGeometry(6.5, 0.25, 0.25), mat.pylonSteel);
+    arm1.position.y = 12.5;
     pylon.add(arm1);
 
-    const arm2 = new THREE.Mesh(new THREE.BoxGeometry(4.0, 0.2, 0.2), mat.pylonSteel);
-    arm2.position.y = 11.5;
+    const arm2 = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.25, 0.25), mat.pylonSteel);
+    arm2.position.y = 14.5;
     pylon.add(arm2);
 
     return pylon;
@@ -1220,17 +1323,17 @@ function buildEnergyGridDistrict(group, mat, animatedItems) {
     dGroup.add(pMesh);
   });
 
-  // Physical 3D High-Voltage Catenary Powerlines connecting Pylons
+  // Physical 3D High-Voltage Catenary Powerlines
   for (let i = 0; i < pylonPositions.length - 1; i++) {
     const start = pylonPositions[i];
     const end = pylonPositions[i + 1];
 
-    [-2.2, 0, 2.2].forEach((offset) => {
-      const p1 = new THREE.Vector3(start.x + offset, 10, start.z);
-      const p3 = new THREE.Vector3(end.x + offset, 10, end.z);
+    [-2.8, 0, 2.8].forEach((offset) => {
+      const p1 = new THREE.Vector3(start.x + offset, 12.5, start.z);
+      const p3 = new THREE.Vector3(end.x + offset, 12.5, end.z);
       const mid = new THREE.Vector3(
         (p1.x + p3.x) / 2,
-        8.8, // Realistic catenary sag
+        11.0, // Catenary sag
         (p1.z + p3.z) / 2
       );
 
@@ -1246,24 +1349,22 @@ function buildEnergyGridDistrict(group, mat, animatedItems) {
 }
 
 // --------------------------------------------------------------------------
-// 14. Autonomous Warehousing & AGV Hub
+// 15. Autonomous Warehousing & AGV Hub
 // --------------------------------------------------------------------------
 function buildWarehousingDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(-26, 2.8, 6);
+  dGroup.position.set(-42, 3.0, 10);
   dGroup.userData = { districtId: "warehousing" };
 
-  // Main Fulfillment Logistics Center
-  const wh = new THREE.Mesh(new THREE.BoxGeometry(11, 4.0, 7.5), mat.buildingWarmGray);
-  wh.position.set(0, 2.0, 0);
+  const wh = new THREE.Mesh(new THREE.BoxGeometry(15, 5.0, 9.5), mat.buildingWarmGray);
+  wh.position.set(0, 2.5, 0);
   wh.castShadow = true;
   wh.receiveShadow = true;
   dGroup.add(wh);
 
-  // Loading Dock Bays
-  for (let b = -3.6; b <= 3.6; b += 2.0) {
-    const bay = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.0, 0.1), mat.buildingDarkSteel);
-    bay.position.set(b, 1.0, 3.8);
+  for (let b = -5.0; b <= 5.0; b += 2.5) {
+    const bay = new THREE.Mesh(new THREE.BoxGeometry(1.8, 2.5, 0.1), mat.buildingDarkSteel);
+    bay.position.set(b, 1.25, 4.8);
     dGroup.add(bay);
   }
 
@@ -1271,39 +1372,39 @@ function buildWarehousingDistrict(group, mat) {
 }
 
 // --------------------------------------------------------------------------
-// 15. Additive 3D Manufacturing Hub
+// 16. Additive 3D Manufacturing Hub
 // --------------------------------------------------------------------------
 function buildAdditiveDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(-6, 2.8, -20);
+  dGroup.position.set(-10, 3.0, -30);
   dGroup.userData = { districtId: "additive" };
 
-  const cleanroom = new THREE.Mesh(new THREE.BoxGeometry(8.5, 4.5, 6.5), mat.buildingWhite);
-  cleanroom.position.set(0, 2.25, 0);
+  const cleanroom = new THREE.Mesh(new THREE.BoxGeometry(11, 5.5, 8.5), mat.buildingWhite);
+  cleanroom.position.set(0, 2.75, 0);
   cleanroom.castShadow = true;
   dGroup.add(cleanroom);
 
-  const t1 = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 4.8, 14), mat.industrialSteel);
-  t1.position.set(4.8, 2.4, 0);
+  const t1 = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 6.0, 16), mat.industrialSteel);
+  t1.position.set(6.2, 3.0, 0);
   dGroup.add(t1);
 
   group.add(dGroup);
 }
 
 // --------------------------------------------------------------------------
-// 16. Drone Sky Operations & Vertiport
+// 17. Drone Sky Operations & Vertiport
 // --------------------------------------------------------------------------
 function buildDroneOperations(group, mat, animatedItems) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(0, 14, 0);
+  dGroup.position.set(0, 18, 0);
   dGroup.userData = { districtId: "drones" };
 
   const drone = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.22, 1.1), mat.buildingDarkSteel);
+  const body = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.26, 1.3), mat.buildingDarkSteel);
   drone.add(body);
 
-  const payload = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.45, 0.45), mat.accentCyan);
-  payload.position.set(0, -0.32, 0);
+  const payload = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), mat.accentCyan);
+  payload.position.set(0, -0.38, 0);
   drone.add(payload);
 
   dGroup.add(drone);
@@ -1315,17 +1416,17 @@ function buildDroneOperations(group, mat, animatedItems) {
 }
 
 // --------------------------------------------------------------------------
-// 17. Urban Foliage & Landscaping
+// 18. Urban Vegetation & Landscaping
 // --------------------------------------------------------------------------
 function buildVegetation(group, mat) {
-  const treeGeo = new THREE.ConeGeometry(0.85, 2.1, 6);
-  const trunkGeo = new THREE.CylinderGeometry(0.11, 0.16, 0.55, 6);
+  const treeGeo = new THREE.ConeGeometry(1.0, 2.5, 6);
+  const trunkGeo = new THREE.CylinderGeometry(0.14, 0.2, 0.7, 6);
 
   const treePositions = [
-    [10, 2.8, 4], [12, 2.8, 6], [14, 2.8, 2], [8, 2.8, -6], [12, 2.8, -10],
-    [-14, 2.8, 8], [-16, 2.8, 12], [-18, 2.8, 14], [-6, 2.8, 14], [-4, 2.8, 16],
-    [-24, 2.8, -4], [-22, 2.8, -6], [-26, 2.8, -12], [20, 2.8, -20], [16, 2.8, -24],
-    [16, 2.8, 14], [18, 2.8, 16], [22, 2.8, 18], [24, 2.8, 22]
+    [15, 3.0, 6], [18, 3.0, 9], [21, 3.0, 3], [12, 3.0, -9], [18, 3.0, -15],
+    [-21, 3.0, 12], [-24, 3.0, 18], [-27, 3.0, 21], [-9, 3.0, 21], [-6, 3.0, 24],
+    [-36, 3.0, -6], [-33, 3.0, -9], [-39, 3.0, -18], [30, 3.0, -30], [24, 3.0, -36],
+    [24, 3.0, 21], [27, 3.0, 24], [33, 3.0, 27], [36, 3.0, 33]
   ];
 
   treePositions.forEach(([x, y, z], idx) => {
@@ -1333,11 +1434,11 @@ function buildVegetation(group, mat) {
     tree.position.set(x, y, z);
 
     const trunk = new THREE.Mesh(trunkGeo, mat.treeTrunk);
-    trunk.position.y = 0.28;
+    trunk.position.y = 0.35;
     tree.add(trunk);
 
     const foliage = new THREE.Mesh(treeGeo, idx % 2 === 0 ? mat.treeLeaves1 : mat.treeLeaves2);
-    foliage.position.y = 1.35;
+    foliage.position.y = 1.6;
     foliage.castShadow = true;
     tree.add(foliage);
 
