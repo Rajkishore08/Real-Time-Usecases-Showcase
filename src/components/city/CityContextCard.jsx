@@ -11,6 +11,7 @@ import {
   Zap,
   ArrowRight
 } from 'lucide-react';
+import UseCaseVisual from '../UseCaseVisual';
 
 export default function CityContextCard({
   district,
@@ -27,6 +28,7 @@ export default function CityContextCard({
     (district.primaryCaseId && uc.id === district.primaryCaseId)
   );
 
+  const primaryUseCase = matchedUseCases[0] || allUseCases.find(uc => uc.id === district.primaryCaseId);
   const IconComponent = district.icon;
 
   return (
@@ -80,6 +82,25 @@ export default function CityContextCard({
 
         {/* Card Body */}
         <div className="context-card-body">
+          {/* Primary Use Case Hero Image Display */}
+          {primaryUseCase && (
+            <div 
+              className="context-hero-visual-box"
+              onClick={() => onOpenDossier(primaryUseCase)}
+              title="Click to view full blueprint"
+            >
+              <UseCaseVisual 
+                useCase={primaryUseCase} 
+                themeColor={district.accentColor || '#00F2FE'} 
+              />
+              <div className="context-visual-overlay">
+                <span className="context-visual-badge">
+                  <Sparkles size={12} /> {primaryUseCase.title}
+                </span>
+              </div>
+            </div>
+          )}
+
           <p className="context-district-tagline">
             {district.tagline}
           </p>
@@ -114,9 +135,9 @@ export default function CityContextCard({
                   onClick={() => onOpenDossier(uc)}
                 >
                   <div className="context-usecase-thumb-wrap">
-                    {uc.visual?.imageUrl ? (
+                    {uc.image ? (
                       <img 
-                        src={uc.visual.imageUrl} 
+                        src={uc.image} 
                         alt={uc.title} 
                         className="context-usecase-img"
                         onError={(e) => { e.target.style.display = 'none'; }}
@@ -131,7 +152,7 @@ export default function CityContextCard({
                   <div className="context-usecase-info">
                     <div className="context-usecase-title">{uc.title}</div>
                     <div className="context-usecase-desc">
-                      {uc.problem?.substring(0, 75) || uc.architecture?.description?.substring(0, 75) || "Explore complete architectural blueprint & live metrics"}...
+                      {uc.statement || uc.problem || "Explore complete architectural blueprint & live metrics"}
                     </div>
                   </div>
 
@@ -140,22 +161,16 @@ export default function CityContextCard({
                   </button>
                 </div>
               ))}
-
-              {matchedUseCases.length === 0 && (
-                <div className="context-no-cases">
-                  Specialized domain cluster linked to frontier GCC incubation pipelines.
-                </div>
-              )}
             </div>
           </div>
         </div>
 
         {/* Footer Actions */}
         <div className="context-card-footer">
-          {matchedUseCases.length > 0 && (
+          {primaryUseCase && (
             <button 
               className="btn-primary-glow btn-full-width"
-              onClick={() => onOpenDossier(matchedUseCases[0])}
+              onClick={() => onOpenDossier(primaryUseCase)}
             >
               <span>Explore Technical Blueprint</span>
               <ExternalLink size={15} />

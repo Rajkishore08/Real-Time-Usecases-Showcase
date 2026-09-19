@@ -3140,7 +3140,61 @@ html, body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1rem;
+}
+
+.context-hero-visual-box {
+  position: relative;
+  width: 100%;
+  height: 165px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  background: #080d1a;
+}
+
+.context-hero-visual-box:hover {
+  transform: scale(1.02);
+  border-color: rgba(0, 242, 254, 0.6);
+  box-shadow: 0 12px 30px rgba(0, 242, 254, 0.25);
+}
+
+.context-hero-visual-box .visual-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.context-hero-visual-box .custom-uploaded-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.context-visual-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem 0.75rem;
+  background: linear-gradient(to top, rgba(10, 16, 32, 0.95) 0%, rgba(10, 16, 32, 0.3) 70%, transparent 100%);
+  display: flex;
+  align-items: center;
+}
+
+.context-visual-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .context-district-tagline {
