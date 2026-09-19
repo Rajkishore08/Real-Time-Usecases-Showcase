@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   X, 
   ChevronLeft, 
@@ -58,7 +59,10 @@ export default function DossierModal({
     setTimeout(() => setCopiedBlueprint(false), 2000);
   };
 
-  return (
+  const portalTarget = typeof document !== 'undefined' ? (document.fullscreenElement || document.body) : null;
+  if (!portalTarget) return null;
+
+  return createPortal(
     <div className="modal-backdrop" onClick={onClose}>
       <div 
         className="dossier-modal-window"
@@ -245,6 +249,7 @@ export default function DossierModal({
           </div>
         </div>
       )}
-    </div>
+    </div>,
+    portalTarget
   );
 }

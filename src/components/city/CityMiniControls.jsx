@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Compass, 
   RotateCw, 
   ZoomIn, 
   ZoomOut, 
-  Layers, 
-  ChevronLeft, 
-  ChevronRight,
+  Sliders,
+  Sun,
+  Moon,
+  Sunset,
+  Play,
+  Pause,
+  FastForward,
+  Eye,
+  EyeOff,
+  Globe,
   Maximize2,
-  Navigation,
-  Globe
+  Minimize2,
+  X
 } from 'lucide-react';
 import { CITY_DISTRICTS } from './cityDistrictsData';
 
@@ -18,11 +25,20 @@ export default function CityMiniControls({
   onSelectDistrict,
   onResetView,
   onZoom,
-  onRotate,
   autoRotate,
   onToggleAutoRotate,
   activeCategory,
-  onSelectCategory
+  onSelectCategory,
+  lightingMode = "day",
+  onChangeLightingMode,
+  simSpeed = 1.0,
+  onChangeSimSpeed,
+  hologramMode = "side",
+  onChangeHologramMode,
+  isSettingsOpen,
+  onToggleSettings,
+  isFullscreen = false,
+  onToggleFullscreen
 }) {
   const categories = ["All", "Industrial", "Infrastructure", "Healthcare", "Logistics", "Autonomous"];
 
@@ -39,11 +55,106 @@ export default function CityMiniControls({
 
   return (
     <div className="city-navigation-hub">
-      {/* Top Floating Helper Pill */}
-      <div className="city-top-helper-pill">
-        <Globe size={14} className="cyan-glow-icon" />
-        <span>Interactive 3D GCC Digital Twin • Click any district or marker to inspect</span>
-      </div>
+      {/* Advanced Settings Drawer Modal */}
+      {isSettingsOpen && (
+        <div className="city-settings-drawer glass-panel-luxury">
+          <div className="city-settings-header">
+            <div className="city-settings-title">
+              <Sliders size={16} className="cyan-glow-icon" />
+              <span>3D Digital Twin Settings</span>
+            </div>
+            <button className="settings-close-btn" onClick={onToggleSettings}>
+              <X size={16} />
+            </button>
+          </div>
+
+          <div className="city-settings-body">
+            {/* Lighting / Atmosphere Mode */}
+            <div className="settings-group">
+              <label className="settings-label">Atmosphere & Lighting</label>
+              <div className="settings-btn-grid">
+                <button 
+                  className={`settings-opt-btn ${lightingMode === 'day' ? 'is-active' : ''}`}
+                  onClick={() => onChangeLightingMode && onChangeLightingMode('day')}
+                >
+                  <Sun size={14} />
+                  <span>Daylight</span>
+                </button>
+                <button 
+                  className={`settings-opt-btn ${lightingMode === 'sunset' ? 'is-active' : ''}`}
+                  onClick={() => onChangeLightingMode && onChangeLightingMode('sunset')}
+                >
+                  <Sunset size={14} />
+                  <span>Sunset</span>
+                </button>
+                <button 
+                  className={`settings-opt-btn ${lightingMode === 'night' ? 'is-active' : ''}`}
+                  onClick={() => onChangeLightingMode && onChangeLightingMode('night')}
+                >
+                  <Moon size={14} />
+                  <span>Cyber Night</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Simulation Speed */}
+            <div className="settings-group">
+              <label className="settings-label">Traffic & Fleet Simulation Speed</label>
+              <div className="settings-btn-grid">
+                <button 
+                  className={`settings-opt-btn ${simSpeed === 0 ? 'is-active' : ''}`}
+                  onClick={() => onChangeSimSpeed && onChangeSimSpeed(0)}
+                >
+                  <Pause size={14} />
+                  <span>Pause</span>
+                </button>
+                <button 
+                  className={`settings-opt-btn ${simSpeed === 1.0 ? 'is-active' : ''}`}
+                  onClick={() => onChangeSimSpeed && onChangeSimSpeed(1.0)}
+                >
+                  <Play size={14} />
+                  <span>1.0x Realtime</span>
+                </button>
+                <button 
+                  className={`settings-opt-btn ${simSpeed === 2.0 ? 'is-active' : ''}`}
+                  onClick={() => onChangeSimSpeed && onChangeSimSpeed(2.0)}
+                >
+                  <FastForward size={14} />
+                  <span>2.0x Turbo</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Holographic AR Screen Placement */}
+            <div className="settings-group">
+              <label className="settings-label">3D Blueprint Hologram Placement</label>
+              <div className="settings-btn-grid">
+                <button 
+                  className={`settings-opt-btn ${hologramMode === 'side' ? 'is-active' : ''}`}
+                  onClick={() => onChangeHologramMode && onChangeHologramMode('side')}
+                >
+                  <Eye size={14} />
+                  <span>Side Float (Offset)</span>
+                </button>
+                <button 
+                  className={`settings-opt-btn ${hologramMode === 'top' ? 'is-active' : ''}`}
+                  onClick={() => onChangeHologramMode && onChangeHologramMode('top')}
+                >
+                  <Sliders size={14} />
+                  <span>Top Billboard</span>
+                </button>
+                <button 
+                  className={`settings-opt-btn ${hologramMode === 'hidden' ? 'is-active' : ''}`}
+                  onClick={() => onChangeHologramMode && onChangeHologramMode('hidden')}
+                >
+                  <EyeOff size={14} />
+                  <span>Card Only</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Floating District Dock */}
       <div className="city-bottom-dock">
@@ -89,8 +200,27 @@ export default function CityMiniControls({
         </div>
       </div>
 
-      {/* Side Camera Control Toolbar */}
+      {/* Side Camera & Settings Toolbar */}
       <div className="city-camera-tools">
+        {/* Fullscreen Button */}
+        <button 
+          className={`city-cam-btn ${isFullscreen ? 'is-active' : ''}`} 
+          onClick={onToggleFullscreen}
+          title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen Mode"}
+        >
+          {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+          <span className="cam-tooltip">{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</span>
+        </button>
+
+        <button 
+          className={`city-cam-btn ${isSettingsOpen ? 'is-active' : ''}`} 
+          onClick={onToggleSettings}
+          title="3D City & Simulation Settings"
+        >
+          <Sliders size={18} />
+          <span className="cam-tooltip">Settings</span>
+        </button>
+
         <button 
           className="city-cam-btn" 
           onClick={onResetView}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   X, 
   Upload, 
@@ -9,10 +10,10 @@ import {
   FileText, 
   Sparkles, 
   RotateCcw, 
-  Heading,
-  CheckCircle2,
-  AlertCircle,
-  Loader2
+  Heading, 
+  CheckCircle2, 
+  AlertCircle, 
+  Loader2 
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -197,8 +198,11 @@ export default function ContentEditorModal({
 
   if (!isOpen || !activeCase) return null;
 
-  return (
-    <div className="editor-modal-backdrop" onClick={handleCloseModal}>
+  const portalTarget = typeof document !== 'undefined' ? (document.fullscreenElement || document.body) : null;
+  if (!portalTarget) return null;
+
+  return createPortal(
+    <div className="modal-backdrop editor-modal-backdrop" onClick={handleCloseModal}>
       <div 
         className="editor-modal-window"
         onClick={(e) => e.stopPropagation()}
@@ -447,6 +451,7 @@ export default function ContentEditorModal({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    portalTarget
   );
 }

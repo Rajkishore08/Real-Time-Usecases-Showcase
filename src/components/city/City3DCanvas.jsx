@@ -12,24 +12,59 @@ export default function City3DCanvas({
   onOpenDossier
 }) {
   const mountRef = useRef(null);
+  const wrapperRef = useRef(null);
   const markersRef = useRef({});
 
   const [selectedDistrictId, setSelectedDistrictId] = useState(null);
   const [hoveredDistrictId, setHoveredDistrictId] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [autoRotate, setAutoRotate] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Advanced Interactive Settings
+  const [lightingMode, setLightingMode] = useState("day"); // 'day' | 'sunset' | 'night'
+  const [simSpeed, setSimSpeed] = useState(1.0); // 1.0, 2.0, 0
+  const [hologramMode, setHologramMode] = useState("side"); // 'side' | 'top' | 'hidden'
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  // Fullscreen Handler
+  const handleToggleFullscreen = useCallback(() => {
+    const elem = wrapperRef.current;
+    if (!elem) return;
+
+    if (!document.fullscreenElement) {
+      elem.requestFullscreen().then(() => setIsFullscreen(true)).catch(err => {
+        console.warn("Fullscreen request error:", err);
+      });
+    } else {
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(err => {
+        console.warn("Exit fullscreen error:", err);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
 
   // Mutable refs for high-frequency animation loop
   const autoRotateRef = useRef(true);
   const selectedDistrictIdRef = useRef(null);
   const isTransitioningRef = useRef(false);
-  const targetCamPosRef = useRef(new THREE.Vector3(38, 42, 48));
-  const targetLookAtRef = useRef(new THREE.Vector3(0, 2.5, 0));
+  const simSpeedRef = useRef(1.0);
+  const targetCamPosRef = useRef(new THREE.Vector3(72, 80, 98));
+  const targetLookAtRef = useRef(new THREE.Vector3(0, 3, 0));
   
   const cameraRef = useRef(null);
   const controlsRef = useRef(null);
   const rendererRef = useRef(null);
   const animationFrameRef = useRef(null);
+  const lightsRef = useRef({ sun: null, ambient: null, hemi: null, rim: null });
+  const sceneRef = useRef(null);
 
   // Sync state into refs
   useEffect(() => {
@@ -39,6 +74,52 @@ export default function City3DCanvas({
   useEffect(() => {
     selectedDistrictIdRef.current = selectedDistrictId;
   }, [selectedDistrictId]);
+
+  useEffect(() => {
+    simSpeedRef.current = simSpeed;
+  }, [simSpeed]);
+
+  // Lighting Mode Dynamic Update Effect
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const lights = lightsRef.current;
+    if (!scene || !lights.sun) return;
+
+    if (lightingMode === 'day') {
+      scene.background.setHex(0x080e1a);
+      scene.fog.color.setHex(0x080e1a);
+      lights.sun.color.setHex(0xfff8ed);
+      lights.sun.intensity = 2.5;
+      lights.sun.position.set(80, 110, 60);
+      lights.ambient.color.setHex(0xdbeafe);
+      lights.ambient.intensity = 1.4;
+      lights.hemi.color.setHex(0x38bdf8);
+      lights.hemi.groundColor.setHex(0x0f172a);
+      lights.hemi.intensity = 1.0;
+    } else if (lightingMode === 'sunset') {
+      scene.background.setHex(0x221324);
+      scene.fog.color.setHex(0x221324);
+      lights.sun.color.setHex(0xf97316);
+      lights.sun.intensity = 2.8;
+      lights.sun.position.set(120, 35, 40);
+      lights.ambient.color.setHex(0xfde047);
+      lights.ambient.intensity = 1.1;
+      lights.hemi.color.setHex(0xf43f5e);
+      lights.hemi.groundColor.setHex(0x1e1b4b);
+      lights.hemi.intensity = 1.2;
+    } else if (lightingMode === 'night') {
+      scene.background.setHex(0x030712);
+      scene.fog.color.setHex(0x030712);
+      lights.sun.color.setHex(0x38bdf8);
+      lights.sun.intensity = 0.65;
+      lights.sun.position.set(-40, 80, -30);
+      lights.ambient.color.setHex(0x1e293b);
+      lights.ambient.intensity = 0.85;
+      lights.hemi.color.setHex(0x00f2fe);
+      lights.hemi.groundColor.setHex(0x020617);
+      lights.hemi.intensity = 0.75;
+    }
+  }, [lightingMode]);
 
   // Global overview defaults
   const OVERVIEW_CAM_POS = new THREE.Vector3(72, 80, 98);
@@ -101,7 +182,7 @@ export default function City3DCanvas({
     camera.position.copy(OVERVIEW_CAM_POS);
     cameraRef.current = camera;
 
-    // 3. Renderer with Anti-Aliasing and PCF Soft Shadows
+    // 3. Renderer with Anti-Aliasing and Soft Shadows
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: false, 
@@ -161,11 +242,18 @@ export default function City3DCanvas({
     rimLight.position.set(-60, 45, -45);
     scene.add(rimLight);
 
+    // Store scene and light references for dynamic mode switching
+    sceneRef.current = scene;
+    lightsRef.current.sun = sunLight;
+    lightsRef.current.ambient = ambientLight;
+    lightsRef.current.hemi = hemiLight;
+    lightsRef.current.rim = rimLight;
+
     // 6. 3D Architectural City Builder
     const materials = createCityMaterials();
     const cityState = buildCityScene(scene, materials);
 
-    // 7. Raycaster for Mesh Clicking
+    // 7. Raycaster for Direct Mesh Clicking
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
@@ -191,223 +279,19 @@ export default function City3DCanvas({
 
     renderer.domElement.addEventListener('click', handleCanvasClick);
 
-    // 8. 3D In-World Holographic AR Display Screen hovering over selected district
-    const hologramGroup = new THREE.Group();
-    hologramGroup.visible = false;
-    hologramGroup.scale.set(0.001, 0.001, 0.001);
-    scene.add(hologramGroup);
-
-    // Screen Panel Mesh
-    const screenGeo = new THREE.PlaneGeometry(13.0, 7.8);
-    const screenCanvas = document.createElement('canvas');
-    screenCanvas.width = 1024;
-    screenCanvas.height = 614;
-    const screenCtx = screenCanvas.getContext('2d');
-    const screenTexture = new THREE.CanvasTexture(screenCanvas);
-    screenTexture.colorSpace = THREE.SRGBColorSpace;
-
-    const screenMat = new THREE.MeshBasicMaterial({
-      map: screenTexture,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.96,
-      depthWrite: false
-    });
-    const screenMesh = new THREE.Mesh(screenGeo, screenMat);
-    hologramGroup.add(screenMesh);
-
-    // Holographic Glowing Outer Border Frame
-    const frameGeo = new THREE.BoxGeometry(13.3, 8.1, 0.12);
-    const frameMat = new THREE.MeshBasicMaterial({
-      color: 0x00f2fe,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.75
-    });
-    const frameMesh = new THREE.Mesh(frameGeo, frameMat);
-    hologramGroup.add(frameMesh);
-
-    // Holographic Corner Brackets
-    const cornerMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-    [
-      [-6.5, 3.9], [6.5, 3.9], [-6.5, -3.9], [6.5, -3.9]
-    ].forEach(([cx, cy]) => {
-      const c = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.18), cornerMat);
-      c.position.set(cx, cy, 0);
-      hologramGroup.add(c);
-    });
-
-    // Holographic Vertical Light Column / Projection Beam
-    const beamGeo = new THREE.CylinderGeometry(0.12, 0.9, 14, 16, 1, true);
-    const beamMat = new THREE.MeshBasicMaterial({
-      color: 0x00f2fe,
-      transparent: true,
-      opacity: 0.28,
-      side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    });
-    const beamMesh = new THREE.Mesh(beamGeo, beamMat);
-    beamMesh.position.set(0, -7.0, 0);
-    hologramGroup.add(beamMesh);
-
-    // Function to render rich blueprint UI onto the 3D screen texture
-    const updateHologramTexture = (district, useCase) => {
-      if (!screenCtx) return;
-      const w = 1024;
-      const h = 614;
-
-      // Dark futuristic glass backdrop
-      screenCtx.fillStyle = '#060d19';
-      screenCtx.fillRect(0, 0, w, h);
-
-      // Gradient overlay
-      const grad = screenCtx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, 'rgba(0, 242, 254, 0.15)');
-      grad.addColorStop(0.5, 'rgba(10, 20, 40, 0.9)');
-      grad.addColorStop(1, 'rgba(121, 40, 202, 0.2)');
-      screenCtx.fillStyle = grad;
-      screenCtx.fillRect(0, 0, w, h);
-
-      // Top Banner Header
-      screenCtx.fillStyle = '#0f172a';
-      screenCtx.fillRect(0, 0, w, 70);
-
-      // Accent Line
-      const color = district?.accentColor || '#00f2fe';
-      screenCtx.fillStyle = color;
-      screenCtx.fillRect(0, 66, w, 4);
-
-      // Header Text
-      screenCtx.fillStyle = color;
-      screenCtx.font = 'bold 22px Inter, sans-serif';
-      screenCtx.fillText(`[ ${district?.category?.toUpperCase() || 'DIGITAL TWIN NODE'} ]`, 30, 44);
-
-      screenCtx.fillStyle = '#10b981';
-      screenCtx.font = 'bold 18px Inter, sans-serif';
-      screenCtx.fillText('● LIVE AR TELEMETRY ACTIVE', w - 300, 44);
-
-      // Use Case Title & Subtitle
-      screenCtx.fillStyle = '#ffffff';
-      screenCtx.font = 'bold 28px Inter, sans-serif';
-      const title = useCase?.title || district?.name || 'Enterprise Architecture';
-      screenCtx.fillText(title.length > 44 ? title.substring(0, 42) + '...' : title, 30, 120);
-
-      screenCtx.fillStyle = '#94a3b8';
-      screenCtx.font = '18px Inter, sans-serif';
-      const tagline = district?.tagline || 'AI-Powered Autonomous Operational Model';
-      screenCtx.fillText(tagline.length > 70 ? tagline.substring(0, 68) + '...' : tagline, 30, 155);
-
-      // Image / Blueprint Area
-      if (useCase?.image) {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          // Draw image inside viewport box
-          screenCtx.save();
-          screenCtx.fillStyle = '#030712';
-          screenCtx.fillRect(30, 180, w - 60, 360);
-          screenCtx.drawImage(img, 30, 180, w - 60, 360);
-
-          // Subtle scanline overlay
-          screenCtx.fillStyle = 'rgba(0, 242, 254, 0.08)';
-          for (let y = 180; y < 540; y += 4) {
-            screenCtx.fillRect(30, y, w - 60, 1);
-          }
-
-          // Inner image border
-          screenCtx.strokeStyle = color;
-          screenCtx.lineWidth = 2;
-          screenCtx.strokeRect(30, 180, w - 60, 360);
-
-          // Bottom Tech Tag Badges
-          screenCtx.fillStyle = '#0e7490';
-          screenCtx.font = 'bold 16px Inter, sans-serif';
-          screenCtx.fillText(`Connected Domain: ${district?.name}  |  Engine: High-Fidelity 3D Simulation`, 30, 580);
-
-          screenTexture.needsUpdate = true;
-          screenCtx.restore();
-        };
-        img.src = useCase.image;
-      } else {
-        // Fallback Schematic Wireframe
-        screenCtx.fillStyle = '#030712';
-        screenCtx.fillRect(30, 180, w - 60, 360);
-        screenCtx.strokeStyle = color;
-        screenCtx.lineWidth = 2;
-        screenCtx.strokeRect(30, 180, w - 60, 360);
-
-        screenCtx.fillStyle = color;
-        screenCtx.font = 'bold 24px Inter, sans-serif';
-        screenCtx.fillText('DIGITAL TWIN SYSTEM ARCHITECTURE & TELEMETRY STREAM', 60, 340);
-
-        screenCtx.fillStyle = '#64748b';
-        screenCtx.font = '18px Inter, sans-serif';
-        screenCtx.fillText('Real-time sensor mesh synchronized with Edge Computing Node', 60, 380);
-
-        screenTexture.needsUpdate = true;
-      }
-
-      screenTexture.needsUpdate = true;
-    };
-
-    // 9. Projection Vector & Clock
+    // 8. Projection Vector & Clock for Animation Loop
     const tempVec = new THREE.Vector3();
     const clock = new THREE.Clock();
 
-    let currentHologramDistrictId = null;
-
-    // 10. Hardware-Accelerated Animation Loop (Zero React State Re-renders)
+    // 9. Hardware-Accelerated Animation Loop
     const animate = () => {
       animationFrameRef.current = requestAnimationFrame(animate);
       const elapsedTime = clock.getElapsedTime();
+      const currentSimSpeed = simSpeedRef.current;
 
-      // Micro-animations (smooth wind turbines, steady drone path)
+      // Micro-animations (vehicles, trains, drones, robotic arms, sheaves, ships, turbines)
       if (cityState && typeof cityState.updateCity === 'function') {
-        cityState.updateCity(elapsedTime);
-      }
-
-      // Update 3D Holographic AR Screen
-      const selId = selectedDistrictIdRef.current;
-      if (selId) {
-        const district = CITY_DISTRICTS.find(d => d.id === selId);
-        if (district) {
-          if (currentHologramDistrictId !== selId) {
-            currentHologramDistrictId = selId;
-            const matchedCases = allUseCases.filter(uc => 
-              district.useCaseIds?.includes(uc.id) || (district.primaryCaseId && uc.id === district.primaryCaseId)
-            );
-            const primaryUC = matchedCases[0] || allUseCases.find(uc => uc.id === district.primaryCaseId);
-            updateHologramTexture(district, primaryUC);
-
-            // Update frame color to match district accent
-            const hexColor = new THREE.Color(district.accentColor || 0x00f2fe);
-            frameMat.color = hexColor;
-            cornerMat.color = hexColor;
-            beamMat.color = hexColor;
-          }
-
-          hologramGroup.visible = true;
-          // Smooth scale-up
-          hologramGroup.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
-
-          // Position hovering over district with subtle harmonic bob
-          const [px, py, pz] = district.position;
-          const targetY = py + 14.5 + Math.sin(elapsedTime * 1.8) * 0.4;
-          hologramGroup.position.set(px, targetY, pz);
-
-          // Billboard to gently face the camera
-          hologramGroup.lookAt(camera.position);
-
-          // Pulse beam opacity
-          beamMat.opacity = 0.22 + Math.sin(elapsedTime * 3.0) * 0.08;
-        }
-      } else {
-        currentHologramDistrictId = null;
-        hologramGroup.scale.lerp(new THREE.Vector3(0.001, 0.001, 0.001), 0.15);
-        if (hologramGroup.scale.x < 0.01) {
-          hologramGroup.visible = false;
-        }
+        cityState.updateCity(elapsedTime, currentSimSpeed);
       }
 
       // Smooth Camera Lerp Animation
@@ -498,7 +382,7 @@ export default function City3DCanvas({
   const selectedDistrict = CITY_DISTRICTS.find(d => d.id === selectedDistrictId);
 
   return (
-    <div className="city-3d-viewport-wrapper">
+    <div ref={wrapperRef} className={`city-3d-viewport-wrapper ${isFullscreen ? 'is-fullscreen-mode' : ''}`}>
       {/* 3D WebGL Canvas */}
       <div ref={mountRef} className="city-webgl-canvas" />
 
@@ -522,7 +406,7 @@ export default function City3DCanvas({
         />
       )}
 
-      {/* Navigation Dock & Camera Controls */}
+      {/* Navigation Dock, Camera Tools, Fullscreen & Advanced Settings */}
       <CityMiniControls
         selectedDistrictId={selectedDistrictId}
         onSelectDistrict={handleSelectDistrict}
@@ -533,6 +417,16 @@ export default function City3DCanvas({
         onToggleAutoRotate={handleToggleAutoRotate}
         activeCategory={activeCategory}
         onSelectCategory={setActiveCategory}
+        lightingMode={lightingMode}
+        onChangeLightingMode={setLightingMode}
+        simSpeed={simSpeed}
+        onChangeSimSpeed={setSimSpeed}
+        hologramMode={hologramMode}
+        onChangeHologramMode={setHologramMode}
+        isSettingsOpen={isSettingsOpen}
+        onToggleSettings={() => setIsSettingsOpen(prev => !prev)}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={handleToggleFullscreen}
       />
     </div>
   );

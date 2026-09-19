@@ -11,13 +11,14 @@ import {
   Boxes, 
   Send, 
   Train, 
-  Satellite 
+  Satellite,
+  Waves
 } from 'lucide-react';
 
 export const CITY_DISTRICTS = [
   {
     id: "commercial",
-    name: "Commercial Real Estate & Smart City",
+    name: "Commercial Real Estate & GCC Tech Center",
     shortLabel: "Commercial Real Estate",
     icon: Building2,
     category: "Infrastructure",
@@ -25,9 +26,10 @@ export const CITY_DISTRICTS = [
     accentColor: "#38BDF8",
     position: [0, 3, 0],
     markerOffset: [0, 16, 0],
+    hologramOffset: [-14, 16, 8],
     cameraTarget: {
-      position: [24, 32, 32],
-      lookAt: [0, 6, 0]
+      position: [24, 30, 28],
+      lookAt: [0, 5, 0]
     },
     useCaseIds: ["t3-u2"],
     primaryCaseId: "t3-u2",
@@ -38,17 +40,18 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "manufacturing",
-    name: "Manufacturing & Robotics",
+    name: "Manufacturing & Robotics Hub",
     shortLabel: "Manufacturing",
     icon: Cpu,
     category: "Industrial Automation",
     color: "#7928CA",
     accentColor: "#A855F7",
-    position: [-30, 3, -32],
+    position: [-24, 3, -26],
     markerOffset: [0, 8, 0],
+    hologramOffset: [-10, 14, 10],
     cameraTarget: {
-      position: [-14, 22, -10],
-      lookAt: [-30, 3, -32]
+      position: [-10, 20, -8],
+      lookAt: [-24, 3, -26]
     },
     useCaseIds: ["t6-u1", "t6-u2"],
     primaryCaseId: "t6-u1",
@@ -59,17 +62,18 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "healthcare",
-    name: "Healthcare & Medical Technology",
+    name: "Healthcare & Medical Technology Campus",
     shortLabel: "Healthcare",
     icon: Activity,
     category: "Healthcare",
     color: "#FF2E93",
     accentColor: "#F43F5E",
-    position: [-26, 3, 38],
+    position: [-24, 3, 26],
     markerOffset: [0, 9, 0],
+    hologramOffset: [-10, 14, 10],
     cameraTarget: {
-      position: [-10, 22, 58],
-      lookAt: [-26, 3, 38]
+      position: [-8, 20, 44],
+      lookAt: [-24, 3, 26]
     },
     useCaseIds: ["t2-u1", "t2-u2"],
     primaryCaseId: "t2-u1",
@@ -80,17 +84,18 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "biotech",
-    name: "Biotechnology & Research Labs",
+    name: "Biotechnology & Biosphere Labs",
     shortLabel: "Biotech Research",
     icon: Dna,
     category: "Biotechnology",
     color: "#00F2FE",
     accentColor: "#06B6D4",
-    position: [34, 3, -28],
+    position: [28, 3, -26],
     markerOffset: [0, 8, 0],
+    hologramOffset: [12, 14, 8],
     cameraTarget: {
-      position: [50, 22, -8],
-      lookAt: [34, 3, -28]
+      position: [44, 20, -8],
+      lookAt: [28, 3, -26]
     },
     useCaseIds: ["t1-u1", "t1-u2"],
     primaryCaseId: "t1-u1",
@@ -101,38 +106,40 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "ports",
-    name: "Smart Ports & Maritime Logistics",
+    name: "Smart Ports & Deepwater Maritime Harbor",
     shortLabel: "Ports & Harbor",
     icon: Anchor,
     category: "Logistics & Maritime",
     color: "#00E1D9",
     accentColor: "#0EA5E9",
-    position: [-72, 1.8, -26],
+    position: [-80, 1.8, -26],
     markerOffset: [0, 9, 0],
+    hologramOffset: [-14, 15, 12],
     cameraTarget: {
-      position: [-54, 22, -4],
-      lookAt: [-72, 2, -26]
+      position: [-62, 22, -4],
+      lookAt: [-80, 2, -26]
     },
-    useCaseIds: ["t7-u1", "t9-u1"],
-    primaryCaseId: "t7-u1",
+    useCaseIds: ["t10-u1"],
+    primaryCaseId: "t10-u1",
     tagline: "Automated container gantry operations, tide monitoring and live berthing digital replicas.",
-    simulationType: "Vessel Berthing & Water Inundation",
-    simulationStatus: "AIS & Radar Connected",
+    simulationType: "Vessel Berthing & Container Logistics",
+    simulationStatus: "AIS & Port Telemetry Live",
     technologies: ["AIS Telemetry", "SAR Radar", "GIS Mapping", "Omniverse", "Edge Computing"]
   },
   {
     id: "mining",
-    name: "Mining & Energy Operations",
+    name: "Mining & Energy Subsurface Quarry",
     shortLabel: "Mining & Energy",
     icon: Compass,
     category: "Mining",
     color: "#FF7849",
     accentColor: "#F97316",
-    position: [24, 10, -70],
+    position: [34, 10, -94],
     markerOffset: [0, 11, 0],
+    hologramOffset: [12, 16, 10],
     cameraTarget: {
-      position: [40, 28, -48],
-      lookAt: [24, 8, -70]
+      position: [50, 28, -70],
+      lookAt: [34, 8, -94]
     },
     useCaseIds: ["t8-u1", "t8-u2"],
     primaryCaseId: "t8-u1",
@@ -149,11 +156,12 @@ export const CITY_DISTRICTS = [
     category: "Agriculture",
     color: "#05FFA1",
     accentColor: "#10B981",
-    position: [66, 3, 22],
+    position: [88, 3, 28],
     markerOffset: [0, 8, 0],
+    hologramOffset: [14, 14, 10],
     cameraTarget: {
-      position: [80, 22, 44],
-      lookAt: [66, 3, 22]
+      position: [106, 26, 52],
+      lookAt: [88, 3, 28]
     },
     useCaseIds: ["t4-u1", "t4-u2"],
     primaryCaseId: "t4-u1",
@@ -164,17 +172,18 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "grid",
-    name: "Smart Substation & Power Grid",
+    name: "Smart Electrical Substation & Power Grid",
     shortLabel: "Power Grid",
     icon: Zap,
     category: "Energy",
     color: "#FFE600",
     accentColor: "#FBBF24",
-    position: [58, 3, -48],
+    position: [68, 3, -42],
     markerOffset: [0, 9, 0],
+    hologramOffset: [12, 15, 10],
     cameraTarget: {
-      position: [72, 24, -26],
-      lookAt: [58, 3, -48]
+      position: [82, 22, -20],
+      lookAt: [68, 3, -42]
     },
     useCaseIds: ["t5-u1", "t5-u2"],
     primaryCaseId: "t5-u1",
@@ -191,11 +200,12 @@ export const CITY_DISTRICTS = [
     category: "Logistics",
     color: "#38EF7D",
     accentColor: "#22C55E",
-    position: [-58, 3, 6],
+    position: [-70, 3, 8],
     markerOffset: [0, 8, 0],
+    hologramOffset: [-14, 14, 12],
     cameraTarget: {
-      position: [-40, 22, 24],
-      lookAt: [-58, 3, 6]
+      position: [-52, 22, 26],
+      lookAt: [-70, 3, 8]
     },
     useCaseIds: ["t10-u1"],
     primaryCaseId: "t10-u1",
@@ -212,11 +222,12 @@ export const CITY_DISTRICTS = [
     category: "Autonomous Logistics",
     color: "#00F2FE",
     accentColor: "#38BDF8",
-    position: [-54, 3, 28],
+    position: [-74, 3, 50],
     markerOffset: [0, 8, 0],
+    hologramOffset: [-12, 14, 12],
     cameraTarget: {
-      position: [-36, 20, 46],
-      lookAt: [-54, 3, 28]
+      position: [-56, 22, 68],
+      lookAt: [-74, 3, 50]
     },
     useCaseIds: ["t10-u2"],
     primaryCaseId: "t10-u2",
@@ -233,11 +244,12 @@ export const CITY_DISTRICTS = [
     category: "Advanced Manufacturing",
     color: "#00DFD8",
     accentColor: "#14B8A6",
-    position: [-6, 3, -48],
+    position: [6, 3, -40],
     markerOffset: [0, 8, 0],
+    hologramOffset: [12, 14, 8],
     cameraTarget: {
-      position: [10, 20, -28],
-      lookAt: [-6, 3, -48]
+      position: [22, 20, -22],
+      lookAt: [6, 3, -40]
     },
     useCaseIds: ["t9-u1", "t9-u2"],
     primaryCaseId: "t9-u1",
@@ -254,11 +266,12 @@ export const CITY_DISTRICTS = [
     category: "Transportation",
     color: "#FFB800",
     accentColor: "#F59E0B",
-    position: [-38, 5.5, 0],
+    position: [-24, 5.5, 0],
     markerOffset: [0, 8, 0],
+    hologramOffset: [-12, 14, 10],
     cameraTarget: {
-      position: [-20, 22, 20],
-      lookAt: [-38, 5, 0]
+      position: [-6, 22, 20],
+      lookAt: [-24, 5, 0]
     },
     useCaseIds: ["t3-u1"],
     primaryCaseId: "t3-u1",
@@ -269,28 +282,73 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "disaster",
-    name: "Disaster Response & Satellite Intel",
-    shortLabel: "Disaster Response",
+    name: "Disaster Response & Flood Defense Operations",
+    shortLabel: "Disaster & Flood Defense",
     icon: Satellite,
     category: "Emergency Intelligence",
     color: "#00E1D9",
     accentColor: "#06B6D4",
-    position: [-36, 3, -60],
+    position: [-16, 3, -76],
     markerOffset: [0, 9, 0],
+    hologramOffset: [-12, 15, 10],
     cameraTarget: {
-      position: [-18, 22, -40],
-      lookAt: [-36, 3, -60]
+      position: [4, 22, -54],
+      lookAt: [-16, 3, -76]
     },
-    useCaseIds: ["t7-u2"],
-    primaryCaseId: "t7-u2",
-    tagline: "Aerial drone reconnaissance with AR damaged building overlay and real-time survivor hazard mapping.",
-    simulationType: "Geospatial Hazard & Path Mapping",
-    simulationStatus: "Drone Fleet Synchronized",
-    technologies: ["SAR Satellite", "Thermal Drones", "GIS / DEM", "Spatial SLAM", "WebRTC"]
+    useCaseIds: ["t7-u1", "t7-u2"],
+    primaryCaseId: "t7-u1",
+    tagline: "Satellite & drone flood-extent modeling, AI inundation forecasting, and AR field rescue coordination.",
+    simulationType: "AI Flood Spread & SAR Rescue",
+    simulationStatus: "Flood Hydrology & Drone Streams Active",
+    technologies: ["SAR Satellite", "Hydro IoT Sensors", "Thermal Drones", "Spatial SLAM", "WebRTC"]
+  },
+  {
+    id: "fishfarm",
+    name: "Smart Aquaculture & Offshore Fish Farm",
+    shortLabel: "Fish Farm & Aquaculture",
+    icon: Waves,
+    category: "Aquaculture & Marine",
+    color: "#00E5FF",
+    accentColor: "#06B6D4",
+    position: [-108, 2, 22],
+    markerOffset: [0, 8, 0],
+    hologramOffset: [-12, 14, 10],
+    cameraTarget: {
+      position: [-88, 22, 42],
+      lookAt: [-108, 1, 22]
+    },
+    useCaseIds: ["t10-u1"],
+    primaryCaseId: "t10-u1",
+    tagline: "Autonomous offshore sea cages, dissolved oxygen telemetry, solar feed cannons & smart biomass monitoring.",
+    simulationType: "Ocean Biomass & Water Quality AI",
+    simulationStatus: "DO & Salinity Telemetry Live",
+    technologies: ["IoT Sensors", "Deep Sea Telemetry", "Computer Vision", "Solar Cannons", "LoRaWAN"]
+  },
+  {
+    id: "pigfarm",
+    name: "Smart Livestock & Pig Farmstead",
+    shortLabel: "Pig Farm & Livestock",
+    icon: Sprout,
+    category: "Livestock & Agriculture",
+    color: "#FF6B8B",
+    accentColor: "#F43F5E",
+    position: [45, 2, 85],
+    markerOffset: [0, 8, 0],
+    hologramOffset: [12, 14, 8],
+    cameraTarget: {
+      position: [64, 22, 106],
+      lookAt: [45, 1, 85]
+    },
+    useCaseIds: ["t4-u1"],
+    primaryCaseId: "t4-u1",
+    tagline: "Precision livestock telemetry, thermal health scanning, automated feed distribution & environmental climate control.",
+    simulationType: "Livestock Vitals & Climate Control",
+    simulationStatus: "RFID & Thermal Telemetry Active",
+    technologies: ["RFID Tags", "Thermal Cameras", "Automated Feeders", "Edge AI", "Climate IoT"]
   }
 ];
 
 export const CITY_DEFAULT_VIEW = {
-  position: [68, 76, 92],
+  position: [72, 80, 98],
   lookAt: [0, 3, 0]
 };

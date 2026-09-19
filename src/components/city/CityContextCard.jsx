@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   X, 
   ExternalLink, 
   Layers, 
   Cpu, 
-  CheckCircle2, 
-  ChevronRight, 
   Sparkles,
   Compass,
-  Zap,
-  ArrowRight
+  ArrowRight,
+  Maximize2,
+  Activity,
+  CheckCircle2
 } from 'lucide-react';
 import UseCaseVisual from '../UseCaseVisual';
 
@@ -28,7 +28,10 @@ export default function CityContextCard({
     (district.primaryCaseId && uc.id === district.primaryCaseId)
   );
 
-  const primaryUseCase = matchedUseCases[0] || allUseCases.find(uc => uc.id === district.primaryCaseId);
+  const defaultUC = matchedUseCases[0] || allUseCases.find(uc => uc.id === district.primaryCaseId);
+  const [activeCaseId, setActiveCaseId] = useState(defaultUC?.id || null);
+
+  const activeUseCase = matchedUseCases.find(uc => uc.id === activeCaseId) || defaultUC;
   const IconComponent = district.icon;
 
   return (
@@ -82,21 +85,33 @@ export default function CityContextCard({
 
         {/* Card Body */}
         <div className="context-card-body">
-          {/* Primary Use Case Hero Image Display */}
-          {primaryUseCase && (
-            <div 
-              className="context-hero-visual-box"
-              onClick={() => onOpenDossier(primaryUseCase)}
-              title="Click to view full blueprint"
-            >
-              <UseCaseVisual 
-                useCase={primaryUseCase} 
-                themeColor={district.accentColor || '#00F2FE'} 
-              />
-              <div className="context-visual-overlay">
-                <span className="context-visual-badge">
-                  <Sparkles size={12} /> {primaryUseCase.title}
-                </span>
+          {/* Active Use Case Technical Blueprint Visualizer */}
+          {activeUseCase && (
+            <div className="context-blueprint-box">
+              <div 
+                className="context-hero-visual-box"
+                onClick={() => onOpenDossier(activeUseCase)}
+                title="Click to view full architectural blueprint"
+              >
+                <UseCaseVisual 
+                  useCase={activeUseCase} 
+                  themeColor={district.accentColor || '#00F2FE'} 
+                />
+                <div className="context-visual-overlay">
+                  <span className="context-visual-badge">
+                    <Sparkles size={12} /> {activeUseCase.title}
+                  </span>
+                  <button 
+                    className="context-zoom-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenDossier(activeUseCase);
+                    }}
+                    title="Expand Blueprint"
+                  >
+                    <Maximize2 size={13} />
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -128,49 +143,60 @@ export default function CityContextCard({
             </div>
 
             <div className="context-usecases-list">
-              {matchedUseCases.map((uc) => (
-                <div 
-                  key={uc.id} 
-                  className="context-usecase-item"
-                  onClick={() => onOpenDossier(uc)}
-                >
-                  <div className="context-usecase-thumb-wrap">
-                    {uc.image ? (
-                      <img 
-                        src={uc.image} 
-                        alt={uc.title} 
-                        className="context-usecase-img"
-                        onError={(e) => { e.target.style.display = 'none'; }}
-                      />
-                    ) : (
-                      <div className="context-usecase-placeholder">
-                        <Sparkles size={16} color="#00F2FE" />
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="context-usecase-info">
-                    <div className="context-usecase-title">{uc.title}</div>
-                    <div className="context-usecase-desc">
-                      {uc.statement || uc.problem || "Explore complete architectural blueprint & live metrics"}
-                    </div>
-                  </div>
+              {matchedUseCases.map((uc) => {
+                const isActive = uc.id === activeUseCase?.id;
 
-                  <button className="context-dossier-arrow-btn">
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              ))}
+                return (
+                  <div 
+                    key={uc.id} 
+                    className={`context-usecase-item ${isActive ? 'is-active-case' : ''}`}
+                    onClick={() => setActiveCaseId(uc.id)}
+                  >
+                    <div className="context-usecase-thumb-wrap">
+                      {uc.image ? (
+                        <img 
+                          src={uc.image} 
+                          alt={uc.title} 
+                          className="context-usecase-img"
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                      ) : (
+                        <div className="context-usecase-placeholder">
+                          <Sparkles size={16} color="#00F2FE" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="context-usecase-info">
+                      <div className="context-usecase-title">{uc.title}</div>
+                      <div className="context-usecase-desc">
+                        {uc.statement || uc.problem || "Explore complete architectural blueprint & live metrics"}
+                      </div>
+                    </div>
+
+                    <button 
+                      className="context-dossier-arrow-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenDossier(uc);
+                      }}
+                      title="Open Technical Dossier"
+                    >
+                      <ArrowRight size={16} />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
 
         {/* Footer Actions */}
         <div className="context-card-footer">
-          {primaryUseCase && (
+          {activeUseCase && (
             <button 
               className="btn-primary-glow btn-full-width"
-              onClick={() => onOpenDossier(primaryUseCase)}
+              onClick={() => onOpenDossier(activeUseCase)}
             >
               <span>Explore Technical Blueprint</span>
               <ExternalLink size={15} />
