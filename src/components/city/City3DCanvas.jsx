@@ -191,11 +191,173 @@ export default function City3DCanvas({
 
     renderer.domElement.addEventListener('click', handleCanvasClick);
 
-    // 8. Projection Vector & Clock
+    // 8. 3D In-World Holographic AR Display Screen hovering over selected district
+    const hologramGroup = new THREE.Group();
+    hologramGroup.visible = false;
+    hologramGroup.scale.set(0.001, 0.001, 0.001);
+    scene.add(hologramGroup);
+
+    // Screen Panel Mesh
+    const screenGeo = new THREE.PlaneGeometry(13.0, 7.8);
+    const screenCanvas = document.createElement('canvas');
+    screenCanvas.width = 1024;
+    screenCanvas.height = 614;
+    const screenCtx = screenCanvas.getContext('2d');
+    const screenTexture = new THREE.CanvasTexture(screenCanvas);
+    screenTexture.colorSpace = THREE.SRGBColorSpace;
+
+    const screenMat = new THREE.MeshBasicMaterial({
+      map: screenTexture,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.96,
+      depthWrite: false
+    });
+    const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+    hologramGroup.add(screenMesh);
+
+    // Holographic Glowing Outer Border Frame
+    const frameGeo = new THREE.BoxGeometry(13.3, 8.1, 0.12);
+    const frameMat = new THREE.MeshBasicMaterial({
+      color: 0x00f2fe,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.75
+    });
+    const frameMesh = new THREE.Mesh(frameGeo, frameMat);
+    hologramGroup.add(frameMesh);
+
+    // Holographic Corner Brackets
+    const cornerMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    [
+      [-6.5, 3.9], [6.5, 3.9], [-6.5, -3.9], [6.5, -3.9]
+    ].forEach(([cx, cy]) => {
+      const c = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.18), cornerMat);
+      c.position.set(cx, cy, 0);
+      hologramGroup.add(c);
+    });
+
+    // Holographic Vertical Light Column / Projection Beam
+    const beamGeo = new THREE.CylinderGeometry(0.12, 0.9, 14, 16, 1, true);
+    const beamMat = new THREE.MeshBasicMaterial({
+      color: 0x00f2fe,
+      transparent: true,
+      opacity: 0.28,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const beamMesh = new THREE.Mesh(beamGeo, beamMat);
+    beamMesh.position.set(0, -7.0, 0);
+    hologramGroup.add(beamMesh);
+
+    // Function to render rich blueprint UI onto the 3D screen texture
+    const updateHologramTexture = (district, useCase) => {
+      if (!screenCtx) return;
+      const w = 1024;
+      const h = 614;
+
+      // Dark futuristic glass backdrop
+      screenCtx.fillStyle = '#060d19';
+      screenCtx.fillRect(0, 0, w, h);
+
+      // Gradient overlay
+      const grad = screenCtx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, 'rgba(0, 242, 254, 0.15)');
+      grad.addColorStop(0.5, 'rgba(10, 20, 40, 0.9)');
+      grad.addColorStop(1, 'rgba(121, 40, 202, 0.2)');
+      screenCtx.fillStyle = grad;
+      screenCtx.fillRect(0, 0, w, h);
+
+      // Top Banner Header
+      screenCtx.fillStyle = '#0f172a';
+      screenCtx.fillRect(0, 0, w, 70);
+
+      // Accent Line
+      const color = district?.accentColor || '#00f2fe';
+      screenCtx.fillStyle = color;
+      screenCtx.fillRect(0, 66, w, 4);
+
+      // Header Text
+      screenCtx.fillStyle = color;
+      screenCtx.font = 'bold 22px Inter, sans-serif';
+      screenCtx.fillText(`[ ${district?.category?.toUpperCase() || 'DIGITAL TWIN NODE'} ]`, 30, 44);
+
+      screenCtx.fillStyle = '#10b981';
+      screenCtx.font = 'bold 18px Inter, sans-serif';
+      screenCtx.fillText('● LIVE AR TELEMETRY ACTIVE', w - 300, 44);
+
+      // Use Case Title & Subtitle
+      screenCtx.fillStyle = '#ffffff';
+      screenCtx.font = 'bold 28px Inter, sans-serif';
+      const title = useCase?.title || district?.name || 'Enterprise Architecture';
+      screenCtx.fillText(title.length > 44 ? title.substring(0, 42) + '...' : title, 30, 120);
+
+      screenCtx.fillStyle = '#94a3b8';
+      screenCtx.font = '18px Inter, sans-serif';
+      const tagline = district?.tagline || 'AI-Powered Autonomous Operational Model';
+      screenCtx.fillText(tagline.length > 70 ? tagline.substring(0, 68) + '...' : tagline, 30, 155);
+
+      // Image / Blueprint Area
+      if (useCase?.image) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          // Draw image inside viewport box
+          screenCtx.save();
+          screenCtx.fillStyle = '#030712';
+          screenCtx.fillRect(30, 180, w - 60, 360);
+          screenCtx.drawImage(img, 30, 180, w - 60, 360);
+
+          // Subtle scanline overlay
+          screenCtx.fillStyle = 'rgba(0, 242, 254, 0.08)';
+          for (let y = 180; y < 540; y += 4) {
+            screenCtx.fillRect(30, y, w - 60, 1);
+          }
+
+          // Inner image border
+          screenCtx.strokeStyle = color;
+          screenCtx.lineWidth = 2;
+          screenCtx.strokeRect(30, 180, w - 60, 360);
+
+          // Bottom Tech Tag Badges
+          screenCtx.fillStyle = '#0e7490';
+          screenCtx.font = 'bold 16px Inter, sans-serif';
+          screenCtx.fillText(`Connected Domain: ${district?.name}  |  Engine: High-Fidelity 3D Simulation`, 30, 580);
+
+          screenTexture.needsUpdate = true;
+          screenCtx.restore();
+        };
+        img.src = useCase.image;
+      } else {
+        // Fallback Schematic Wireframe
+        screenCtx.fillStyle = '#030712';
+        screenCtx.fillRect(30, 180, w - 60, 360);
+        screenCtx.strokeStyle = color;
+        screenCtx.lineWidth = 2;
+        screenCtx.strokeRect(30, 180, w - 60, 360);
+
+        screenCtx.fillStyle = color;
+        screenCtx.font = 'bold 24px Inter, sans-serif';
+        screenCtx.fillText('DIGITAL TWIN SYSTEM ARCHITECTURE & TELEMETRY STREAM', 60, 340);
+
+        screenCtx.fillStyle = '#64748b';
+        screenCtx.font = '18px Inter, sans-serif';
+        screenCtx.fillText('Real-time sensor mesh synchronized with Edge Computing Node', 60, 380);
+
+        screenTexture.needsUpdate = true;
+      }
+
+      screenTexture.needsUpdate = true;
+    };
+
+    // 9. Projection Vector & Clock
     const tempVec = new THREE.Vector3();
     const clock = new THREE.Clock();
 
-    // 9. Hardware-Accelerated Animation Loop (Zero React State Re-renders)
+    let currentHologramDistrictId = null;
+
+    // 10. Hardware-Accelerated Animation Loop (Zero React State Re-renders)
     const animate = () => {
       animationFrameRef.current = requestAnimationFrame(animate);
       const elapsedTime = clock.getElapsedTime();
@@ -203,6 +365,49 @@ export default function City3DCanvas({
       // Micro-animations (smooth wind turbines, steady drone path)
       if (cityState && typeof cityState.updateCity === 'function') {
         cityState.updateCity(elapsedTime);
+      }
+
+      // Update 3D Holographic AR Screen
+      const selId = selectedDistrictIdRef.current;
+      if (selId) {
+        const district = CITY_DISTRICTS.find(d => d.id === selId);
+        if (district) {
+          if (currentHologramDistrictId !== selId) {
+            currentHologramDistrictId = selId;
+            const matchedCases = allUseCases.filter(uc => 
+              district.useCaseIds?.includes(uc.id) || (district.primaryCaseId && uc.id === district.primaryCaseId)
+            );
+            const primaryUC = matchedCases[0] || allUseCases.find(uc => uc.id === district.primaryCaseId);
+            updateHologramTexture(district, primaryUC);
+
+            // Update frame color to match district accent
+            const hexColor = new THREE.Color(district.accentColor || 0x00f2fe);
+            frameMat.color = hexColor;
+            cornerMat.color = hexColor;
+            beamMat.color = hexColor;
+          }
+
+          hologramGroup.visible = true;
+          // Smooth scale-up
+          hologramGroup.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
+
+          // Position hovering over district with subtle harmonic bob
+          const [px, py, pz] = district.position;
+          const targetY = py + 14.5 + Math.sin(elapsedTime * 1.8) * 0.4;
+          hologramGroup.position.set(px, targetY, pz);
+
+          // Billboard to gently face the camera
+          hologramGroup.lookAt(camera.position);
+
+          // Pulse beam opacity
+          beamMat.opacity = 0.22 + Math.sin(elapsedTime * 3.0) * 0.08;
+        }
+      } else {
+        currentHologramDistrictId = null;
+        hologramGroup.scale.lerp(new THREE.Vector3(0.001, 0.001, 0.001), 0.15);
+        if (hologramGroup.scale.x < 0.01) {
+          hologramGroup.visible = false;
+        }
       }
 
       // Smooth Camera Lerp Animation
