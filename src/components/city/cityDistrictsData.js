@@ -11,32 +11,10 @@ import {
   Boxes, 
   Send, 
   Train, 
-  Radio, 
   Satellite 
 } from 'lucide-react';
 
 export const CITY_DISTRICTS = [
-  {
-    id: "manufacturing",
-    name: "Manufacturing & Robotics",
-    shortLabel: "Manufacturing",
-    icon: Cpu,
-    category: "Industrial Automation",
-    color: "#7928CA",
-    accentColor: "#A855F7",
-    position: [-26, 4, -20],
-    markerOffset: [0, 8, 0],
-    cameraTarget: {
-      position: [-12, 22, 10],
-      lookAt: [-26, 3, -20]
-    },
-    useCaseIds: ["t6-u1", "t6-u2"],
-    primaryCaseId: "t6-u1",
-    tagline: "AI-driven robotic assembly, continuous kinematic optimization & real-time quality inspection.",
-    simulationType: "Robotic Assembly Optimization",
-    simulationStatus: "AI Kinematic Engine Active",
-    technologies: ["Robotics", "Computer Vision", "Isaac Sim", "NVIDIA Omniverse", "Edge AI"]
-  },
   {
     id: "commercial",
     name: "Commercial Real Estate & Smart City",
@@ -45,11 +23,11 @@ export const CITY_DISTRICTS = [
     category: "Infrastructure",
     color: "#00F2FE",
     accentColor: "#38BDF8",
-    position: [0, 8, 0],
-    markerOffset: [0, 14, 0],
+    position: [0, 3, 0],
+    markerOffset: [0, 16, 0],
     cameraTarget: {
-      position: [18, 28, 28],
-      lookAt: [0, 5, 0]
+      position: [24, 32, 32],
+      lookAt: [0, 6, 0]
     },
     useCaseIds: ["t3-u2"],
     primaryCaseId: "t3-u2",
@@ -59,6 +37,27 @@ export const CITY_DISTRICTS = [
     technologies: ["BIM / IFC", "Photogrammetry", "LiDAR", "OpenUSD", "Computer Vision"]
   },
   {
+    id: "manufacturing",
+    name: "Manufacturing & Robotics",
+    shortLabel: "Manufacturing",
+    icon: Cpu,
+    category: "Industrial Automation",
+    color: "#7928CA",
+    accentColor: "#A855F7",
+    position: [-30, 3, -32],
+    markerOffset: [0, 8, 0],
+    cameraTarget: {
+      position: [-14, 22, -10],
+      lookAt: [-30, 3, -32]
+    },
+    useCaseIds: ["t6-u1", "t6-u2"],
+    primaryCaseId: "t6-u1",
+    tagline: "AI-driven robotic assembly, continuous kinematic optimization & real-time quality inspection.",
+    simulationType: "Robotic Assembly Optimization",
+    simulationStatus: "AI Kinematic Engine Active",
+    technologies: ["Robotics", "Computer Vision", "Isaac Sim", "NVIDIA Omniverse", "Edge AI"]
+  },
+  {
     id: "healthcare",
     name: "Healthcare & Medical Technology",
     shortLabel: "Healthcare",
@@ -66,11 +65,11 @@ export const CITY_DISTRICTS = [
     category: "Healthcare",
     color: "#FF2E93",
     accentColor: "#F43F5E",
-    position: [-22, 4, 22],
-    markerOffset: [0, 8, 0],
+    position: [-26, 3, 38],
+    markerOffset: [0, 9, 0],
     cameraTarget: {
-      position: [-10, 20, 42],
-      lookAt: [-22, 3, 22]
+      position: [-10, 22, 58],
+      lookAt: [-26, 3, 38]
     },
     useCaseIds: ["t2-u1", "t2-u2"],
     primaryCaseId: "t2-u1",
@@ -87,11 +86,11 @@ export const CITY_DISTRICTS = [
     category: "Biotechnology",
     color: "#00F2FE",
     accentColor: "#06B6D4",
-    position: [24, 4, -22],
+    position: [34, 3, -28],
     markerOffset: [0, 8, 0],
     cameraTarget: {
-      position: [38, 22, 4],
-      lookAt: [24, 3, -22]
+      position: [50, 22, -8],
+      lookAt: [34, 3, -28]
     },
     useCaseIds: ["t1-u1", "t1-u2"],
     primaryCaseId: "t1-u1",
@@ -108,11 +107,11 @@ export const CITY_DISTRICTS = [
     category: "Logistics & Maritime",
     color: "#00E1D9",
     accentColor: "#0EA5E9",
-    position: [-58, 2, -22],
-    markerOffset: [0, 8, 0],
+    position: [-72, 1.8, -26],
+    markerOffset: [0, 9, 0],
     cameraTarget: {
-      position: [-42, 22, 0],
-      lookAt: [-58, 2, -22]
+      position: [-54, 22, -4],
+      lookAt: [-72, 2, -26]
     },
     useCaseIds: ["t7-u1", "t9-u1"],
     primaryCaseId: "t7-u1",
@@ -129,11 +128,11 @@ export const CITY_DISTRICTS = [
     category: "Mining",
     color: "#FF7849",
     accentColor: "#F97316",
-    position: [15, 12, -54],
-    markerOffset: [0, 10, 0],
+    position: [24, 10, -70],
+    markerOffset: [0, 11, 0],
     cameraTarget: {
-      position: [28, 30, -32],
-      lookAt: [15, 10, -54]
+      position: [40, 28, -48],
+      lookAt: [24, 8, -70]
     },
     useCaseIds: ["t8-u1", "t8-u2"],
     primaryCaseId: "t8-u1",
@@ -150,11 +149,11 @@ export const CITY_DISTRICTS = [
     category: "Agriculture",
     color: "#05FFA1",
     accentColor: "#10B981",
-    position: [54, 3, 20],
-    markerOffset: [0, 7, 0],
+    position: [66, 3, 22],
+    markerOffset: [0, 8, 0],
     cameraTarget: {
-      position: [66, 22, 42],
-      lookAt: [54, 2, 20]
+      position: [80, 22, 44],
+      lookAt: [66, 3, 22]
     },
     useCaseIds: ["t4-u1", "t4-u2"],
     primaryCaseId: "t4-u1",
@@ -171,11 +170,11 @@ export const CITY_DISTRICTS = [
     category: "Energy",
     color: "#FFE600",
     accentColor: "#FBBF24",
-    position: [42, 4, -42],
-    markerOffset: [0, 8, 0],
+    position: [58, 3, -48],
+    markerOffset: [0, 9, 0],
     cameraTarget: {
-      position: [56, 22, -22],
-      lookAt: [42, 3, -42]
+      position: [72, 24, -26],
+      lookAt: [58, 3, -48]
     },
     useCaseIds: ["t5-u1", "t5-u2"],
     primaryCaseId: "t5-u1",
@@ -186,24 +185,45 @@ export const CITY_DISTRICTS = [
   },
   {
     id: "warehousing",
-    name: "Warehouse Automation & Robotics",
-    shortLabel: "Warehousing",
+    name: "Walmart Distribution Center & Logistics",
+    shortLabel: "Walmart DC Hub",
     icon: Boxes,
     category: "Logistics",
     color: "#38EF7D",
     accentColor: "#22C55E",
-    position: [-42, 4, 10],
-    markerOffset: [0, 7, 0],
+    position: [-58, 3, 6],
+    markerOffset: [0, 8, 0],
     cameraTarget: {
-      position: [-26, 20, 28],
-      lookAt: [-42, 3, 10]
+      position: [-40, 22, 24],
+      lookAt: [-58, 3, 6]
     },
     useCaseIds: ["t10-u1"],
     primaryCaseId: "t10-u1",
-    tagline: "Fleet-wide multi-agent path optimization, congestion prediction and AMR dynamic rerouting.",
+    tagline: "Fleet-wide multi-agent AMR path optimization, 53ft trailer staging and cross-docking.",
     simulationType: "AMR Multi-Agent Route Planning",
     simulationStatus: "24/30 Robots Synchronized",
     technologies: ["AMRs / AGVs", "Isaac Sim", "LiDAR", "ROS 2 / MQTT", "Edge Gateway"]
+  },
+  {
+    id: "drones",
+    name: "Autonomous Drone Delivery Station",
+    shortLabel: "Drone Vertiport",
+    icon: Send,
+    category: "Autonomous Logistics",
+    color: "#00F2FE",
+    accentColor: "#38BDF8",
+    position: [-54, 3, 28],
+    markerOffset: [0, 8, 0],
+    cameraTarget: {
+      position: [-36, 20, 46],
+      lookAt: [-54, 3, 28]
+    },
+    useCaseIds: ["t10-u2"],
+    primaryCaseId: "t10-u2",
+    tagline: "Vertiport air corridor dispatch, multi-stop citywide parcel delivery and battery swap telemetry.",
+    simulationType: "Aerial Corridor Fleet Telemetry",
+    simulationStatus: "MAVLink Sky Link Live",
+    technologies: ["MAVLink / 5G", "GNSS / RTK", "3D City Twin", "Thermal Sensors", "OpenXR"]
   },
   {
     id: "additive",
@@ -213,11 +233,11 @@ export const CITY_DISTRICTS = [
     category: "Advanced Manufacturing",
     color: "#00DFD8",
     accentColor: "#14B8A6",
-    position: [-10, 4, -30],
-    markerOffset: [0, 7, 0],
+    position: [-6, 3, -48],
+    markerOffset: [0, 8, 0],
     cameraTarget: {
-      position: [4, 18, -12],
-      lookAt: [-10, 2, -30]
+      position: [10, 20, -28],
+      lookAt: [-6, 3, -48]
     },
     useCaseIds: ["t9-u1", "t9-u2"],
     primaryCaseId: "t9-u1",
@@ -227,39 +247,18 @@ export const CITY_DISTRICTS = [
     technologies: ["Computer Vision", "CAD Digital Twin", "Marlin / Klipper API", "Edge PC", "TensorRT"]
   },
   {
-    id: "drones",
-    name: "Drone Delivery & Air Mobility",
-    shortLabel: "Drone Ops",
-    icon: Send,
-    category: "Autonomous Logistics",
-    color: "#00F2FE",
-    accentColor: "#38BDF8",
-    position: [0, 18, 0],
-    markerOffset: [0, 8, 0],
-    cameraTarget: {
-      position: [18, 32, 26],
-      lookAt: [0, 16, 0]
-    },
-    useCaseIds: ["t10-u2"],
-    primaryCaseId: "t10-u2",
-    tagline: "Real-time 3D flight corridor tracking, battery telemetry, and temperature-controlled medical cargo oversight.",
-    simulationType: "Aerial Corridor Fleet Telemetry",
-    simulationStatus: "MAVLink Sky Link Live",
-    technologies: ["MAVLink / 5G", "GNSS / RTK", "3D City Twin", "Thermal Sensors", "OpenXR"]
-  },
-  {
     id: "rail",
-    name: "Smart Rail, Metro & Bridges",
+    name: "Smart Rail, Metro & Suspension Bridge",
     shortLabel: "Rail & Metro",
     icon: Train,
     category: "Transportation",
     color: "#FFB800",
     accentColor: "#F59E0B",
-    position: [-36, 4, 24],
-    markerOffset: [0, 7, 0],
+    position: [-38, 5.5, 0],
+    markerOffset: [0, 8, 0],
     cameraTarget: {
-      position: [-20, 22, 42],
-      lookAt: [-36, 3, 24]
+      position: [-20, 22, 20],
+      lookAt: [-38, 5, 0]
     },
     useCaseIds: ["t3-u1"],
     primaryCaseId: "t3-u1",
@@ -276,11 +275,11 @@ export const CITY_DISTRICTS = [
     category: "Emergency Intelligence",
     color: "#00E1D9",
     accentColor: "#06B6D4",
-    position: [-18, 5, -46],
-    markerOffset: [0, 8, 0],
+    position: [-36, 3, -60],
+    markerOffset: [0, 9, 0],
     cameraTarget: {
-      position: [-2, 22, -26],
-      lookAt: [-18, 3, -46]
+      position: [-18, 22, -40],
+      lookAt: [-36, 3, -60]
     },
     useCaseIds: ["t7-u2"],
     primaryCaseId: "t7-u2",
@@ -292,6 +291,6 @@ export const CITY_DISTRICTS = [
 ];
 
 export const CITY_DEFAULT_VIEW = {
-  position: [48, 62, 74],
+  position: [68, 76, 92],
   lookAt: [0, 3, 0]
 };
