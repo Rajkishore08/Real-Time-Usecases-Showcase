@@ -152,8 +152,8 @@ export default function City3DCanvas({
     sunLight.shadow.camera.right = 55;
     sunLight.shadow.camera.top = 55;
     sunLight.shadow.camera.bottom = -55;
-    sunLight.shadow.bias = -0.0001;
-    sunLight.shadow.normalBias = 0.025;
+    sunLight.shadow.bias = -0.0002;
+    sunLight.shadow.normalBias = 0.04;
     scene.add(sunLight);
 
     // Cool Sky Fill Light

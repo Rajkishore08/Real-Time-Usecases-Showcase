@@ -155,10 +155,24 @@ export function createCityMaterials() {
 
     // Foliage & Nature
     treeTrunk: new THREE.MeshStandardMaterial({ color: 0x5c4033, roughness: 0.9, metalness: 0.05 }),
-    treeLeaves1: new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.85, metalness: 0.05, flatShading: true }),
-    treeLeaves2: new THREE.MeshStandardMaterial({ color: 0x166534, roughness: 0.85, metalness: 0.05, flatShading: true }),
-    cropFieldGreen: new THREE.MeshStandardMaterial({ color: 0x4d7c0f, roughness: 0.85, metalness: 0.05, flatShading: true }),
-    cropFieldGold: new THREE.MeshStandardMaterial({ color: 0xca8a04, roughness: 0.85, metalness: 0.05, flatShading: true }),
+    cropFieldGreen: new THREE.MeshStandardMaterial({ 
+      color: 0x4d7c0f, 
+      roughness: 0.85, 
+      metalness: 0.05, 
+      flatShading: true,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1
+    }),
+    cropFieldGold: new THREE.MeshStandardMaterial({ 
+      color: 0xca8a04, 
+      roughness: 0.85, 
+      metalness: 0.05, 
+      flatShading: true,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1
+    }),
 
     // Accents & Streetlights
     streetlightEmissive: new THREE.MeshBasicMaterial({ color: 0xfef08a }),
@@ -338,9 +352,9 @@ function buildTerrain(group, mat) {
   m3.castShadow = true;
   group.add(m3);
 
-  // Eastern Farmland Plateau
-  const farmPlateau = new THREE.Mesh(new THREE.BoxGeometry(28, 2.8, 30), mat.cropFieldGreen);
-  farmPlateau.position.set(30, 1.4, 12);
+  // Eastern Farmland Plateau (Terraced at y = 3.1 to avoid any coplanar z-fighting)
+  const farmPlateau = new THREE.Mesh(new THREE.BoxGeometry(28, 3.1, 30), mat.cropFieldGreen);
+  farmPlateau.position.set(30, 1.55, 12);
   farmPlateau.receiveShadow = true;
   group.add(farmPlateau);
 }
@@ -972,21 +986,27 @@ function buildMiningDistrict(group, mat) {
 // --------------------------------------------------------------------------
 function buildAgricultureDistrict(group, mat) {
   const dGroup = new THREE.Group();
-  dGroup.position.set(28, 2.82, 10);
+  dGroup.position.set(28, 3.12, 10);
   dGroup.userData = { districtId: "agriculture" };
 
-  // Center-Pivot Irrigation Crop Circles
+  // Center-Pivot Irrigation Crop Circles (Elevated with polygonOffset)
   const circle1 = new THREE.Mesh(new THREE.CircleGeometry(5.5, 32), mat.cropFieldGreen);
   circle1.rotation.x = -Math.PI / 2;
-  circle1.position.set(-4, 0.02, -4);
+  circle1.position.set(-4, 0.04, -4);
   circle1.receiveShadow = true;
   dGroup.add(circle1);
 
   const circle2 = new THREE.Mesh(new THREE.CircleGeometry(4.5, 32), mat.cropFieldGold);
   circle2.rotation.x = -Math.PI / 2;
-  circle2.position.set(4, 0.02, 4);
+  circle2.position.set(4, 0.04, 4);
   circle2.receiveShadow = true;
   dGroup.add(circle2);
+
+  // Irrigation Boom
+  const boom = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 5.5, 8), mat.industrialSteel);
+  boom.rotation.z = Math.PI / 2;
+  boom.position.set(-4, 0.55, -4);
+  dGroup.add(boom);
 
   group.add(dGroup);
 }
