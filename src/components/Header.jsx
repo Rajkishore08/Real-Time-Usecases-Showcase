@@ -4,6 +4,7 @@ import {
   MonitorPlay, 
   LayoutGrid,
   Download,
+  Globe,
   X
 } from 'lucide-react';
 
@@ -44,6 +45,14 @@ export default function Header({
 
           {/* View Mode Switcher */}
           <div className="view-mode-toggle">
+            <button 
+              className={`view-btn ${viewMode === 'city' ? 'active' : ''}`}
+              onClick={() => setViewMode('city')}
+              title="Interactive 3D Digital Twin City"
+            >
+              <Globe size={15} />
+              <span>3D City Twin</span>
+            </button>
             <button 
               className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
               onClick={() => setViewMode('grid')}

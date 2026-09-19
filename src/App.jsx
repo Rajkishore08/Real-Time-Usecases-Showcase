@@ -6,6 +6,7 @@ import UseCaseCard from './components/UseCaseCard';
 import DossierModal from './components/DossierModal';
 import PresentationView from './components/PresentationView';
 import ContentEditorModal from './components/ContentEditorModal';
+import City3DCanvas from './components/city/City3DCanvas';
 import { Layers } from 'lucide-react';
 
 const STORAGE_KEY = 'REALTIME_SHOWCASE_CONTENT_V8';
@@ -57,7 +58,7 @@ export default function App() {
 
   const [selectedThemeId, setSelectedThemeId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'presentation'
+  const [viewMode, setViewMode] = useState('city'); // 'city', 'grid' or 'presentation'
 
   // Modals state
   const [activeDossierCase, setActiveDossierCase] = useState(null);
@@ -242,8 +243,13 @@ export default function App() {
       )}
 
       {/* Main Content */}
-      <main className="showcase-main-content">
-        {viewMode === 'grid' ? (
+      <main className={`showcase-main-content ${viewMode === 'city' ? 'is-city-mode' : ''}`}>
+        {viewMode === 'city' ? (
+          <City3DCanvas
+            allUseCases={useCases}
+            onOpenDossier={setActiveDossierCase}
+          />
+        ) : viewMode === 'grid' ? (
           <>
             {filteredUseCases.length === 0 ? (
               <div className="empty-results-box">
