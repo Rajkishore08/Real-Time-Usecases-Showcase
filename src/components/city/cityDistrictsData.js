@@ -178,12 +178,12 @@ export const CITY_DISTRICTS = [
     category: "Energy",
     color: "#FFE600",
     accentColor: "#FBBF24",
-    position: [68, 3, -42],
+    position: [90, 3, -55],
     markerOffset: [0, 9, 0],
     hologramOffset: [12, 15, 10],
     cameraTarget: {
-      position: [82, 22, -20],
-      lookAt: [68, 3, -42]
+      position: [106, 24, -32],
+      lookAt: [90, 3, -55]
     },
     useCaseIds: ["t5-u1", "t5-u2"],
     primaryCaseId: "t5-u1",
