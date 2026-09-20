@@ -356,6 +356,7 @@ export default function App() {
           setViewMode={setViewMode}
           onExportJSON={handleExportJSON}
           onOpenEmbed={handleOpenEmbed}
+          onOpenSplash={() => setShowSplash(true)}
           totalCases={useCases.length}
           filteredCount={filteredUseCases.length}
         />

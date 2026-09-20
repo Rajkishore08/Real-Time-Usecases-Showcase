@@ -5,6 +5,7 @@ import {
   Download, 
   Globe, 
   Code2, 
+  Sparkles,
   X 
 } from 'lucide-react';
 
@@ -15,6 +16,7 @@ export default function Header({
   setViewMode,
   onExportJSON,
   onOpenEmbed,
+  onOpenSplash,
   totalCases,
   filteredCount
 }) {
@@ -33,6 +35,19 @@ export default function Header({
 
         {/* Global Action Bar */}
         <div className="header-actions">
+          {/* Re-trigger Grand Opening Portal */}
+          {onOpenSplash && (
+            <button 
+              className="view-btn splash-header-btn"
+              onClick={onOpenSplash}
+              title="Experience the World of XRDT - ARCS Opening Portal"
+              aria-label="Experience the World of XRDT Opening Portal"
+            >
+              <Sparkles size={15} className="cyan-glow-icon" />
+              <span>Experience Portal</span>
+            </button>
+          )}
+
           {/* Embed / Share iFrame Button */}
           {onOpenEmbed && (
             <button 
