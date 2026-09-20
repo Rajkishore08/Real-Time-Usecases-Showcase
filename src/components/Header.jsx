@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Search, 
   LayoutGrid, 
@@ -6,6 +6,8 @@ import {
   Globe, 
   Code2, 
   Sparkles,
+  Link2,
+  Check,
   X 
 } from 'lucide-react';
 
@@ -20,6 +22,18 @@ export default function Header({
   totalCases,
   filteredCount
 }) {
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleCopyDirectLink = () => {
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const directUrl = `${origin}/?view=${viewMode}`;
+    navigator.clipboard.writeText(directUrl).then(() => {
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2200);
+    }).catch(err => {
+      console.warn('Failed to copy direct link', err);
+    });
+  };
   return (
     <header className="showcase-header">
       {/* Main Branding & Navigation Row */}
@@ -47,6 +61,17 @@ export default function Header({
               <span>Experience Portal</span>
             </button>
           )}
+
+          {/* Copy Direct View Link (e.g. ?view=grid or ?view=city) */}
+          <button 
+            className={`view-btn direct-link-header-btn ${copiedLink ? 'is-copied' : ''}`}
+            onClick={handleCopyDirectLink}
+            title={`Copy direct standalone link to ${viewMode === 'grid' ? 'Grid View' : '3D City Twin'}`}
+            aria-label="Copy direct view link"
+          >
+            {copiedLink ? <Check size={15} className="green-icon" /> : <Link2 size={15} />}
+            <span>{copiedLink ? 'Link Copied!' : 'Direct Link'}</span>
+          </button>
 
           {/* Embed / Share iFrame Button */}
           {onOpenEmbed && (

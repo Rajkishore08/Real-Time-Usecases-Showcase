@@ -60,14 +60,25 @@ export default function App() {
     return INITIAL_USE_CASES;
   });
 
-  // URL Query Parameters Parsing
+  // URL Query Parameters Parsing & Direct Routing
   const queryParams = useMemo(() => {
     if (typeof window === 'undefined') return new URLSearchParams();
     return new URLSearchParams(window.location.search);
   }, []);
 
+  const isGridPath = typeof window !== 'undefined' && (
+    window.location.pathname.toLowerCase().endsWith('/grid') || 
+    window.location.pathname.toLowerCase().endsWith('/grid-view')
+  );
+
+  const isGridDirectFromUrl = isGridPath || 
+    queryParams.get('view') === 'grid' || 
+    queryParams.get('grid') === 'true' || 
+    queryParams.get('grid') === '1' ||
+    queryParams.get('mode') === 'grid';
+
   const isEmbedFromUrl = queryParams.get('embed') === 'true' || queryParams.get('embed') === '1';
-  const initialViewFromUrl = ['city', 'grid'].includes(queryParams.get('view')) ? queryParams.get('view') : 'city';
+  const initialViewFromUrl = isGridDirectFromUrl ? 'grid' : (['city', 'grid'].includes(queryParams.get('view')) ? queryParams.get('view') : 'city');
   const initialDistrictFromUrl = queryParams.get('district') || null;
   const initialCaseFromUrl = queryParams.get('useCase') || queryParams.get('case') || null;
   const initialThemeFromUrl = queryParams.get('theme') ? Number(queryParams.get('theme')) : null;
@@ -80,8 +91,24 @@ export default function App() {
   const [isEmbedMode, setIsEmbedMode] = useState(isEmbedFromUrl);
   const [selectedThemeId, setSelectedThemeId] = useState(initialThemeFromUrl);
   const [searchTerm, setSearchTerm] = useState(initialSearchFromUrl);
-  const [viewMode, setViewMode] = useState(initialViewFromUrl); // 'city' or 'grid'
+  const [viewMode, setViewModeState] = useState(initialViewFromUrl); // 'city' or 'grid'
   const [activeDistrictId, setActiveDistrictId] = useState(initialDistrictFromUrl);
+
+  // Synchronize view mode changes to URL
+  const setViewMode = useCallback((mode) => {
+    setViewModeState(mode);
+    if (typeof window !== 'undefined' && window.history && window.history.replaceState) {
+      const url = new URL(window.location.href);
+      if (mode === 'grid') {
+        url.searchParams.set('view', 'grid');
+      } else {
+        url.searchParams.delete('view');
+        url.searchParams.delete('grid');
+        url.searchParams.delete('mode');
+      }
+      window.history.replaceState(null, '', url.pathname + url.search);
+    }
+  }, []);
 
   // Modals state
   const [activeDossierCase, setActiveDossierCase] = useState(() => {
@@ -101,7 +128,14 @@ export default function App() {
 
   // Live Simulation Viewer State
   const [activeLiveDemo, setActiveLiveDemo] = useState(null);
-  const [showSplash, setShowSplash] = useState(() => !isEmbedFromUrl);
+
+  // Suppress intro splash if accessing Grid View directly or embed or splash=false
+  const isSplashSuppressed = isEmbedFromUrl || 
+    isGridDirectFromUrl || 
+    queryParams.get('splash') === 'false' || 
+    queryParams.get('intro') === 'false';
+
+  const [showSplash, setShowSplash] = useState(() => !isSplashSuppressed);
 
   const handleLaunchLiveDemo = useCallback((demoConfig) => {
     if (!demoConfig || !demoConfig.url) return;
