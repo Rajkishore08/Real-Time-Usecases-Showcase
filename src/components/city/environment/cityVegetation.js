@@ -49,11 +49,12 @@ export function buildCityVegetation(parent, mat) {
     if (x >= -38 && x <= -10 && z >= 12 && z <= 40) return true; // Healthcare
     if (x >= 14 && x <= 42 && z >= -40 && z <= -12) return true; // Biotech
     if (x >= -38 && x <= -10 && z >= -40 && z <= -12) return true; // Manufacturing
-    if (x >= -40 && x <= -8 && z >= 52 && z <= 84) return true; // Drone Vertiport
+    if (x >= -38 && x <= -2 && z >= 70 && z <= 100) return true; // Drone Vertiport
     if (x >= 10 && x <= 42 && z >= 52 && z <= 84) return true; // Walmart DC
     if (x >= 45 && x <= 91 && z >= -61 && z <= -23) return true; // Power Substation
     if (x >= 64 && x <= 118 && z >= 6 && z <= 50) return true; // Smart Agriculture Field
-    if (x >= 24 && x <= 60 && z >= 70 && z <= 98) return true; // Inland Farmstead
+    if (x >= 24 && x <= 60 && z >= 70 && z <= 98) return true; // Inland Swine Farmstead
+    if (x >= 4 && x <= 28 && z >= 72 && z <= 96) return true; // 3D Printing Lab
     return false;
   }
 

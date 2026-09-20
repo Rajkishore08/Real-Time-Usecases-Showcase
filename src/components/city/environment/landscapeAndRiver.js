@@ -30,52 +30,61 @@ export function buildLandscapeAndRiver(parent, mat, animatedItems) {
   quayMesh.castShadow = true;
   landscapeGroup.add(quayMesh);
 
-  // D. Realistic Alpine Mountain Range, Pine Forests & Cascading Waterfall
+  // D. Smooth Organic Alpine Mountain Range, Pine Forests & Cascading Waterfall
   const mountainGroup = new THREE.Group();
-  mountainGroup.position.set(0, 0, -96);
+  mountainGroup.position.set(0, 0, -112); // Pushed back to ensure 100% clearance of Disaster building at z = -76
 
-  // 1. Multi-Peak Mountain Ridge with Organic Rocky Contours
-  const mountainPeaksData = [
-    { x: -44, z: -12, radius: 18, height: 26, segments: 7, snowCap: 10 },
-    { x: -26, z: -8,  radius: 22, height: 32, segments: 6, snowCap: 12 },
-    { x: -6,  z: -16, radius: 24, height: 36, segments: 8, snowCap: 14 },
-    { x: 14,  z: -10, radius: 20, height: 30, segments: 7, snowCap: 11 },
-    { x: 34,  z: -14, radius: 22, height: 34, segments: 6, snowCap: 13 },
-    { x: 52,  z: -8,  radius: 18, height: 25, segments: 7, snowCap: 9 },
-    { x: -16, z: 2,   radius: 14, height: 18, segments: 5, snowCap: 6 },
-    { x: 26,  z: 4,   radius: 15, height: 20, segments: 6, snowCap: 7 }
+  // 1. Smooth Organic Alpine Mountain Peaks with Natural Rolling Slopes (All sitting behind z = -94)
+  const smoothMountainPeaks = [
+    { x: -50, z: -8,  rx: 28, rz: 22, height: 34, snowScale: 0.45 },
+    { x: -30, z: -12, rx: 28, rz: 22, height: 38, snowScale: 0.48 },
+    { x: -5,  z: -18, rx: 34, rz: 26, height: 45, snowScale: 0.52 },
+    { x: 20,  z: -10, rx: 28, rz: 22, height: 36, snowScale: 0.46 },
+    { x: 44,  z: -14, rx: 32, rz: 24, height: 42, snowScale: 0.50 },
+    { x: 65,  z: -8,  rx: 26, rz: 20, height: 30, snowScale: 0.42 },
+    { x: 30,  z: 4,   rx: 20, rz: 16, height: 24, snowScale: 0.38 },
+    // Interlocking Smooth Alpine Ridges (Connecting peaks smoothly)
+    { x: -40, z: -10, rx: 22, rz: 18, height: 28, snowScale: 0.36 },
+    { x: 8,   z: -14, rx: 24, rz: 20, height: 32, snowScale: 0.40 },
+    { x: 54,  z: -11, rx: 22, rz: 18, height: 26, snowScale: 0.36 }
   ];
 
-  mountainPeaksData.forEach(p => {
-    // Rocky Mountain Body
-    const peakGeo = new THREE.ConeGeometry(p.radius, p.height, p.segments);
-    const peakMesh = new THREE.Mesh(peakGeo, mat.groundRock);
-    peakMesh.position.set(p.x, p.height / 2, p.z);
-    peakMesh.rotation.y = (p.x * 0.15);
-    peakMesh.castShadow = true;
-    peakMesh.receiveShadow = true;
-    mountainGroup.add(peakMesh);
+  // Shared high-segment smooth hemisphere geometry
+  const smoothDomeGeo = new THREE.SphereGeometry(1.0, 36, 24, 0, Math.PI * 2, 0, Math.PI * 0.5);
 
-    // Snow-Capped Mountain Tip
-    const capHeight = p.snowCap;
-    const capRadius = p.radius * (capHeight / p.height);
-    const capGeo = new THREE.ConeGeometry(capRadius, capHeight, p.segments);
-    const capMesh = new THREE.Mesh(capGeo, mat.buildingWhite);
-    capMesh.position.set(p.x, p.height - capHeight / 2 + 0.1, p.z);
-    capMesh.rotation.y = peakMesh.rotation.y;
-    mountainGroup.add(capMesh);
+  smoothMountainPeaks.forEach((p) => {
+    const peakGroup = new THREE.Group();
+    peakGroup.position.set(p.x, 0, p.z);
+
+    // Smooth Rocky Mountain Body (Curved Alpine Massif)
+    const rockMesh = new THREE.Mesh(smoothDomeGeo, mat.mountainRockSmooth);
+    rockMesh.scale.set(p.rx, p.height, p.rz);
+    rockMesh.castShadow = true;
+    rockMesh.receiveShadow = true;
+    peakGroup.add(rockMesh);
+
+    // Smooth Snow Cap Mantle (Seamlessly draped over the upper alpine crest)
+    const snowMesh = new THREE.Mesh(smoothDomeGeo, mat.mountainSnowSmooth);
+    const snowH = p.height * p.snowScale;
+    const snowRx = p.rx * p.snowScale;
+    const snowRz = p.rz * p.snowScale;
+    snowMesh.scale.set(snowRx, snowH, snowRz);
+    snowMesh.position.y = p.height - snowH + 0.15;
+    snowMesh.castShadow = true;
+    peakGroup.add(snowMesh);
+
+    mountainGroup.add(peakGroup);
   });
 
-  // 2. Natural Granite Boulders & Rock Formations along Foothills
-  const boulderGeo = new THREE.DodecahedronGeometry(1.8, 1);
-  for (let b = 0; b < 18; b++) {
-    const boulder = new THREE.Mesh(boulderGeo, mat.groundRock);
-    const bx = -48 + (b * 6.0) + (Math.sin(b * 3.7) * 4);
-    const bz = 6 + (Math.cos(b * 2.1) * 6);
-    const scale = 0.8 + Math.sin(b * 1.5) * 0.5;
-    boulder.position.set(bx, scale * 1.2, bz);
-    boulder.scale.set(scale, scale * 0.9, scale);
-    boulder.rotation.set(b * 0.4, b * 0.9, b * 0.2);
+  // 2. Smooth Rolling Granite Boulders along the Mountain Base
+  const smoothBoulderGeo = new THREE.SphereGeometry(1.4, 20, 14);
+  for (let b = 0; b < 24; b++) {
+    const boulder = new THREE.Mesh(smoothBoulderGeo, mat.mountainRockSmooth);
+    const bx = -54 + (b * 4.8) + (Math.sin(b * 3.7) * 4);
+    const bz = 4 + (Math.cos(b * 2.1) * 7);
+    const scale = 0.75 + Math.sin(b * 1.5) * 0.55;
+    boulder.position.set(bx, scale * 0.9, bz);
+    boulder.scale.set(scale * 1.3, scale * 0.8, scale * 1.1);
     boulder.castShadow = true;
     mountainGroup.add(boulder);
   }
@@ -108,25 +117,25 @@ export function buildLandscapeAndRiver(parent, mat, animatedItems) {
     mountainGroup.add(treeGroup);
   }
 
-  // 4. Natural Cascading Waterfall (Stepped Rocky Cascade at x = -16, z = -78)
+  // 4. Natural Cascading Waterfall (Stepped Rocky Cascade from Mountain at z = -112 down to river head)
   const shelfHeights = [
-    { y: 16, z: -2, width: 9.0, depth: 6.0 },
-    { y: 10, z: 4,  width: 10.0, depth: 6.0 },
-    { y: 4,  z: 10, width: 11.0, depth: 6.0 }
+    { y: 16, z: 14, width: 8.0, depth: 5.0 },
+    { y: 10, z: 20, width: 9.0, depth: 5.0 },
+    { y: 4,  z: 26, width: 10.0, depth: 5.0 }
   ];
   shelfHeights.forEach(s => {
     const shelfGeo = new THREE.BoxGeometry(s.width, 2.5, s.depth);
-    const shelf = new THREE.Mesh(shelfGeo, mat.groundRock);
+    const shelf = new THREE.Mesh(shelfGeo, mat.mountainRockSmooth);
     shelf.position.set(-16, s.y - 1.25, s.z);
     shelf.receiveShadow = true;
     mountainGroup.add(shelf);
   });
 
-  // Flowing waterfall chutes (3 Tiers dropping from y = 22 down to plunge pool)
+  // Flowing waterfall chutes (3 Tiers dropping down into plunge pool)
   const chuteData = [
-    { y: 18, z: 1,  height: 8.0, width: 5.5, rotX: 0.25 },
-    { y: 11, z: 7,  height: 8.0, width: 6.5, rotX: 0.28 },
-    { y: 4.5, z: 13, height: 7.0, width: 7.5, rotX: 0.30 }
+    { y: 18, z: 17, height: 8.0, width: 5.0, rotX: 0.25 },
+    { y: 11, z: 23, height: 8.0, width: 6.0, rotX: 0.28 },
+    { y: 4.5, z: 29, height: 7.0, width: 7.0, rotX: 0.30 }
   ];
   chuteData.forEach((ch) => {
     const chuteGeo = new THREE.PlaneGeometry(ch.width, ch.height);
@@ -145,10 +154,10 @@ export function buildLandscapeAndRiver(parent, mat, animatedItems) {
     mountainGroup.add(spray);
   });
 
-  // Natural Stone Plunge Pool Basin
-  const poolGeo = new THREE.CylinderGeometry(8, 9, 1.2, 24);
+  // Natural Stone Plunge Pool Basin (At world Z = -76, connecting to river at z = -74)
+  const poolGeo = new THREE.CylinderGeometry(7, 8, 1.2, 24);
   const pool = new THREE.Mesh(poolGeo, mat.riverWater);
-  pool.position.set(-16, 0.1, 20);
+  pool.position.set(-16, 0.1, 36);
   pool.receiveShadow = true;
   mountainGroup.add(pool);
 

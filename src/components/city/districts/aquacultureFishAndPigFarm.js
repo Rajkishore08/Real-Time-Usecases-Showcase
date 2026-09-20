@@ -115,20 +115,38 @@ export function buildAquacultureFishFarm(parent, mat, animatedItems, interactive
 
   // =========================================================================
   // 1. OFFSHORE SMART AQUACULTURE: 6 CIRCULAR SEA CAGES (Matching Image 2)
-  //    Located in West Ocean Bay at x = -108, z = 22
+  //    Located in Coastal Bay with proper open-water clearance at x = -96, z = 32
   // =========================================================================
   const marineFarmGroup = new THREE.Group();
   marineFarmGroup.name = "District_FishFarm";
   marineFarmGroup.userData = { districtId: "fishfarm" };
-  marineFarmGroup.position.set(-108, 0, 22);
+  marineFarmGroup.position.set(-96, 0, 32);
 
   // Deep Ocean Lagoon Water Base
-  const lagoonWaterGeo = new THREE.PlaneGeometry(44, 38);
+  const lagoonWaterGeo = new THREE.PlaneGeometry(48, 42);
   const lagoonWater = new THREE.Mesh(lagoonWaterGeo, mat.water);
   lagoonWater.rotation.x = -Math.PI / 2;
   lagoonWater.position.set(0, 0.06, 0);
   lagoonWater.receiveShadow = true;
   marineFarmGroup.add(lagoonWater);
+
+  // Pier Gangway Connecting Central Barge to Warehouse Quayside (North-East direction)
+  const shorePierGeo = new THREE.BoxGeometry(16, 0.35, 2.0);
+  const shorePier = new THREE.Mesh(shorePierGeo, mat.aquacultureWalkway);
+  shorePier.position.set(8.0, 0.35, -8.0);
+  shorePier.rotation.y = 0.35;
+  shorePier.receiveShadow = true;
+  shorePier.castShadow = true;
+  marineFarmGroup.add(shorePier);
+
+  // Pier Railings
+  for (let rz of [-0.9, 0.9]) {
+    const railGeo = new THREE.BoxGeometry(16, 0.08, 0.08);
+    const rail = new THREE.Mesh(railGeo, mat.buildingDarkSteel);
+    rail.position.set(8.0, 0.9, -8.0 + rz);
+    rail.rotation.y = 0.35;
+    marineFarmGroup.add(rail);
+  }
 
   // 6 Circular Floating Sea Cages in 2 rows of 3 (Matching Image 2)
   const cageConfigs = [

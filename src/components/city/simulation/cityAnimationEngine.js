@@ -201,10 +201,10 @@ export function createCityAnimationUpdater(animatedItems) {
       });
     }
 
-    // Q. Parking Lot Dynamic Cars: One by one departure, city drive, and return to stall
+    // Q. Parking Lot Dynamic Cars: Traffic-rule compliant driving on roads only
     if (animatedItems.parkingCars && animatedItems.parkingCars.length > 0) {
       const totalCars = animatedItems.parkingCars.length;
-      const cycleDuration = 14.0; // seconds per car drive
+      const cycleDuration = 18.0; // seconds per car drive
       const totalCycle = cycleDuration * totalCars;
       const globalCycleTime = (elapsedTime * effectiveSpeed) % totalCycle;
       const activeCarIndex = Math.floor(globalCycleTime / cycleDuration);
@@ -213,32 +213,68 @@ export function createCityAnimationUpdater(animatedItems) {
       animatedItems.parkingCars.forEach((car, idx) => {
         if (idx === activeCarIndex) {
           const p = activeCarProgress;
-          if (p < 0.15) {
-            // Reversing out of parking stall
-            const t = p / 0.15;
-            car.mesh.position.set(car.homeX, 0.05, car.homeZ + t * 4.6);
-            car.mesh.rotation.y = t * 0.35;
-          } else if (p < 0.25) {
-            // Driving onto parking lot lane
-            const t = (p - 0.15) / 0.10;
-            car.mesh.position.set(car.homeX - t * (car.homeX - (-6.0)), 0.05, car.homeZ + 4.6 + t * 3.8);
-            car.mesh.rotation.y = 0.35 + t * (Math.PI / 2 - 0.35);
-          } else if (p < 0.75) {
-            // Driving on city road loop
-            const t = (p - 0.25) / 0.50;
-            const roadAngle = t * Math.PI * 2;
-            const r = 22.0;
-            car.mesh.position.set(-6.0 + Math.sin(roadAngle) * r, 0.05, 4.8 + (1 - Math.cos(roadAngle)) * r * 0.5);
-            car.mesh.rotation.y = roadAngle + Math.PI / 2;
-          } else if (p < 0.90) {
-            // Returning along lane
-            const t = (p - 0.75) / 0.15;
-            car.mesh.position.set(-6.0 + t * (car.homeX - (-6.0)), 0.05, 4.8 - t * 3.6);
+
+          if (p < 0.08) {
+            // 1. Pulling forward out of stall into parking lot aisle
+            const t = p / 0.08;
+            car.mesh.position.set(car.homeX, 0.05, -3.6 + t * 8.1);
             car.mesh.rotation.y = 0;
+          } else if (p < 0.14) {
+            // 2. Turning right onto the parking lot driveway (facing West)
+            const t = (p - 0.08) / 0.06;
+            car.mesh.position.set(car.homeX - t * 2.0, 0.05, 4.5);
+            car.mesh.rotation.y = -t * (Math.PI / 2);
+          } else if (p < 0.24) {
+            // 3. Driving West on parking driveway to NS Grand Boulevard
+            const t = (p - 0.14) / 0.10;
+            const startX = car.homeX - 2.0;
+            const endX = -13.85; // Aligns with Southbound lane (world X = +2.15)
+            car.mesh.position.set(startX + t * (endX - startX), 0.05, 4.5);
+            car.mesh.rotation.y = -Math.PI / 2;
+          } else if (p < 0.30) {
+            // 4. Turning South into Southbound lane of NS Grand Boulevard
+            const t = (p - 0.24) / 0.06;
+            car.mesh.position.set(-13.85, 0.05, 4.5 + t * 4.0);
+            car.mesh.rotation.y = -(1 - t) * (Math.PI / 2);
+          } else if (p < 0.44) {
+            // 5. Driving South on NS Grand Boulevard down to Ring Road
+            const t = (p - 0.30) / 0.14;
+            car.mesh.position.set(-13.85, 0.05, 8.5 + t * 29.0);
+            car.mesh.rotation.y = 0;
+          } else if (p < 0.66) {
+            // 6. Merging onto Outer Ring Highway (smooth circular arc from South to East)
+            const t = (p - 0.44) / 0.22;
+            const theta = Math.PI / 2 - t * (Math.PI / 2); // pi/2 (South) -> 0 (East)
+            const worldX = 54.0 * Math.cos(theta);
+            const worldZ = 54.0 * Math.sin(theta);
+            car.mesh.position.set(worldX - 16.0, 0.05, worldZ - 16.0);
+            car.mesh.rotation.y = theta + Math.PI;
+          } else if (p < 0.72) {
+            // 7. Turning from Ring Road onto Westbound Lane of East-West Tech Avenue
+            const t = (p - 0.66) / 0.06;
+            const curLocalX = 38.0 - t * 6.0;
+            const curLocalZ = -16.0 + t * 2.15;
+            car.mesh.position.set(curLocalX, 0.05, curLocalZ);
+            car.mesh.rotation.y = -Math.PI / 2;
+          } else if (p < 0.86) {
+            // 8. Driving West on East-West Tech Avenue
+            const t = (p - 0.72) / 0.14;
+            car.mesh.position.set(32.0 - t * 32.0, 0.05, -13.85);
+            car.mesh.rotation.y = -Math.PI / 2;
+          } else if (p < 0.92) {
+            // 9. Turning South into Parking Lot Entrance Lane
+            const t = (p - 0.86) / 0.06;
+            car.mesh.position.set(0.0, 0.05, -13.85 + t * 18.35);
+            car.mesh.rotation.y = 0;
+          } else if (p < 0.96) {
+            // 10. Moving along aisle to designated stall
+            const t = (p - 0.92) / 0.04;
+            car.mesh.position.set(t * car.homeX, 0.05, 4.5);
+            car.mesh.rotation.y = car.homeX < 0 ? -Math.PI / 2 : (car.homeX > 0 ? Math.PI / 2 : 0);
           } else {
-            // Pulling into stall
-            const t = (p - 0.90) / 0.10;
-            car.mesh.position.set(car.homeX, 0.05, 1.2 - t * 4.8);
+            // 11. Pulling into home stall & parking
+            const t = (p - 0.96) / 0.04;
+            car.mesh.position.set(car.homeX, 0.05, 4.5 - t * 8.1);
             car.mesh.rotation.y = 0;
           }
         } else {

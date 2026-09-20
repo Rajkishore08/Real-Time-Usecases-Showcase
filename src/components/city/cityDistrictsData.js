@@ -222,12 +222,12 @@ export const CITY_DISTRICTS = [
     category: "Autonomous Logistics",
     color: "#00F2FE",
     accentColor: "#38BDF8",
-    position: [-74, 3, 50],
-    markerOffset: [0, 8, 0],
-    hologramOffset: [-12, 14, 12],
+    position: [-20, 3, 85],
+    markerOffset: [0, 9, 0],
+    hologramOffset: [-12, 14, 10],
     cameraTarget: {
-      position: [-56, 22, 68],
-      lookAt: [-74, 3, 50]
+      position: [-2, 22, 108],
+      lookAt: [-20, 3, 85]
     },
     useCaseIds: ["t10-u2"],
     primaryCaseId: "t10-u2",
@@ -244,12 +244,12 @@ export const CITY_DISTRICTS = [
     category: "Advanced Manufacturing",
     color: "#00DFD8",
     accentColor: "#14B8A6",
-    position: [6, 3, -40],
-    markerOffset: [0, 8, 0],
+    position: [16, 3, 85],
+    markerOffset: [0, 9, 0],
     hologramOffset: [12, 14, 8],
     cameraTarget: {
-      position: [22, 20, -22],
-      lookAt: [6, 3, -40]
+      position: [34, 22, 108],
+      lookAt: [16, 3, 85]
     },
     useCaseIds: ["t9-u1", "t9-u2"],
     primaryCaseId: "t9-u1",
@@ -310,12 +310,12 @@ export const CITY_DISTRICTS = [
     category: "Aquaculture & Marine",
     color: "#00E5FF",
     accentColor: "#06B6D4",
-    position: [-108, 2, 22],
-    markerOffset: [0, 8, 0],
+    position: [-96, 2, 32],
+    markerOffset: [0, 9, 0],
     hologramOffset: [-12, 14, 10],
     cameraTarget: {
-      position: [-88, 22, 42],
-      lookAt: [-108, 1, 22]
+      position: [-76, 22, 54],
+      lookAt: [-96, 1, 32]
     },
     useCaseIds: ["t4-u2"],
     primaryCaseId: "t4-u2",

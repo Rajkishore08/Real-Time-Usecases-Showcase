@@ -45,6 +45,18 @@ export function createCityMaterials() {
       metalness: 0.15,
       flatShading: true
     }),
+    mountainRockSmooth: new THREE.MeshStandardMaterial({
+      color: 0x3e4c5e,
+      roughness: 0.82,
+      metalness: 0.12,
+      flatShading: false
+    }),
+    mountainSnowSmooth: new THREE.MeshStandardMaterial({
+      color: 0xf8fafc,
+      roughness: 0.45,
+      metalness: 0.08,
+      flatShading: false
+    }),
     groundQuarry: new THREE.MeshStandardMaterial({
       color: 0x6b4423,
       roughness: 0.92,

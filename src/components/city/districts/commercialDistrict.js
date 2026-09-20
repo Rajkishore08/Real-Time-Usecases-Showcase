@@ -91,7 +91,7 @@ export function buildCommercialDistrict(parent, mat, animatedItems, interactiveO
   lotAsphalt.receiveShadow = true;
   parkingLotGroup.add(lotAsphalt);
 
-  // Concrete Curbing
+  // Concrete Curbing (with driveway openings)
   const curbGeoN = new THREE.BoxGeometry(18.4, 0.2, 0.4);
   const curbN = new THREE.Mesh(curbGeoN, mat.concreteCurb);
   curbN.position.set(0, 0.1, -7.2);
@@ -106,6 +106,21 @@ export function buildCommercialDistrict(parent, mat, animatedItems, interactiveO
   const curbE = new THREE.Mesh(curbGeoE, mat.concreteCurb);
   curbE.position.set(9.2, 0.1, 0);
   parkingLotGroup.add(curbE);
+
+  // Paved Driveway Apron connecting West to NS Grand Boulevard
+  const drivewayWestGeo = new THREE.PlaneGeometry(6.0, 5.0);
+  const drivewayWest = new THREE.Mesh(drivewayWestGeo, mat.roadAsphalt);
+  drivewayWest.rotation.x = -Math.PI / 2;
+  drivewayWest.position.set(-11.8, 0.02, 4.5);
+  drivewayWest.receiveShadow = true;
+  parkingLotGroup.add(drivewayWest);
+
+  // Driveway Yellow Entry Arrow & Markings
+  const arrowGeo = new THREE.PlaneGeometry(0.4, 1.8);
+  const arrowMesh = new THREE.Mesh(arrowGeo, mat.roadMarkingYellow);
+  arrowMesh.rotation.x = -Math.PI / 2;
+  arrowMesh.position.set(-11.5, 0.03, 4.5);
+  parkingLotGroup.add(arrowMesh);
 
   // 6 Marked White Parking Bays
   const stallXOffsets = [-6.0, -2.4, 1.2, 4.8, 8.4];
