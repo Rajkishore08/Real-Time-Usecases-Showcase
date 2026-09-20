@@ -131,10 +131,11 @@ export function buildMaritimePortDistrict(parent, mat, animatedItems, interactiv
   const lensBulb = new THREE.Mesh(lensBulbGeo, mat.neonCyan);
   lanternHead.add(lensBulb);
 
-  const beamGeo = new THREE.ConeGeometry(8, 48, 16);
-  beamGeo.translate(0, 24, 0);
+  // Volumetric searchlight beam: starts narrow (radius 0.35) at bulb and expands wide (radius 10.0) out to sea
+  const beamGeo = new THREE.CylinderGeometry(10.0, 0.35, 52, 24, 1, true);
+  beamGeo.translate(0, 26, 0);
   const beamMesh = new THREE.Mesh(beamGeo, mat.lighthouseBeamMat);
-  beamMesh.rotation.z = Math.PI / 2; // Projects outward toward negative X (sea)
+  beamMesh.rotation.z = Math.PI / 2; // Projects outward toward sea
   lanternHead.add(beamMesh);
 
   lighthouseRoot.add(lanternHead);

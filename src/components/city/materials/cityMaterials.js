@@ -251,9 +251,48 @@ export function createCityMaterials() {
     aquacultureWalkway: new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.5, metalness: 0.6 }),
 
     // Smart Livestock & Pig Farm Materials
-    pigSkin: new THREE.MeshStandardMaterial({ color: 0xffb5c2, roughness: 0.5, metalness: 0.05 }),
-    pigSnout: new THREE.MeshStandardMaterial({ color: 0xff8ba0, roughness: 0.4 }),
+    pigSkin: new THREE.MeshStandardMaterial({ color: 0xffb5c2, roughness: 0.45, metalness: 0.05 }),
+    pigSnout: new THREE.MeshStandardMaterial({ color: 0xff7597, roughness: 0.35 }),
     pigMud: new THREE.MeshStandardMaterial({ color: 0x3d2314, roughness: 0.95 }),
-    pigStraw: new THREE.MeshStandardMaterial({ color: 0xd4af37, roughness: 0.85 })
+    pigStraw: new THREE.MeshStandardMaterial({ color: 0xd4af37, roughness: 0.85 }),
+    pigEyeDark: new THREE.MeshBasicMaterial({ color: 0x0f172a }),
+    pigEyePupilWhite: new THREE.MeshBasicMaterial({ color: 0xffffff }),
+
+    // AI Vision Cone & Tech Grid Facility Materials
+    aiConeBeamMat: new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.16,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    }),
+    aiFloorCircleMat: new THREE.MeshBasicMaterial({
+      color: 0x00f2fe,
+      transparent: true,
+      opacity: 0.75,
+      side: THREE.DoubleSide
+    }),
+    telemetryRingGlow: new THREE.MeshBasicMaterial({
+      color: 0x00f2fe,
+      transparent: true,
+      opacity: 0.85,
+      side: THREE.DoubleSide
+    }),
+    darkFacilityFloor: new THREE.MeshStandardMaterial({
+      color: 0x080d1a,
+      roughness: 0.6,
+      metalness: 0.4
+    }),
+    steelGantryMat: new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      roughness: 0.3,
+      metalness: 0.8
+    }),
+    bargeYellowMat: new THREE.MeshStandardMaterial({
+      color: 0xf59e0b,
+      roughness: 0.35,
+      metalness: 0.3
+    })
   };
 }

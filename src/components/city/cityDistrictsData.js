@@ -28,8 +28,8 @@ export const CITY_DISTRICTS = [
     markerOffset: [0, 16, 0],
     hologramOffset: [-14, 16, 8],
     cameraTarget: {
-      position: [24, 30, 28],
-      lookAt: [0, 5, 0]
+      position: [18, 28, 24],
+      lookAt: [-4, 7, -2]
     },
     useCaseIds: ["t3-u2"],
     primaryCaseId: "t3-u2",
@@ -317,12 +317,14 @@ export const CITY_DISTRICTS = [
       position: [-88, 22, 42],
       lookAt: [-108, 1, 22]
     },
-    useCaseIds: ["t10-u1"],
-    primaryCaseId: "t10-u1",
-    tagline: "Autonomous offshore sea cages, dissolved oxygen telemetry, solar feed cannons & smart biomass monitoring.",
+    useCaseIds: ["t4-u2"],
+    primaryCaseId: "t4-u2",
+    liveDemoUrl: "https://fdt-fawn.vercel.app",
+    liveDemoTitle: "AI-Powered Fish Farming & Smart Aquaculture Live Digital Twin",
+    tagline: "Autonomous offshore sea cages, dissolved oxygen telemetry, Isaac Sim ROV net inspection & Cosmos biomass AI.",
     simulationType: "Ocean Biomass & Water Quality AI",
     simulationStatus: "DO & Salinity Telemetry Live",
-    technologies: ["IoT Sensors", "Deep Sea Telemetry", "Computer Vision", "Solar Cannons", "LoRaWAN"]
+    technologies: ["NVIDIA Omniverse", "Isaac Sim", "NVIDIA Cosmos", "Edge Jetson", "DO / Salinity IoT"]
   },
   {
     id: "pigfarm",
@@ -341,10 +343,12 @@ export const CITY_DISTRICTS = [
     },
     useCaseIds: ["t4-u1"],
     primaryCaseId: "t4-u1",
-    tagline: "Precision livestock telemetry, thermal health scanning, automated feed distribution & environmental climate control.",
-    simulationType: "Livestock Vitals & Climate Control",
-    simulationStatus: "RFID & Thermal Telemetry Active",
-    technologies: ["RFID Tags", "Thermal Cameras", "Automated Feeders", "Edge AI", "Climate IoT"]
+    liveDemoUrl: "https://pigfarm-teal.vercel.app",
+    liveDemoTitle: "AI-Powered Swine Health & Livestock Live Digital Twin",
+    tagline: "NVIDIA Cosmos foundation models & Omniverse USD barn digital twin for swine motion synthesis and edge AI disease detection.",
+    simulationType: "Livestock Vitals & Disease AI",
+    simulationStatus: "Lethargy Vision Model Active",
+    technologies: ["NVIDIA Omniverse", "NVIDIA Cosmos", "TAO Toolkit", "Jetson Edge", "Omniverse Replicator"]
   }
 ];
 

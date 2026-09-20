@@ -25,9 +25,9 @@ export const THEMES = [
   },
   {
     id: 4,
-    title: "Smart Fields, Live Decisions: Sensor-Led Automation for Modern Farming",
-    shortTitle: "Smart Farming",
-    domain: "Agriculture",
+    title: "Smart Farms & Intelligent Bio-Twins: AI and Generative Simulation for Swine Health & Aquaculture",
+    shortTitle: "Livestock & Aquaculture",
+    domain: "Livestock & Aquaculture",
     color: "#05FFA1",
     iconName: "Sprout"
   },
@@ -601,169 +601,180 @@ The location is highlighted directly in the 3D model and generates an instant da
 Build a small multi-floor physical structure with columns, beams, slabs, and walls. Intentionally move Column C07 from its planned position. Fly a small drone or camera over the model, generate 3D reconstruction, align with BIM, and watch the digital twin highlight Column C07 in bright red while adjacent columns glow green.`
   },
 
-  // THEME 4 - CASE 1: Smart Agriculture Digital Twin – Automated Irrigation
+  // THEME 4 - CASE 1: AI-Powered Swine Health & Livestock Digital Twin
   {
     id: "t4-u1",
     themeId: 4,
     caseNumber: 1,
-    themeTitle: "Smart Fields, Live Decisions: Sensor-Led Automation for Modern Farming",
-    title: "Smart Agriculture Digital Twin – Automated Irrigation",
-    statement: "A live digital twin of farmland continuously receives soil-moisture and weather data from IoT sensors to monitor field conditions in real time, automatically triggering zone irrigation.",
-    image: "/images/smart-agriculture-twin.jpg",
-    shortWriteUp: `A live digital twin of farmland continuously receives soil-moisture and weather data from IoT sensors to monitor field conditions in real time. When soil moisture falls below the required threshold, the system automatically activates irrigation for the affected area.
+    themeTitle: "Smart Farms & Intelligent Bio-Twins: AI and Generative Simulation for Swine Health & Aquaculture",
+    title: "AI-Powered Swine Health & Livestock Digital Twin",
+    statement: "A photorealistic swine farm digital twin combines USD-based barn modeling with generative AI foundation models (NVIDIA Cosmos & Omniverse) to synthesize disease behaviors and train Jetson edge nodes for real-time lethargy and health alerts.",
+    image: "/images/smart-pig-farm-twin.jpg",
+    liveDemoUrl: "https://pigfarm-teal.vercel.app",
+    liveDemoTitle: "AI-Powered Swine Health & Livestock Live Digital Twin",
+    shortWriteUp: `A photorealistic livestock digital twin combines OpenUSD barn modeling with NVIDIA Cosmos generative world foundation models to synthesize rare swine disease behaviors and train robust computer vision models deployed on Jetson edge devices.
 
-• How It Works: Soil & Weather Sensors → IoT Gateway → Digital Twin → Moisture Analysis → Automatic Irrigation
-• Soil Sensors: Measure moisture levels across different field zones.
-• Weather Sensors: Track temperature, rainfall, humidity, and other conditions.
-• Digital Twin: Creates a live virtual representation of the farmland and its moisture status.
-• AI/Rules Engine: Compares moisture with crop-specific thresholds and considers weather conditions.
-• Automated Irrigation: Activates pumps/valves when irrigation is required.
-• Monitoring: The digital twin updates continuously as moisture levels change.
+• How It Works: USD Barn Modeling → Cosmos Motion Synthesis → TAO Model Training → Jetson Edge Inference → Automated Health Alerts
+• Omniverse Digital Twin: USD-based 3D barn geometry, environmental climate physics, and kinematic pig behavior rigging.
+• Omniverse Replicator: Generates initial synthetic training datasets with automated 2D/3D bounding boxes and segmentation masks.
+• NVIDIA Cosmos Transfer: Translates synthetic simulated assets into photorealistic camera feeds (Sim-to-Real transfer).
+• NVIDIA Cosmos Predict: Synthesizes rare pathology behaviors (e.g. lethargic gait, fever resting postures, respiratory distress).
+• NVIDIA Cosmos Reason: Curates datasets and validates physical kinematic constraints against veterinary biomechanics.
+• NVIDIA TAO Toolkit: Fine-tunes deep convolutional and transformer vision backbones on combined real + synthetic datasets.
+• Edge Deployment: Jetson edge nodes process high-fps barn camera feeds, instantly flagging "Lethargy Detected - Disease Alert!".
 
 Technology Stack:
-IoT sensors • LoRa/4G/Wi-Fi • MQTT • Edge/Cloud computing • AI/ML • GIS • NVIDIA Omniverse/OpenUSD • Smart irrigation controllers
+NVIDIA Omniverse • OpenUSD • NVIDIA Cosmos (WFM) • NVIDIA TAO Toolkit • NVIDIA Jetson Edge Nodes • TensorRT • PyTorch • MQTT / OPC-UA
 
 Outcome:
-Real-time monitoring → Precise irrigation → Reduced water waste → Healthier crops → Higher productivity → Sustainable farming.`,
-    detailedWriteUp: `Smart Agriculture Digital Twin – Automated Irrigation
+Early disease detection → 40% reduction in antibiotic usage → Minimized contagion spread → 24/7 autonomous livestock welfare monitoring.`,
+    detailedWriteUp: `AI-Powered Swine Health & Livestock Digital Twin
 
 1. Use Case Overview
-A Smart Agriculture Digital Twin creates a live virtual replica of farmland by continuously collecting soil-moisture and weather data from IoT sensors.
-The system monitors each field zone in real time. When soil moisture falls below the required threshold, the digital twin identifies the affected zone and automatically activates the appropriate pump or irrigation valve.
-Core idea: Sense → Stream → Visualize → Analyze → Irrigate → Monitor.
+The Swine Health Digital Twin represents a transformative leap in precision livestock farming by pairing NVIDIA Omniverse photorealistic OpenUSD barn modeling with NVIDIA Cosmos Generative World Foundation Models (WFM).
+Traditional livestock vision models struggle because real-world training examples of sick, lethargic, or injured animals are rare and expensive to collect. This system uses generative physical AI to synthesize realistic disease behaviors, train deep vision networks via NVIDIA TAO Toolkit, and deploy lightweight inference models directly onto NVIDIA Jetson edge nodes stationed inside livestock facilities.
+Core Pipeline: USD Barn Modeling → Cosmos Motion Synthesis → TAO Model Training → Jetson Edge Inference → Automated Health Alerts.
 
-2. Problem Being Solved
-Traditional irrigation is based on fixed schedules, manual checks, or farmer estimation. This causes over-irrigation, under-irrigation, water wastage, and uneven watering. For example, a farmer may irrigate an entire field even though only one section has become dry. The digital twin enables zone-level, data-driven irrigation.
+2. Complete Closed-Loop System Architecture
+┌──────────────────────────────────────┐       ┌──────────────────────────────────────┐
+│          NVIDIA OMNIVERSE            │       │            NVIDIA COSMOS             │
+│   Digital Twin Structure & Geometry  │       │ Generative World Foundation Models   │
+├──────────────────────────────────────┤       ├──────────────────────────────────────┤
+│ • USD-based Barn 3D Modeling         │       │ • Cosmos Transfer: Sim-to-Real Video │
+│ • Rigging Pig Kinematic Behaviors    │       │ • Cosmos Predict: Rare Disease Motion│
+│ • Omniverse Replicator (SDG & Masks) │       │ • Cosmos Reason: Physics Curation    │
+└──────────────────┬───────────────────┘       └──────────────────┬───────────────────┘
+                   │ Structured Geometry                          │ Photorealistic Video
+                   └───────────────────────┬──────────────────────┘
+                                           ↓
+                       ┌──────────────────────────────────────┐
+                       │         AI TRAINING PIPELINE         │
+                       │         (NVIDIA TAO TOOLKIT)         │
+                       │  Trains Robust Swine Health Model    │
+                       └──────────────────┬───────────────────┘
+                                          ↓ Optimized ONNX / TensorRT Engine
+                       ┌──────────────────────────────────────┐
+                       │       NVIDIA JETSON EDGE NODES       │
+                       │   Real-Time On-Premises Vision AI    │
+                       └──────────────────┬───────────────────┘
+                                          ↓
+                       ┌──────────────────────────────────────┐
+                       │          LIVE BARN DETECTION         │
+                       │  [AI DETECTION: Lethargy Detected]   │
+                       │  • Automated Pen Quarantine Alert    │
+                       │  • Agronomist Notification Dispatch  │
+                       └──────────────────────────────────────┘
 
-3. Traditional vs Digital-Twin Approach
-Traditional: Farmer → Check Field → Estimate Moisture → Turn Pump ON → Irrigate Entire Field
-Digital Twin: Soil Sensors + Weather Station → IoT Gateway (MQTT/LoRa) → Live Digital Twin → Moisture Analysis → Threshold/AI Decision → Specific Field Zone → Valve/Pump → Automatic Irrigation → Sensor Feedback Loop
+3. Generative World Foundation Models (NVIDIA Cosmos)
+• Cosmos Transfer: Bridges the Sim-to-Real gap by rendering synthetic 3D rigged pig geometry into authentic, photorealistic video with natural barn lighting, dust particles, and coat textures.
+• Cosmos Predict: Simulates rare veterinary pathology kinematics (e.g. shivering, limping, isolated pen huddling, refusal to feed) that cannot be ethically or safely captured in massive volume from live animals.
+• Cosmos Reason: Filters generated scenario clips against biological constraints to ensure synthesized motion dynamics accurately reflect authentic porcine anatomy.
 
-4. Complete Closed-Loop System Architecture
-                REAL FARMLAND
-                       │
-          ┌────────────┼────────────┐
-          ↓            ↓            ↓
-     Soil Moisture   Weather     Soil Temp.
-       Sensors       Station      Sensors
-          │            │            │
-          └────────────┼────────────┘
-                       ↓
-                  IoT Gateway (LoRaWAN / 4G / Wi-Fi / MQTT)
-                       ↓
-              Edge / Cloud Platform
-                       ↓
-          ┌────────────────────────┐
-          │     DIGITAL TWIN       │
-          │ 3D / GIS Field Model   │
-          │ Live Sensor Data       │
-          │ Moisture Heatmap       │
-          │ Weather Integration    │
-          └───────────┬────────────┘
-                      ↓
-                AI / RULE ENGINE
-                      ↓
-             Moisture < Threshold?
-                  /          \
-                No            Yes
-                ↓              ↓
-             Monitor      Check Weather & Water Availability
-                               ↓
-                          Open Zone Valve & Start Pump
-                               ↓
-                          Irrigate Targeted Zone
-                               ↓
-                          Moisture ↑ → Valve OFF (Closed Feedback Loop)
+4. Edge Hardware & AI Inference Pipeline
+• NVIDIA Jetson AGX Orin / Orin Nano: Deployed in ruggedized IP67 barn enclosures connected to wide-angle overhead PoE cameras.
+• Local Inference Latency: < 18 ms per frame running quantized INT8 YOLO/Transformer models via NVIDIA TensorRT.
+• Telemetry Synchronization: Edge gateways stream detection metadata (animal ID, pen coordinate, posture confidence score) to the central 3D city twin via MQTT over private 5G / Wi-Fi 6.
 
-5. Sensor & Environmental Data Layer
-• Soil-Moisture Sensors: Distributed across zones (e.g. Zone A: 31% 🟢, Zone B: 28% 🟢, Zone C: 18% 🔴 [Low/Dry], Zone D: 30% 🟢).
-• Weather Station: Temperature (32°C), Humidity (48%), Rainfall (0 mm), Wind speed (12 km/h), Solar radiation.
-• Edge Computing: Gateway handles local validation, data filtering, and fail-safe local control if cloud connectivity drops.
-
-6. Live Moisture Visualization & GIS Integration
-The digital twin displays farmland in 3D (NVIDIA Omniverse / OpenUSD) and 2D GIS heatmaps:
-• Optimal: Moisture > 30% 🟢
-• Monitor: 25–30% 🟡
-• Irrigation Required: < 25% 🔴
-Also monitors water tank level (80%), pump status (ON/OFF), flow rate (42 L/min), and cumulative daily water usage (4,200 L).
-
-7. Weather-Aware & Predictive AI Layer
-• Weather-Aware Logic: If soil moisture is 22% (below 25% threshold) but rain radar predicts rain within 2 hours, irrigation is postponed to prevent wasteful runoff.
-• AI Soil-Moisture Prediction: Forecasts moisture depletion 1h, 3h, and 6h ahead based on evapotranspiration and crop growth stage.
-• Crop Health Integration: Correlates moisture with drone multispectral and NDVI satellite imagery to detect water stress early.
-
-8. ARCS Miniature Prototype Demonstration
-A physical 4-zone soil tray equipped with soil moisture sensors, ESP32 microcontroller, 12V submersible pump, solenoid valves, and water tank:
-• Zone A=32%, Zone B=29%, Zone C=18% (Dry), Zone D=31% (Threshold 25%).
-• Dashboard highlights: 🔴 Zone C requires irrigation.
-• Automatic action: Zone C solenoid opens, pump turns ON for 30 seconds.
-• Closed feedback: Moisture rises 18% → 23% → 27%, valve shuts OFF, and twin transitions Zone C from 🔴 Dry → 🟡 Irrigating → 🟢 Optimal.`
+5. ARCS Miniature Prototype Demonstration
+A physical 1:20 scale smart livestock barnstead with miniature 3D-printed pigs, overhead RGB camera, and embedded Jetson edge module:
+• Camera tracks normal roaming pigs in green bounding boxes.
+• When a lethargic/resting piglet is placed in the isolation stall, the vision AI flags the animal in bright red with "Lethargy Detected - Alert Sent", updates the 3D twin status, and triggers the automated pen feeder.`
   },
 
-  // THEME 4 - CASE 2: AI + AR Crop Health Assistant
+  // THEME 4 - CASE 2: AI-Powered Fish Farming & Smart Aquaculture Digital Twin
   {
     id: "t4-u2",
     themeId: 4,
     caseNumber: 2,
-    themeTitle: "Smart Fields, Live Decisions: Sensor-Led Automation for Modern Farming",
-    title: "AI + AR Crop Health Assistant",
-    statement: "An AI-powered AR system helps field technicians identify crop stress by analyzing the plant through AR glasses and overlaying the detected issue and recommended treatment directly onto the plant.",
-    image: "/images/ar-crop-diagnosis.jpg",
-    shortWriteUp: `An AI-powered AR system helps field technicians identify crop stress by analyzing the plant through AR glasses and overlaying the detected issue and recommended treatment directly onto the affected plant.
+    themeTitle: "Smart Farms & Intelligent Bio-Twins: AI and Generative Simulation for Swine Health & Aquaculture",
+    title: "AI-Powered Fish Farming & Smart Aquaculture Digital Twin",
+    statement: "An end-to-end aquaculture digital twin powered by NVIDIA Omniverse, Isaac Sim, and Cosmos connects offshore sea cages, water quality telemetry, and autonomous inspection ROVs to optimize automated feeding and predict biomass health.",
+    image: "/images/smart-fish-farm-twin.jpg",
+    liveDemoUrl: "https://fdt-fawn.vercel.app",
+    liveDemoTitle: "AI-Powered Fish Farming & Smart Aquaculture Live Digital Twin",
+    shortWriteUp: `An end-to-end intelligent aquaculture digital twin combines real-time underwater telemetry, autonomous ROV inspection, and NVIDIA Omniverse + Isaac Sim + Cosmos simulation to automate feeding, monitor biomass, and safeguard marine ecosystems.
 
-• How It Works: AR Glasses → Computer Vision → AI Crop Analysis → Treatment Recommendation → AR Overlay
-• AR Glasses: Capture the plant and display information hands-free.
-• Computer Vision: Detects leaf damage, disease, pests, or nutrient deficiencies.
-• AI: Analyzes visual patterns and identifies possible crop stress.
-• AR Overlay: Highlights the affected area and displays treatment guidance.
-• Field Data: GPS and crop information can be recorded for monitoring.
+• How It Works: Real Farm Telemetry → Omniverse Photorealistic 3D Twin → Isaac Sim Robotics → Cosmos Scenario AI → Autonomous Feeding & Water Management
+• Real Offshore Farm: HDPE floating sea cages with underwater 360° cameras, sonar, dissolved oxygen (DO), salinity, pH, temperature, and automated solar feed cannons.
+• IoT & Data Platform: Jetson Edge Gateways ingest real-time sensor streams (Temp: 24.5°C, DO: 6.8 mg/L, pH: 7.4, Ammonia: 0.02 mg/L, Turbidity: 1.5 NTU).
+• NVIDIA Omniverse Digital Twin: Live 3D spatial twin of cages, subsurface net enclosures, water columns, and fish schooling dynamics.
+• NVIDIA Isaac Sim: Simulates and trains Autonomous Underwater Vehicles (ROV/AUV) for autonomous cage net tear inspection and biofouling cleaning.
+• NVIDIA Cosmos Foundation Models: Generates synthetic physical AI training scenarios across varying water turbidities, fish sizes, skin lesions, and predator threats.
+• AI Model Development: Real-time fish counting, biomass estimation, disease detection, oxygen stress behavior tracking (surface gathering), and feed pellet waste minimization.
+• Closed-Loop Actuation: Automates variable-rate feed dispensers and triggers micro-bubble aeration systems when dissolved oxygen levels drop.
 
 Technology Stack:
-AR Glasses • Computer Vision • AI/ML • Image Recognition • GPS • IoT/Cloud • OpenXR • Edge AI
+NVIDIA Omniverse • NVIDIA Isaac Sim • NVIDIA Cosmos • NVIDIA Jetson Edge • ROS 2 • MAVLink / Underwater Sonar • LoRaWAN • MQTT / OPC-UA
 
 Outcome:
-Early detection → Faster treatment → Reduced crop loss → Lower input waste → Healthier crops → Improved farm productivity.`,
-    detailedWriteUp: `AI + AR Crop Health Assistant
+10–30% reduction in feed waste → Early disease & net breach detection → Lower operating costs → Sustainable, data-driven ocean aquaculture.`,
+    detailedWriteUp: `AI-Powered Fish Farming & Smart Aquaculture Digital Twin
 
 1. Use Case Overview
-An AI-powered AR system helps field technicians identify crop stress directly in the field. The technician looks at a plant through AR glasses, while computer vision analyzes the leaves and detects possible disease, pest damage, nutrient deficiency, or abnormal growth.
-The AR system then highlights the affected area and displays relevant information and treatment guidance directly over the plant.
-Core Concept: See → Scan → Analyze → Identify → Guide → Treat → Monitor.
+The AI-Powered Fish Farming Digital Twin connects physical offshore marine aquaculture cages with high-fidelity virtual simulation platforms (NVIDIA Omniverse, Isaac Sim, and Cosmos) to solve critical ocean farming challenges: feed over-dispersion, net biofouling, hypoxia (oxygen depletion), and parasitic disease outbreaks.
+By combining continuous underwater acoustic/optical sensing with physics-accurate simulation, farm managers can predict water quality shifts hours before they impact fish welfare, automate pellet feeding cannons, and deploy autonomous underwater inspection robots.
+Core Workflow: Real Farm → Simulate → Train → Predict → Optimize → Act.
 
-2. Complete Closed-Loop Architecture
-REAL CROP
-   ↓
-AR GLASSES (Camera captures plant hands-free)
-   ↓
-COMPUTER VISION (Leaf & affected region detection)
-   ↓
-AI MODEL (Classifies disease, pests, nutrient stress, or water deficiency)
-   ↓
-TREATMENT KNOWLEDGE BASE (Approved agronomic guidance & dosage)
-   ↓
-AR OVERLAY (Directly highlights leaf with treatment recommendations)
-   ↓
-FIELD TECHNICIAN (Verifies & executes prescribed action)
-   ↓
-LOGGING & GPS SYNC (Updates Farm Digital Twin)
+2. Complete Closed-Loop System Architecture
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                           1. PHYSICAL OFFSHORE FISH FARM                       │
+│ • Floating HDPE Sea Cages & Subsurface Netting Enclosures                      │
+│ • Underwater Stereo & 360° RGB Optical Cameras + Sonar / LiDAR                 │
+│ • Water Quality Sensor Array: Temp (24.5°C), DO (6.8 mg/L), pH (7.4), Salinity  │
+│ • Automated Solar Feed Cannons + Bubble Diffuser Aeration Rings                │
+│ • Autonomous Underwater Inspection Robot (ROV / AUV with Robotic Manipulator)  │
+└──────────────────────────────────────┬─────────────────────────────────────────┘
+                                       ↓
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                       2. IoT & HIGH-SPEED EDGE PLATFORM                        │
+│ • NVIDIA Jetson Edge Gateways (Ingests MQTT, OPC-UA, ROS 2, Sonar Streams)     │
+│ • Time-Series Environmental Database & Cloud Telemetry Synchronization         │
+└──────────────────────────────────────┬─────────────────────────────────────────┘
+                                       ↓
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                 3. NVIDIA OMNIVERSE & ISAAC SIM DIGITAL TWIN                   │
+│ • Photorealistic 3D Spatial Replica of Entire Aquaculture Site                 │
+│ • Isaac Sim Underwater Robotics: Autonomous ROV Pathfinding & Net Inspection   │
+│ • Isaac Sim Fish Behavior: Biomechanical Schooling & Feeding Kinematics        │
+│ • NVIDIA Cosmos Generative AI: Synthesizes Turbid Water & Lesion Datasets      │
+└──────────────────────────────────────┬─────────────────────────────────────────┘
+                                       ↓
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                 4. AI MODEL SUITE & PREDICTIVE WHAT-IF ENGINE                  │
+│ • Fish Detection & Counting • Biomass Estimation • Skin Lesion Classification  │
+│ • Behavior Analysis (Oxygen Stress / Surface Clustering Detection)             │
+│ • What-If Scenario Analysis: "What happens if dissolved oxygen drops by 30%?"  │
+└──────────────────────────────────────┬─────────────────────────────────────────┘
+                                       ↓
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                       5. CLOSED-LOOP ACTUATION & OPTIMIZATION                  │
+│ • Smart Feeding Cannon Rate Throttling (Prevents seafloor pellet waste)        │
+│ • Automated Aeration Injection (Starts Aerator #3 when DO threshold breaches)  │
+│ • Autonomous ROV Dispatch (Locks onto net tears for repair flagging)           │
+└────────────────────────────────────────────────────────────────────────────────┘
 
-3. Problem Being Solved
-Field technicians inspect thousands of crops across sprawling acres. Identifying subtle leaf spots, chlorosis, fungal blights, or micro-nutrient deficiencies by eye is slow and prone to subjective diagnostic errors. The AR assistant standardizes inspection, pinpoints affected leaf zones, and suggests verified treatment protocols immediately.
+3. Real-Time Telemetry & What-If Simulation
+The digital twin maintains a continuous live telemetry feed from the sea cages:
+• Water Temperature: 24.5 °C (Optimal Range: 22–26 °C) 🟢
+• Dissolved Oxygen (DO): 6.8 mg/L (Alert Threshold: < 5.0 mg/L) 🟢
+• Water pH: 7.4 (Neutral Marine Alkaline) 🟢
+• Ammonia: 0.02 mg/L (Safe Threshold: < 0.05 mg/L) 🟢
+• Turbidity: 1.5 NTU (Clear Visibility) 🟢
 
-4. AR Glasses & Computer Vision Pipeline
-• Hands-Free Inspection: Technician observes crops while optical see-through AR displays bounding tags over diseased leaves.
-• Edge AI Inference: NVIDIA Jetson / on-device edge processing runs real-time segmentation and classification without requiring constant high-bandwidth cloud connectivity.
-• Multi-Spectral & Environmental Fusion: Correlates leaf images with soil moisture, ambient humidity, temperature, and GPS coordinates to distinguish between fungal disease and moisture stress.
+What-If Simulation Scenario:
+"What happens if dissolved oxygen drops by 30% tonight due to ambient temperature shifts?"
+• Simulation Insights: Fish move toward cage surface and feeding response drops by 45%.
+• Prescribed Automated Actions: Pre-emptively activate micro-bubble aerator ring #3, reduce feed pellet dispersion by 25%, and alert on-duty marine technicians.
 
-5. AR Overlay Experience & Agronomic Prescription
-• Detection: Highlights affected maize leaf with 92% confidence (e.g. Northern Leaf Blight).
-• Prescription Overlay: Recommends Azoxystrobin 18.2% + Difenoconazole 11.4% SC at 1 ml/L foliar spray, early morning application.
-• Spatial Mapping: Automatically pins GPS coordinates (Row 12, Plant 48) to update the centralized Farm Health Heatmap.
+4. Business & Environmental Outcomes
+• Higher Yield & Healthier Fish: Continuous bio-monitoring prevents hypoxia and mass mortality events.
+• Feed Cost Reduction: AI computer vision stops pellet feeding the instant fish achieve satiety, saving 10–30% in operational feed expense and protecting seafloor ecosystems.
+• Autonomous Maintenance: Isaac Sim-trained ROVs inspect cage nets 24/7, eliminating hazardous human diver operations.
 
-6. ARCS Miniature Prototype Demonstration
-A physical crop display with healthy and disease-simulated leaves:
-• Technician wearing AR glasses looks at sample plant.
-• System instantly highlights damaged leaf in bright amber/red, projects diagnostic badge and dosage card in AR, and logs the GPS tag to the live farm dashboard.`
+5. ARCS Miniature Prototype Demonstration
+A physical aquatic tank featuring scaled floating cage collars, submersible water sensor, miniature ROV probe, and interactive Three.js digital twin:
+• Simulated water quality drops trigger real-time warning on digital twin dashboard.
+• Automated aerator aerates the water column while ROV camera streams live fish tracking bounding boxes to the operator display.`
   },
 
   // THEME 5 - CASE 1: Smart Substation Digital Twin – Virtual Switching & Grid Safety

@@ -1,19 +1,23 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { INITIAL_USE_CASES, THEMES } from './data/useCases';
 import Header from './components/Header';
 import ThemeFilter from './components/ThemeFilter';
 import UseCaseCard from './components/UseCaseCard';
 import DossierModal from './components/DossierModal';
-import PresentationView from './components/PresentationView';
 import ContentEditorModal from './components/ContentEditorModal';
+import EmbedModal from './components/EmbedModal';
+import LiveSimulationViewer from './components/LiveSimulationViewer';
 import City3DCanvas from './components/city/City3DCanvas';
+import IntroSplashOverlay from './components/IntroSplashOverlay';
 import { Layers } from 'lucide-react';
 
-const STORAGE_KEY = 'REALTIME_SHOWCASE_CONTENT_V8';
+const STORAGE_KEY = 'REALTIME_SHOWCASE_CONTENT_V10';
 
 export default function App() {
   // Clean up legacy keys
   useEffect(() => {
+    localStorage.removeItem('REALTIME_SHOWCASE_CONTENT_V9');
+    localStorage.removeItem('REALTIME_SHOWCASE_CONTENT_V8');
     localStorage.removeItem('REALTIME_SHOWCASE_CONTENT_V7');
     localStorage.removeItem('REALTIME_SHOWCASE_CONTENT_V6');
     localStorage.removeItem('REALTIME_SHOWCASE_CONTENT_V5');
@@ -56,14 +60,69 @@ export default function App() {
     return INITIAL_USE_CASES;
   });
 
-  const [selectedThemeId, setSelectedThemeId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState('city'); // 'city', 'grid' or 'presentation'
+  // URL Query Parameters Parsing
+  const queryParams = useMemo(() => {
+    if (typeof window === 'undefined') return new URLSearchParams();
+    return new URLSearchParams(window.location.search);
+  }, []);
+
+  const isEmbedFromUrl = queryParams.get('embed') === 'true' || queryParams.get('embed') === '1';
+  const initialViewFromUrl = ['city', 'grid'].includes(queryParams.get('view')) ? queryParams.get('view') : 'city';
+  const initialDistrictFromUrl = queryParams.get('district') || null;
+  const initialCaseFromUrl = queryParams.get('useCase') || queryParams.get('case') || null;
+  const initialThemeFromUrl = queryParams.get('theme') ? Number(queryParams.get('theme')) : null;
+  const initialSearchFromUrl = queryParams.get('search') || '';
+  const hideHeaderFromUrl = queryParams.get('hideHeader') === 'true';
+  const hideFooterFromUrl = queryParams.get('hideFooter') === 'true';
+  const hideControlsFromUrl = queryParams.get('hideControls') === 'true';
+  const initialAutoRotate = queryParams.get('autoRotate') !== 'false';
+
+  const [isEmbedMode, setIsEmbedMode] = useState(isEmbedFromUrl);
+  const [selectedThemeId, setSelectedThemeId] = useState(initialThemeFromUrl);
+  const [searchTerm, setSearchTerm] = useState(initialSearchFromUrl);
+  const [viewMode, setViewMode] = useState(initialViewFromUrl); // 'city' or 'grid'
+  const [activeDistrictId, setActiveDistrictId] = useState(initialDistrictFromUrl);
 
   // Modals state
-  const [activeDossierCase, setActiveDossierCase] = useState(null);
+  const [activeDossierCase, setActiveDossierCase] = useState(() => {
+    if (initialCaseFromUrl) {
+      return INITIAL_USE_CASES.find(c => c.id === initialCaseFromUrl) || null;
+    }
+    return null;
+  });
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editorCaseId, setEditorCaseId] = useState(null);
+
+  // Embed Modal State
+  const [isEmbedModalOpen, setIsEmbedModalOpen] = useState(false);
+  const [embedModalTarget, setEmbedModalTarget] = useState('city');
+  const [embedModalDistrictId, setEmbedModalDistrictId] = useState(null);
+  const [embedModalCaseId, setEmbedModalCaseId] = useState(null);
+
+  // Live Simulation Viewer State
+  const [activeLiveDemo, setActiveLiveDemo] = useState(null);
+  const [showSplash, setShowSplash] = useState(() => !isEmbedFromUrl);
+
+  const handleLaunchLiveDemo = useCallback((demoConfig) => {
+    if (!demoConfig || !demoConfig.url) return;
+    setActiveLiveDemo(demoConfig);
+  }, []);
+
+  const handleBackToCityFromLiveDemo = useCallback((districtId) => {
+    setActiveLiveDemo(null);
+    setActiveDossierCase(null);
+    setViewMode('city');
+    if (districtId) {
+      setActiveDistrictId(districtId);
+    }
+  }, []);
+
+  const handleOpenEmbed = useCallback((target = 'city', districtId = null, caseId = null) => {
+    setEmbedModalTarget(target === 'presentation' ? 'city' : target);
+    setEmbedModalDistrictId(districtId);
+    setEmbedModalCaseId(caseId);
+    setIsEmbedModalOpen(true);
+  }, []);
 
   // Sync to localStorage
   useEffect(() => {
@@ -72,6 +131,69 @@ export default function App() {
     } catch (e) {
       console.warn("Failed to write to localStorage", e);
     }
+  }, [useCases]);
+
+  // Handle URL deep-linking on initial load if useCases load later
+  useEffect(() => {
+    if (initialCaseFromUrl && useCases.length > 0) {
+      const match = useCases.find(c => c.id === initialCaseFromUrl);
+      if (match) setActiveDossierCase(match);
+    }
+  }, [initialCaseFromUrl, useCases]);
+
+  // Cross-Window postMessage Listener (For parent host communication when embedded in iframe)
+  useEffect(() => {
+    const handlePostMessage = (e) => {
+      if (!e.data || typeof e.data !== 'object') return;
+
+      switch (e.data.type) {
+        case 'SHOWCASE_SET_VIEW':
+          if (['city', 'grid'].includes(e.data.view)) {
+            setViewMode(e.data.view);
+          }
+          break;
+
+        case 'SHOWCASE_OPEN_CASE':
+          if (e.data.caseId) {
+            const found = useCases.find(c => c.id === e.data.caseId);
+            if (found) setActiveDossierCase(found);
+          } else {
+            setActiveDossierCase(null);
+          }
+          break;
+
+        case 'SHOWCASE_SELECT_DISTRICT':
+          if (e.data.districtId) {
+            setActiveDistrictId(e.data.districtId);
+            setViewMode('city');
+          }
+          break;
+
+        case 'SHOWCASE_FILTER_THEME':
+          setSelectedThemeId(e.data.themeId ?? null);
+          break;
+
+        case 'SHOWCASE_SET_SEARCH':
+          setSearchTerm(e.data.search || '');
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('message', handlePostMessage);
+
+    // Announce ready state to parent window if inside an iframe
+    if (typeof window !== 'undefined' && window.parent && window.parent !== window) {
+      try {
+        window.parent.postMessage({ type: 'SHOWCASE_READY', totalCases: useCases.length }, '*');
+      } catch (err) {
+        // Ignore cross-origin error
+      }
+    }
+
+    return () => window.removeEventListener('message', handlePostMessage);
   }, [useCases]);
 
   // Filtered use cases
@@ -162,11 +284,11 @@ export default function App() {
   const handleExportJSON = () => {
     const exportData = {
       metadata: {
-        title: "Real-Time Digital Twin & AR Showcase — Prototype Requirements & Blueprints",
+        title: "ARCS - XRDT - GCC — Enterprise Digital Twin & Spatial Computing Blueprint Repository",
         exportedAt: new Date().toISOString(),
         totalProjects: useCases.length,
         totalDomains: THEMES.length,
-        description: "Structured project requirements, short write-ups, architecture breakdowns, and prototype demonstration blueprints for all 20 real-time use cases."
+        description: "Structured project requirements, short write-ups, architecture breakdowns, and prototype demonstration blueprints for all 20 ARCS - XRDT - GCC real-time use cases."
       },
       domains: THEMES.map(t => ({
         id: t.id,
@@ -205,33 +327,39 @@ export default function App() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "realtime_showcase_prototype_requirements.json");
+    downloadAnchor.setAttribute("download", "arcs_xrdt_gcc_digital_twin_blueprints.json");
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
   };
 
+  const shouldHideHeader = isEmbedMode || hideHeaderFromUrl;
+  const shouldHideFooter = isEmbedMode || hideFooterFromUrl;
+
   return (
-    <div className="showcase-app-root">
+    <div className={`showcase-app-root ${isEmbedMode ? 'is-embed-mode' : ''}`}>
       <div className="ambient-background-glow glow-top-left" />
       <div className="ambient-background-glow glow-bottom-right" />
       <div className="ambient-grid-overlay" />
 
-      {/* Header */}
-      <Header
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-        onExportJSON={handleExportJSON}
-        onOpenEditor={() => {
-          const targetId = activeDossierCase?.id || filteredUseCases[0]?.id || useCases[0]?.id;
-          setEditorCaseId(targetId);
-          setIsEditorOpen(true);
-        }}
-        totalCases={useCases.length}
-        filteredCount={filteredUseCases.length}
-      />
+      {/* Cinematic Intro Splash Entrance */}
+      {showSplash && (
+        <IntroSplashOverlay onComplete={() => setShowSplash(false)} />
+      )}
+
+      {/* Header (Hidden in Clean Embed Mode) */}
+      {!shouldHideHeader && (
+        <Header
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          onExportJSON={handleExportJSON}
+          onOpenEmbed={handleOpenEmbed}
+          totalCases={useCases.length}
+          filteredCount={filteredUseCases.length}
+        />
+      )}
 
       {/* Theme Filters Row (Grid mode only) */}
       {viewMode === 'grid' && (
@@ -243,13 +371,18 @@ export default function App() {
       )}
 
       {/* Main Content */}
-      <main className={`showcase-main-content ${viewMode === 'city' ? 'is-city-mode' : ''}`}>
+      <main className={`showcase-main-content ${viewMode === 'city' ? 'is-city-mode' : ''} ${isEmbedMode ? 'is-embedded' : ''}`}>
         {viewMode === 'city' ? (
           <City3DCanvas
             allUseCases={useCases}
             onOpenDossier={setActiveDossierCase}
+            onLaunchLiveDemo={handleLaunchLiveDemo}
+            initialDistrictId={activeDistrictId}
+            initialAutoRotate={initialAutoRotate}
+            hideControls={hideControlsFromUrl}
+            onOpenEmbed={handleOpenEmbed}
           />
-        ) : viewMode === 'grid' ? (
+        ) : (
           <>
             {filteredUseCases.length === 0 ? (
               <div className="empty-results-box">
@@ -276,6 +409,7 @@ export default function App() {
                       useCase={useCase}
                       theme={theme}
                       onOpenDossier={setActiveDossierCase}
+                      onLaunchLiveDemo={handleLaunchLiveDemo}
                       onEditCase={handleEditCase}
                     />
                   );
@@ -283,27 +417,23 @@ export default function App() {
               </div>
             )}
           </>
-        ) : (
-          <PresentationView
-            useCases={filteredUseCases.length > 0 ? filteredUseCases : useCases}
-            onOpenDossier={setActiveDossierCase}
-            onEditCase={handleEditCase}
-          />
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="showcase-footer">
-        <div className="footer-content">
-          <div className="footer-left">
-            <span className="footer-status-bullet" />
-            <span>REAL-TIME SHOWCASE • 10 THEMES • 20 USE CASES</span>
+      {/* Footer (Hidden in Clean Embed Mode) */}
+      {!shouldHideFooter && (
+        <footer className="showcase-footer">
+          <div className="footer-content">
+            <div className="footer-left">
+              <span className="footer-status-bullet" />
+              <span>ARCS - XRDT - GCC • 10 DOMAINS • 20 DIGITAL TWIN BLUEPRINTS</span>
+            </div>
+            <div className="footer-right">
+              <span>ENTERPRISE SPATIAL COMPUTING &amp; REAL-TIME REPLICA PLATFORM</span>
+            </div>
           </div>
-          <div className="footer-right">
-            <span>SHOWCASING LIVE SOLUTIONS &amp; ARCHITECTURE INFOGRAPHICS</span>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
 
       {/* Modal: Details Dossier */}
       {activeDossierCase && (
@@ -313,6 +443,8 @@ export default function App() {
           onPrev={handlePrevDossier}
           onNext={handleNextDossier}
           onEditCase={handleEditCase}
+          onOpenEmbed={handleOpenEmbed}
+          onLaunchLiveDemo={handleLaunchLiveDemo}
           currentIndex={currentDossierIndex}
           totalCases={filteredUseCases.length}
         />
@@ -327,6 +459,30 @@ export default function App() {
         onResetAll={handleResetAll}
         initialCaseId={editorCaseId}
       />
+
+      {/* Modal: Embed & Share iFrame Generator */}
+      <EmbedModal
+        isOpen={isEmbedModalOpen}
+        onClose={() => setIsEmbedModalOpen(false)}
+        useCases={useCases}
+        initialTarget={embedModalTarget}
+        initialDistrictId={embedModalDistrictId}
+        initialCaseId={embedModalCaseId}
+      />
+
+      {/* Modal: Live Simulation Viewer with Back to 3D City */}
+      {activeLiveDemo && (
+        <LiveSimulationViewer
+          isOpen={!!activeLiveDemo}
+          url={activeLiveDemo.url}
+          title={activeLiveDemo.title}
+          districtId={activeLiveDemo.districtId}
+          districtName={activeLiveDemo.districtName}
+          accentColor={activeLiveDemo.accentColor}
+          onClose={() => setActiveLiveDemo(null)}
+          onBackToCity={handleBackToCityFromLiveDemo}
+        />
+      )}
     </div>
   );
 }

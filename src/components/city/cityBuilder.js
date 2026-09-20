@@ -7,6 +7,7 @@ import { createCityMaterials } from './materials/cityMaterials.js';
 import { buildLandscapeAndRiver } from './environment/landscapeAndRiver.js';
 import { buildRoadNetwork } from './environment/roadNetwork.js';
 import { buildCityVegetation } from './environment/cityVegetation.js';
+import { buildCelestialSky } from './environment/celestialSky.js';
 
 // Districts
 import { buildCommercialDistrict } from './districts/commercialDistrict.js';
@@ -72,7 +73,10 @@ export function buildCityScene(scene, mat) {
   // 1. Natural Landscape, Mountain Ranges, Cascading Waterfall & River
   buildLandscapeAndRiver(cityRoot, mat, animatedItems);
 
-  // 2. Road Network, Sidewalks, Crosswalks & Streetlamps
+  // 2. Celestial Sky (Sun, Drifting Clouds, Moon & Starfield)
+  buildCelestialSky(cityRoot, mat, animatedItems);
+
+  // 3. Road Network, Sidewalks, Crosswalks & Streetlamps
   buildRoadNetwork(cityRoot, mat);
 
   // 3. 13 Specialized High-Fidelity Industry Districts

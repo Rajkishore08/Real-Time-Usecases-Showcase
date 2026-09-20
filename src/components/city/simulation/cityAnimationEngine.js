@@ -200,5 +200,61 @@ export function createCityAnimationUpdater(animatedItems) {
         }
       });
     }
+
+    // Q. Parking Lot Dynamic Cars: One by one departure, city drive, and return to stall
+    if (animatedItems.parkingCars && animatedItems.parkingCars.length > 0) {
+      const totalCars = animatedItems.parkingCars.length;
+      const cycleDuration = 14.0; // seconds per car drive
+      const totalCycle = cycleDuration * totalCars;
+      const globalCycleTime = (elapsedTime * effectiveSpeed) % totalCycle;
+      const activeCarIndex = Math.floor(globalCycleTime / cycleDuration);
+      const activeCarProgress = (globalCycleTime % cycleDuration) / cycleDuration;
+
+      animatedItems.parkingCars.forEach((car, idx) => {
+        if (idx === activeCarIndex) {
+          const p = activeCarProgress;
+          if (p < 0.15) {
+            // Reversing out of parking stall
+            const t = p / 0.15;
+            car.mesh.position.set(car.homeX, 0.05, car.homeZ + t * 4.6);
+            car.mesh.rotation.y = t * 0.35;
+          } else if (p < 0.25) {
+            // Driving onto parking lot lane
+            const t = (p - 0.15) / 0.10;
+            car.mesh.position.set(car.homeX - t * (car.homeX - (-6.0)), 0.05, car.homeZ + 4.6 + t * 3.8);
+            car.mesh.rotation.y = 0.35 + t * (Math.PI / 2 - 0.35);
+          } else if (p < 0.75) {
+            // Driving on city road loop
+            const t = (p - 0.25) / 0.50;
+            const roadAngle = t * Math.PI * 2;
+            const r = 22.0;
+            car.mesh.position.set(-6.0 + Math.sin(roadAngle) * r, 0.05, 4.8 + (1 - Math.cos(roadAngle)) * r * 0.5);
+            car.mesh.rotation.y = roadAngle + Math.PI / 2;
+          } else if (p < 0.90) {
+            // Returning along lane
+            const t = (p - 0.75) / 0.15;
+            car.mesh.position.set(-6.0 + t * (car.homeX - (-6.0)), 0.05, 4.8 - t * 3.6);
+            car.mesh.rotation.y = 0;
+          } else {
+            // Pulling into stall
+            const t = (p - 0.90) / 0.10;
+            car.mesh.position.set(car.homeX, 0.05, 1.2 - t * 4.8);
+            car.mesh.rotation.y = 0;
+          }
+        } else {
+          // Resting in home stall
+          car.mesh.position.set(car.homeX, 0.05, car.homeZ);
+          car.mesh.rotation.y = 0;
+        }
+      });
+    }
+
+    // R. Celestial Sky Dynamics: Twinkling Stars
+    if (animatedItems.celestialSky) {
+      const sky = animatedItems.celestialSky;
+      if (sky.starField && sky.starField.visible) {
+        sky.starField.rotation.y = elapsedTime * 0.0008 * effectiveSpeed;
+      }
+    }
   };
 }

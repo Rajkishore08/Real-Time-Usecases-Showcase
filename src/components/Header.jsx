@@ -1,11 +1,11 @@
 import React from 'react';
 import { 
   Search, 
-  MonitorPlay, 
-  LayoutGrid,
-  Download,
-  Globe,
-  X
+  LayoutGrid, 
+  Download, 
+  Globe, 
+  Code2, 
+  X 
 } from 'lucide-react';
 
 export default function Header({
@@ -14,6 +14,7 @@ export default function Header({
   viewMode,
   setViewMode,
   onExportJSON,
+  onOpenEmbed,
   totalCases,
   filteredCount
 }) {
@@ -23,15 +24,28 @@ export default function Header({
       <div className="header-main-row">
         <div className="brand-lockup">
           <h1 className="brand-title">
-            REAL-TIME <span className="gradient-text">SHOWCASE</span>
+            ARCS - <span className="gradient-text">XRDT - GCC</span>
           </h1>
           <p className="brand-subtitle">
-            Digital Twin &amp; Augmented Reality Blueprints across 10 Operational Domains
+            Enterprise Digital Twin &amp; Spatial Computing Ecosystem across 10 Operational Domains
           </p>
         </div>
 
         {/* Global Action Bar */}
         <div className="header-actions">
+          {/* Embed / Share iFrame Button */}
+          {onOpenEmbed && (
+            <button 
+              className="view-btn embed-header-btn"
+              onClick={() => onOpenEmbed(viewMode)}
+              title="Embed this Showcase view in an iframe on external sites"
+              aria-label="Embed Showcase in iframe"
+            >
+              <Code2 size={15} />
+              <span>Embed iFrame</span>
+            </button>
+          )}
+
           {/* Export JSON Button */}
           <button 
             className="view-btn export-json-btn"
@@ -60,14 +74,6 @@ export default function Header({
             >
               <LayoutGrid size={15} />
               <span>Grid View</span>
-            </button>
-            <button 
-              className={`view-btn ${viewMode === 'presentation' ? 'active' : ''}`}
-              onClick={() => setViewMode('presentation')}
-              title="Stage Presentation Mode"
-            >
-              <MonitorPlay size={15} />
-              <span>Presentation</span>
             </button>
           </div>
         </div>

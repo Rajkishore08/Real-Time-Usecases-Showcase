@@ -17,6 +17,7 @@ export default function CityContextCard({
   district,
   allUseCases = [],
   onOpenDossier,
+  onLaunchLiveDemo,
   onClose,
   onResetCamera
 }) {
@@ -193,6 +194,29 @@ export default function CityContextCard({
 
         {/* Footer Actions */}
         <div className="context-card-footer">
+          {/* Live Web Twin Simulation Launcher */}
+          {(district.liveDemoUrl || activeUseCase?.liveDemoUrl) && onLaunchLiveDemo && (
+            <button 
+              className="btn-launch-live-sim"
+              style={{
+                borderColor: district.accentColor || '#00F2FE',
+                boxShadow: `0 0 20px ${(district.accentColor || '#00F2FE')}33`
+              }}
+              onClick={() => onLaunchLiveDemo({
+                url: district.liveDemoUrl || activeUseCase?.liveDemoUrl,
+                title: district.liveDemoTitle || activeUseCase?.liveDemoTitle || `${district.name} — Live Web Twin`,
+                districtId: district.id,
+                districtName: district.name,
+                accentColor: district.accentColor || '#00F2FE'
+              })}
+              title="Launch interactive live simulation with built-in return to 3D city"
+            >
+              <div className="live-pulse-dot" style={{ backgroundColor: '#05FFA1' }} />
+              <span className="btn-launch-text">🚀 Launch Live Web Twin</span>
+              <ExternalLink size={15} />
+            </button>
+          )}
+
           {activeUseCase && (
             <button 
               className="btn-primary-glow btn-full-width"

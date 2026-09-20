@@ -7,12 +7,14 @@ import {
   Sparkles, 
   Edit3, 
   FileText, 
-  Maximize2,
-  Minimize2,
-  Copy,
-  Check,
-  Layers,
-  Code
+  Maximize2, 
+  Minimize2, 
+  Copy, 
+  Check, 
+  Layers, 
+  Code,
+  Code2,
+  ExternalLink
 } from 'lucide-react';
 import UseCaseVisual from './UseCaseVisual';
 import { THEMES } from '../data/useCases';
@@ -24,12 +26,19 @@ export default function DossierModal({
   onPrev, 
   onNext, 
   onEditCase,
+  onOpenEmbed,
+  onLaunchLiveDemo,
   currentIndex,
   totalCases 
 }) {
+  const [mounted, setMounted] = useState(false);
   const [isImageFullscreen, setIsImageFullscreen] = useState(false);
   const [copiedBlueprint, setCopiedBlueprint] = useState(false);
   const [rawTextView, setRawTextView] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -47,7 +56,7 @@ export default function DossierModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose, onPrev, onNext, isImageFullscreen]);
 
-  if (!useCase) return null;
+  if (!useCase || !mounted) return null;
 
   const currentTheme = THEMES.find(t => t.id === useCase.themeId);
   const accent = currentTheme?.color || '#00F2FE';
@@ -59,7 +68,10 @@ export default function DossierModal({
     setTimeout(() => setCopiedBlueprint(false), 2000);
   };
 
-  const portalTarget = typeof document !== 'undefined' ? (document.fullscreenElement || document.body) : null;
+  const portalTarget = (typeof document !== 'undefined' && document.body && document.body.nodeType === 1)
+    ? ((document.fullscreenElement && document.fullscreenElement.nodeType === 1) ? document.fullscreenElement : document.body)
+    : null;
+
   if (!portalTarget) return null;
 
   return createPortal(
@@ -80,6 +92,24 @@ export default function DossierModal({
           </div>
 
           <div className="modal-header-right">
+            {/* Live Web Twin Simulation Launch Button */}
+            {useCase.liveDemoUrl && onLaunchLiveDemo && (
+              <button 
+                className="btn-modal-action btn-live-sim-action"
+                onClick={() => onLaunchLiveDemo({
+                  url: useCase.liveDemoUrl,
+                  title: useCase.liveDemoTitle || `${useCase.title} — Live Web Twin`,
+                  districtId: useCase.id === 't4-u1' ? 'pigfarm' : useCase.id === 't4-u2' ? 'fishfarm' : null,
+                  districtName: useCase.title,
+                  accentColor: accent
+                })}
+                title="Launch interactive live simulation with built-in return to 3D city"
+              >
+                <span className="pulse-dot" style={{ backgroundColor: '#05FFA1', width: 7, height: 7 }} />
+                <span className="btn-action-text" style={{ fontWeight: 700, color: '#05FFA1' }}>🚀 Launch Live Twin</span>
+              </button>
+            )}
+
             {/* View Mode Toggle */}
             <button 
               className={`btn-modal-action ${rawTextView ? 'active' : ''}`}
@@ -89,6 +119,18 @@ export default function DossierModal({
               {rawTextView ? <Layers size={14} /> : <Code size={14} />}
               <span className="btn-action-text">{rawTextView ? "Interactive View" : "Plain Text"}</span>
             </button>
+
+            {/* Embed Button */}
+            {onOpenEmbed && (
+              <button 
+                className="btn-modal-action"
+                onClick={() => onOpenEmbed('case', null, useCase.id)}
+                title="Embed this specific use case blueprint via iFrame"
+              >
+                <Code2 size={14} />
+                <span className="btn-action-text">Embed</span>
+              </button>
+            )}
 
             {/* Copy Blueprint */}
             <button 
@@ -137,6 +179,33 @@ export default function DossierModal({
           <div className="dossier-tab-layout">
             {/* Left Column: Image / Visual & Short Write-up */}
             <div className="dossier-left-col">
+              {/* Live Web Twin Banner in Visual Column */}
+              {useCase.liveDemoUrl && onLaunchLiveDemo && (
+                <div 
+                  className="dossier-live-demo-banner"
+                  onClick={() => onLaunchLiveDemo({
+                    url: useCase.liveDemoUrl,
+                    title: useCase.liveDemoTitle || `${useCase.title} — Live Web Twin`,
+                    districtId: useCase.id === 't4-u1' ? 'pigfarm' : useCase.id === 't4-u2' ? 'fishfarm' : null,
+                    districtName: useCase.title,
+                    accentColor: accent
+                  })}
+                  title="Launch live interactive simulation with seamless Back to 3D City navigation"
+                >
+                  <div className="live-demo-banner-left">
+                    <span className="live-pulse-dot" style={{ backgroundColor: '#05FFA1' }} />
+                    <div>
+                      <div className="live-demo-banner-title">🚀 Interactive Live Web Simulation</div>
+                      <div className="live-demo-banner-sub">{useCase.liveDemoUrl}</div>
+                    </div>
+                  </div>
+                  <button className="btn-launch-banner-action">
+                    <span>Launch Live Twin</span>
+                    <ExternalLink size={13} />
+                  </button>
+                </div>
+              )}
+
               <div className="dossier-visual-container-interactive">
                 <UseCaseVisual useCase={useCase} themeColor={accent} />
                 {useCase.image && (

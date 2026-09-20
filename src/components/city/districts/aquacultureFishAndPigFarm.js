@@ -1,92 +1,101 @@
 import * as THREE from 'three';
 import { createStaticHumanMesh } from '../simulation/populatedHumans.js';
 
-/** Helper to construct a detailed, stylized 3D Pig character */
+/** Helper to create a stylized high-detail 3D Pig character matching Image 1 */
 export function createPigMesh(mat, scale = 1.0) {
   const pigRoot = new THREE.Group();
 
   // 1. Plump Rounded Pig Body
-  const bodyGeo = new THREE.BoxGeometry(1.5 * scale, 1.0 * scale, 0.95 * scale);
+  const bodyGeo = new THREE.CapsuleGeometry(0.58 * scale, 0.85 * scale, 8, 16);
   const body = new THREE.Mesh(bodyGeo, mat.pigSkin);
-  body.position.set(0, 0.65 * scale, 0);
+  body.rotation.x = Math.PI / 2;
+  body.position.set(0, 0.72 * scale, 0);
   body.castShadow = true;
   pigRoot.add(body);
 
-  // 2. Head Group (Animatable head snouting)
+  // 2. Head Group (Animatable head)
   const headGroup = new THREE.Group();
-  headGroup.position.set(0, 0.75 * scale, 0.85 * scale);
+  headGroup.position.set(0, 0.8 * scale, 0.72 * scale);
 
-  const headGeo = new THREE.BoxGeometry(0.75 * scale, 0.75 * scale, 0.65 * scale);
+  // Rounded Head
+  const headGeo = new THREE.SphereGeometry(0.48 * scale, 12, 12);
   const head = new THREE.Mesh(headGeo, mat.pigSkin);
-  head.position.set(0, 0, 0);
   head.castShadow = true;
   headGroup.add(head);
 
-  // Snout Disk
-  const snoutGeo = new THREE.BoxGeometry(0.42 * scale, 0.32 * scale, 0.28 * scale);
+  // Cute Oval Snout Disk
+  const snoutGeo = new THREE.CylinderGeometry(0.24 * scale, 0.25 * scale, 0.16 * scale, 16);
   const snout = new THREE.Mesh(snoutGeo, mat.pigSnout);
-  snout.position.set(0, -0.08 * scale, 0.45 * scale);
+  snout.rotation.x = Math.PI / 2;
+  snout.position.set(0, -0.06 * scale, 0.44 * scale);
   headGroup.add(snout);
 
-  // 2 Nostrils
-  for (let nx of [-0.09, 0.09]) {
+  // 2 Nostril Cavities
+  for (const nx of [-0.08, 0.08]) {
     const nostril = new THREE.Mesh(
-      new THREE.SphereGeometry(0.04 * scale, 4, 4),
-      mat.buildingDarkSteel
+      new THREE.SphereGeometry(0.045 * scale, 6, 6),
+      mat.pigEyeDark
     );
-    nostril.position.set(nx * scale, -0.08 * scale, 0.6 * scale);
+    nostril.position.set(nx * scale, -0.06 * scale, 0.52 * scale);
     headGroup.add(nostril);
   }
 
-  // 2 Floppy Triangular Ears
-  for (let ex of [-0.32, 0.32]) {
+  // 2 Floppy Pointed Ears
+  for (const ex of [-0.34, 0.34]) {
     const ear = new THREE.Mesh(
-      new THREE.ConeGeometry(0.18 * scale, 0.35 * scale, 3),
+      new THREE.ConeGeometry(0.18 * scale, 0.38 * scale, 4),
       mat.pigSnout
     );
-    ear.position.set(ex * scale, 0.42 * scale, 0.05 * scale);
-    ear.rotation.z = ex > 0 ? -0.4 : 0.4;
-    ear.rotation.x = 0.3;
+    ear.position.set(ex * scale, 0.36 * scale, 0.08 * scale);
+    ear.rotation.z = ex > 0 ? -0.55 : 0.55;
+    ear.rotation.x = -0.25;
     headGroup.add(ear);
   }
 
-  // 2 Shiny Eyes
-  for (let ey of [-0.28, 0.28]) {
+  // 2 Shiny Eyes with Specular Dots
+  for (const ey of [-0.22, 0.22]) {
     const eye = new THREE.Mesh(
-      new THREE.SphereGeometry(0.045 * scale, 6, 6),
-      mat.buildingDarkSteel
+      new THREE.SphereGeometry(0.06 * scale, 8, 8),
+      mat.pigEyeDark
     );
-    eye.position.set(ey * scale, 0.12 * scale, 0.34 * scale);
+    eye.position.set(ey * scale, 0.14 * scale, 0.34 * scale);
     headGroup.add(eye);
+
+    const pupilDot = new THREE.Mesh(
+      new THREE.SphereGeometry(0.02 * scale, 4, 4),
+      mat.pigEyePupilWhite
+    );
+    pupilDot.position.set((ey > 0 ? ey + 0.015 : ey - 0.015) * scale, 0.16 * scale, 0.39 * scale);
+    headGroup.add(pupilDot);
   }
 
   pigRoot.add(headGroup);
 
-  // 3. 4 Short Sturdy Legs with Hooves
+  // 3. 4 Short Sturdy Legs with Cloven Hooves
   const legOffsets = [
-    { x: -0.45, z: -0.45 },
-    { x: 0.45, z: -0.45 },
-    { x: -0.45, z: 0.45 },
-    { x: 0.45, z: 0.45 }
+    { x: -0.36, z: -0.38 },
+    { x: 0.36, z: -0.38 },
+    { x: -0.36, z: 0.38 },
+    { x: 0.36, z: 0.38 }
   ];
   legOffsets.forEach(leg => {
-    const legGeo = new THREE.CylinderGeometry(0.12 * scale, 0.14 * scale, 0.55 * scale, 8);
+    const legGeo = new THREE.CylinderGeometry(0.12 * scale, 0.13 * scale, 0.52 * scale, 8);
     const legMesh = new THREE.Mesh(legGeo, mat.pigSkin);
-    legMesh.position.set(leg.x * scale, 0.28 * scale, leg.z * scale);
+    legMesh.position.set(leg.x * scale, 0.26 * scale, leg.z * scale);
     legMesh.castShadow = true;
     pigRoot.add(legMesh);
 
-    // Dark Hoof Tip
+    // Dark Hoof
     const hoofGeo = new THREE.CylinderGeometry(0.13 * scale, 0.14 * scale, 0.12 * scale, 8);
-    const hoof = new THREE.Mesh(hoofGeo, mat.buildingDarkSteel);
+    const hoof = new THREE.Mesh(hoofGeo, mat.pigEyeDark);
     hoof.position.set(leg.x * scale, 0.06 * scale, leg.z * scale);
     pigRoot.add(hoof);
   });
 
-  // 4. Curly Pig Tail
-  const tailGeo = new THREE.TorusGeometry(0.16 * scale, 0.045 * scale, 6, 12, Math.PI * 1.6);
+  // 4. Curly Corkscrew Tail
+  const tailGeo = new THREE.TorusGeometry(0.14 * scale, 0.04 * scale, 6, 16, Math.PI * 1.8);
   const tail = new THREE.Mesh(tailGeo, mat.pigSkin);
-  tail.position.set(0, 0.75 * scale, -0.78 * scale);
+  tail.position.set(0, 0.78 * scale, -0.72 * scale);
   tail.rotation.y = Math.PI / 2;
   pigRoot.add(tail);
 
@@ -98,263 +107,362 @@ export function createPigMesh(mat, scale = 1.0) {
 }
 
 /**
- * Smart Aquaculture & Livestock: Offshore Marine Sea Cages (Fish Farm) & Inland Smart Pig Farm
+ * Smart Aquaculture (Fish Farm) & Smart Swine Facility (Pig Farm)
  */
 export function buildAquacultureFishFarm(parent, mat, animatedItems, interactiveObjects) {
   const aquaGroup = new THREE.Group();
-  aquaGroup.name = "SmartAquaculture_FishFarms";
+  aquaGroup.name = "SmartAquaculture_FishAndPigFarms";
 
   // =========================================================================
-  // 1. Offshore Marine Aquaculture Sea Cages (Bay Water at x = -108, z = 22)
+  // 1. OFFSHORE SMART AQUACULTURE: 6 CIRCULAR SEA CAGES (Matching Image 2)
+  //    Located in West Ocean Bay at x = -108, z = 22
   // =========================================================================
   const marineFarmGroup = new THREE.Group();
   marineFarmGroup.name = "District_FishFarm";
   marineFarmGroup.userData = { districtId: "fishfarm" };
   marineFarmGroup.position.set(-108, 0, 22);
 
-  // Dedicated Deep Ocean Blue Water Inset under the Cages
-  const lagoonWaterGeo = new THREE.PlaneGeometry(38, 38);
+  // Deep Ocean Lagoon Water Base
+  const lagoonWaterGeo = new THREE.PlaneGeometry(44, 38);
   const lagoonWater = new THREE.Mesh(lagoonWaterGeo, mat.water);
   lagoonWater.rotation.x = -Math.PI / 2;
   lagoonWater.position.set(0, 0.06, 0);
   lagoonWater.receiveShadow = true;
   marineFarmGroup.add(lagoonWater);
 
-  // 4 Circular Floating Sea Cages
-  const cageOffsets = [
-    { x: -7.5, z: -7.5, id: "CAGE-01" },
-    { x: 7.5, z: -7.5, id: "CAGE-02" },
-    { x: -7.5, z: 7.5, id: "CAGE-03" },
-    { x: 7.5, z: 7.5, id: "CAGE-04" }
+  // 6 Circular Floating Sea Cages in 2 rows of 3 (Matching Image 2)
+  const cageConfigs = [
+    { x: -13.5, z: -8.0, id: "CAGE-01", fishColor: mat.buildingGlassAzure, count: 6 },
+    { x: 0.0,   z: -8.0, id: "CAGE-02", fishColor: mat.fishScaleSilver,   count: 6 },
+    { x: 13.5,  z: -8.0, id: "CAGE-03", fishColor: mat.fishFinOrange,     count: 6 },
+    { x: -13.5, z: 8.0,  id: "CAGE-04", fishColor: mat.neonCyan,          count: 6 },
+    { x: 0.0,   z: 8.0,  id: "CAGE-05", fishColor: mat.neonCyan,          count: 8, isActive: true }, // Main Active Monitored Cage
+    { x: 13.5,  z: 8.0,  id: "CAGE-06", fishColor: mat.neonGold,          count: 6 }
   ];
 
-  cageOffsets.forEach((cage, cIdx) => {
+  cageConfigs.forEach((cfg, cIdx) => {
     const cageRoot = new THREE.Group();
-    cageRoot.position.set(cage.x, 0, cage.z);
+    cageRoot.position.set(cfg.x, 0, cfg.z);
 
-    // Deep Water Surface inside this Cage
-    const cageWaterGeo = new THREE.CylinderGeometry(4.7, 4.7, 0.12, 24);
+    // Deep water circle inside cage
+    const cageWaterGeo = new THREE.CylinderGeometry(4.4, 4.4, 0.1, 24);
     const cageWater = new THREE.Mesh(cageWaterGeo, mat.riverWater);
     cageWater.position.y = 0.08;
     cageWater.receiveShadow = true;
     cageRoot.add(cageWater);
 
-    // Double Floating Collar Ring (HDPE Pipe)
-    const floatRingGeo1 = new THREE.TorusGeometry(4.8, 0.28, 8, 24);
-    const floatRing1 = new THREE.Mesh(floatRingGeo1, mat.buildingDarkSteel);
-    floatRing1.rotation.x = Math.PI / 2;
-    floatRing1.position.y = 0.2;
-    cageRoot.add(floatRing1);
+    // Floating Outer HDPE Collar Ring (Heavy Black Pipe)
+    const floatRingGeo = new THREE.TorusGeometry(4.5, 0.28, 8, 32);
+    const floatRing = new THREE.Mesh(floatRingGeo, mat.buildingDarkSteel);
+    floatRing.rotation.x = Math.PI / 2;
+    floatRing.position.y = 0.22;
+    cageRoot.add(floatRing);
 
-    const floatRingGeo2 = new THREE.TorusGeometry(4.2, 0.22, 8, 24);
-    const floatRing2 = new THREE.Mesh(floatRingGeo2, mat.walmartBlue);
-    floatRing2.rotation.x = Math.PI / 2;
-    floatRing2.position.y = 0.2;
-    cageRoot.add(floatRing2);
+    // Inner Safety Handrail Ring
+    const innerRingGeo = new THREE.TorusGeometry(4.0, 0.12, 6, 32);
+    const innerRing = new THREE.Mesh(innerRingGeo, mat.walmartBlue);
+    innerRing.rotation.x = Math.PI / 2;
+    innerRing.position.y = 0.45;
+    cageRoot.add(innerRing);
 
-    // Subsurface Netting Enclosure
-    const netGeo = new THREE.CylinderGeometry(4.5, 4.2, 3.2, 16, 1, true);
+    // Subsurface Cylindrical Net Enclosure
+    const netGeo = new THREE.CylinderGeometry(4.3, 4.0, 3.8, 20, 1, true);
     const netMesh = new THREE.Mesh(netGeo, mat.fishNetMat);
-    netMesh.position.y = -1.6;
+    netMesh.position.y = -1.9;
     cageRoot.add(netMesh);
 
-    // Central Automated Solar Feed Dispenser & Cannon
-    const feederPylonGeo = new THREE.CylinderGeometry(0.12, 0.15, 2.2, 8);
-    const feederPylon = new THREE.Mesh(feederPylonGeo, mat.buildingDarkSteel);
-    feederPylon.position.set(0, 1.1, 0);
-    cageRoot.add(feederPylon);
+    // Central Automated Solar Feed Dispenser Mast
+    const mastGeo = new THREE.CylinderGeometry(0.18, 0.22, 2.8, 8);
+    const mast = new THREE.Mesh(mastGeo, mat.buildingDarkSteel);
+    mast.position.set(0, 1.4, 0);
+    cageRoot.add(mast);
 
-    const feedHopperGeo = new THREE.CylinderGeometry(0.8, 0.4, 0.9, 12);
-    const feedHopper = new THREE.Mesh(feedHopperGeo, mat.buoyOrange);
-    feedHopper.position.set(0, 2.2, 0);
-    cageRoot.add(feedHopper);
+    const hopperGeo = new THREE.CylinderGeometry(0.65, 0.3, 0.8, 12);
+    const hopper = new THREE.Mesh(hopperGeo, mat.buoyOrange);
+    hopper.position.set(0, 2.5, 0);
+    cageRoot.add(hopper);
 
-    // Solar Panel on Feeder
-    const solarGeo = new THREE.BoxGeometry(0.9, 0.05, 0.9);
+    const solarGeo = new THREE.BoxGeometry(0.85, 0.05, 0.85);
     const solar = new THREE.Mesh(solarGeo, mat.buildingGlassCyan);
-    solar.position.set(0, 2.7, 0);
+    solar.position.set(0, 2.95, 0);
     solar.rotation.x = 0.3;
     cageRoot.add(solar);
 
     // Aeration Bubbler Foam Ring
-    const aeratorGeo = new THREE.RingGeometry(1.8, 3.2, 16);
+    const aeratorGeo = new THREE.RingGeometry(1.6, 2.8, 16);
     const aerator = new THREE.Mesh(aeratorGeo, mat.fishWaterFoam);
     aerator.rotation.x = -Math.PI / 2;
     aerator.position.set(0, 0.12, 0);
     cageRoot.add(aerator);
     animatedItems.fishAerators.push(aerator);
 
-    // Animated Schooling Fish jumping/swimming inside the cage
+    // High-Density Schooling Fish Swirling inside the Sea Cage
     const schoolGroup = new THREE.Group();
-    for (let f = 0; f < 4; f++) {
+    for (let f = 0; f < cfg.count; f++) {
       const fish = new THREE.Group();
       // Fish Body
-      const fBodyGeo = new THREE.ConeGeometry(0.16, 0.7, 6);
-      const fBody = new THREE.Mesh(fBodyGeo, mat.fishScaleSilver);
+      const fBodyGeo = new THREE.ConeGeometry(0.14, 0.65, 6);
+      const fBody = new THREE.Mesh(fBodyGeo, cfg.fishColor);
       fBody.rotation.x = Math.PI / 2;
       fish.add(fBody);
 
       // Tail Fin
-      const fTailGeo = new THREE.BoxGeometry(0.04, 0.28, 0.22);
+      const fTailGeo = new THREE.BoxGeometry(0.04, 0.24, 0.2);
       const fTail = new THREE.Mesh(fTailGeo, mat.fishFinOrange);
-      fTail.position.set(0, 0, -0.42);
+      fTail.position.set(0, 0, -0.38);
       fish.add(fTail);
 
-      const angle = (f / 4) * Math.PI * 2;
-      const radius = 2.4 + Math.sin(f * 2.0) * 0.8;
-      fish.position.set(Math.cos(angle) * radius, -0.2, Math.sin(angle) * radius);
+      const angle = (f / cfg.count) * Math.PI * 2;
+      const radius = 1.8 + Math.sin(f * 2.2) * 1.2;
+      const depth = -0.15 - (f % 3) * 0.45;
+      fish.position.set(Math.cos(angle) * radius, depth, Math.sin(angle) * radius);
       fish.rotation.y = angle + Math.PI / 2;
-      fish.userData = { angle, radius, speed: 1.2 + (cIdx + f) * 0.2, phase: f + cIdx };
+      fish.userData = { angle, radius, speed: 1.4 + (cIdx + f) * 0.15, phase: f * 0.8 };
       schoolGroup.add(fish);
     }
     cageRoot.add(schoolGroup);
     animatedItems.fishSchools.push(schoolGroup);
 
+    // Active Cage Special Holographic Telemetry Ring & Indicators (Image 2)
+    if (cfg.isActive) {
+      const holoRingGeo = new THREE.TorusGeometry(4.7, 0.08, 6, 32);
+      const holoRing = new THREE.Mesh(holoRingGeo, mat.telemetryRingGlow);
+      holoRing.rotation.x = Math.PI / 2;
+      holoRing.position.y = 0.35;
+      cageRoot.add(holoRing);
+
+      // 5 Floating Sensor Pills around the collar
+      const sensorPills = [
+        { label: "SAL: 35 PSU",   angle: -Math.PI * 0.8 },
+        { label: "TURB: 1.5 NTU", angle: -Math.PI * 0.65 },
+        { label: "PH: 7.4",       angle: -Math.PI * 0.5 },
+        { label: "TEMP: 24.5 °C", angle: -Math.PI * 0.35 },
+        { label: "DO: 6.8 mg/L",  angle: -Math.PI * 0.2 }
+      ];
+
+      sensorPills.forEach(pill => {
+        const px = Math.cos(pill.angle) * 5.4;
+        const pz = Math.sin(pill.angle) * 5.4;
+        const tagBox = new THREE.Mesh(
+          new THREE.BoxGeometry(0.9, 0.28, 0.06),
+          mat.hospitalWhite
+        );
+        tagBox.position.set(px, 0.65, pz);
+        tagBox.rotation.y = -pill.angle - Math.PI / 2;
+        cageRoot.add(tagBox);
+
+        const dot = new THREE.Mesh(
+          new THREE.SphereGeometry(0.04, 6, 6),
+          mat.neonEmerald
+        );
+        dot.position.set(px - 0.3, 0.65, pz + 0.04);
+        cageRoot.add(dot);
+      });
+    }
+
     marineFarmGroup.add(cageRoot);
   });
 
-  // Interconnecting Catwalk Pontoons
-  const catwalkXGeo = new THREE.BoxGeometry(22, 0.2, 1.2);
-  const catwalkX = new THREE.Mesh(catwalkXGeo, mat.aquacultureWalkway);
-  catwalkX.position.set(0, 0.2, 0);
-  marineFarmGroup.add(catwalkX);
+  // Central Yellow Feed Barge & Control Hub (Matching Image 2)
+  const feedBarge = new THREE.Group();
+  feedBarge.position.set(0, 0.2, 0);
 
-  const catwalkZGeo = new THREE.BoxGeometry(1.2, 0.2, 22);
-  const catwalkZ = new THREE.Mesh(catwalkZGeo, mat.aquacultureWalkway);
-  catwalkZ.position.set(0, 0.2, 0);
-  marineFarmGroup.add(catwalkZ);
+  // Yellow Main Barge Deck
+  const bargeHullGeo = new THREE.BoxGeometry(8.5, 0.7, 5.8);
+  const bargeHull = new THREE.Mesh(bargeHullGeo, mat.bargeYellowMat);
+  bargeHull.position.y = 0.35;
+  bargeHull.castShadow = true;
+  feedBarge.add(bargeHull);
 
-  // Moored Aquaculture Service & Feed Supply Catamaran Vessel
-  const aquaBoat = new THREE.Group();
-  aquaBoat.position.set(16, 0, 0);
+  // Black Hull Trim
+  const hullTrimGeo = new THREE.BoxGeometry(8.8, 0.2, 6.1);
+  const hullTrim = new THREE.Mesh(hullTrimGeo, mat.buildingDarkSteel);
+  hullTrim.position.y = 0.65;
+  feedBarge.add(hullTrim);
 
-  // Twin Hulls
-  for (let h = -1.6; h <= 1.6; h += 3.2) {
-    const hullGeo = new THREE.BoxGeometry(1.2, 0.9, 10);
-    const hull = new THREE.Mesh(hullGeo, mat.buildingDarkSteel);
-    hull.position.set(h, 0.45, 0);
-    aquaBoat.add(hull);
+  // 2 Cylindrical Bulk Feed Storage Silos
+  for (let s of [-2.4, -0.8]) {
+    const siloGeo = new THREE.CylinderGeometry(1.1, 1.1, 3.4, 16);
+    const silo = new THREE.Mesh(siloGeo, mat.highVoltagePylonSteel);
+    silo.position.set(s, 2.4, 0);
+    silo.castShadow = true;
+    feedBarge.add(silo);
+
+    const capGeo = new THREE.ConeGeometry(1.15, 0.6, 16);
+    const cap = new THREE.Mesh(capGeo, mat.buildingDarkSteel);
+    cap.position.set(s, 4.4, 0);
+    feedBarge.add(cap);
   }
-  // Deck
-  const deckGeo = new THREE.BoxGeometry(4.4, 0.3, 8.5);
-  const deck = new THREE.Mesh(deckGeo, mat.trailerWhite);
-  deck.position.set(0, 0.95, -0.4);
-  aquaBoat.add(deck);
 
-  // Wheelhouse Cabin
-  const whGeo = new THREE.BoxGeometry(3.2, 1.8, 2.8);
-  const wh = new THREE.Mesh(whGeo, mat.walmartBlue);
-  wh.position.set(0, 2.0, -2.4);
-  aquaBoat.add(wh);
+  // Dark Control Room Cabin
+  const cabinGeo = new THREE.BoxGeometry(3.2, 2.2, 4.4);
+  const cabin = new THREE.Mesh(cabinGeo, mat.buildingDarkSteel);
+  cabin.position.set(2.2, 1.8, 0);
+  cabin.castShadow = true;
+  feedBarge.add(cabin);
 
-  const whWin = new THREE.Mesh(new THREE.BoxGeometry(3.3, 0.8, 2.0), mat.buildingGlassCyan);
-  whWin.position.set(0, 2.2, -2.4);
-  aquaBoat.add(whWin);
+  // Antenna Mast with Flashing Beacon
+  const antGeo = new THREE.CylinderGeometry(0.06, 0.08, 3.2, 8);
+  const ant = new THREE.Mesh(antGeo, mat.trailerWhite);
+  ant.position.set(3.2, 3.6, 1.4);
+  feedBarge.add(ant);
 
-  // Feed Crane Arm
-  const craneArm = new THREE.Mesh(new THREE.BoxGeometry(0.3, 3.5, 0.3), mat.catYellow);
-  craneArm.position.set(1.2, 2.4, 1.5);
-  craneArm.rotation.z = -0.4;
-  aquaBoat.add(craneArm);
+  const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), mat.neonEmerald);
+  beacon.position.set(3.2, 5.2, 1.4);
+  feedBarge.add(beacon);
 
-  marineFarmGroup.add(aquaBoat);
+  marineFarmGroup.add(feedBarge);
 
-  // Solar Water Quality Telemetry Buoy (DO, Salinity, Temperature)
-  const buoyGeo = new THREE.CylinderGeometry(1.0, 1.4, 1.2, 12);
-  const buoy = new THREE.Mesh(buoyGeo, mat.buoyOrange);
-  buoy.position.set(-18, 0.6, -16);
-  marineFarmGroup.add(buoy);
+  // Floating Gangway Walkways Connecting Cages to Central Barge
+  const gangwayZ = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.2, 18), mat.aquacultureWalkway);
+  gangwayZ.position.set(0, 0.3, 0);
+  marineFarmGroup.add(gangwayZ);
 
-  const buoyMast = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 2.2, 8), mat.buildingDarkSteel);
-  buoyMast.position.set(-18, 2.0, -16);
-  marineFarmGroup.add(buoyMast);
-
-  const buoyBeacon = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), mat.neonEmerald);
-  buoyBeacon.position.set(-18, 3.1, -16);
-  marineFarmGroup.add(buoyBeacon);
+  const gangwayX = new THREE.Mesh(new THREE.BoxGeometry(28, 0.2, 1.2), mat.aquacultureWalkway);
+  gangwayX.position.set(0, 0.3, 0);
+  marineFarmGroup.add(gangwayX);
 
   interactiveObjects.push(marineFarmGroup);
   aquaGroup.add(marineFarmGroup);
 
   // =========================================================================
-  // 2. Inland Livestock Breeding & Smart Pig Farm (Far Southern Pasture x = 45, z = 85)
+  // 2. INLAND SMART SWINE DIGITAL TWIN FACILITY (Matching Image 1)
+  //    Located in Southern Agriculture Pasture at x = 45, z = 85
   // =========================================================================
   const inlandFarmGroup = new THREE.Group();
   inlandFarmGroup.name = "District_PigFarm";
   inlandFarmGroup.userData = { districtId: "pigfarm" };
   inlandFarmGroup.position.set(45, 0, 85);
 
-  // Concrete & Gravel Farmstead Apron
-  const farmPadGeo = new THREE.BoxGeometry(28, 0.3, 24);
-  const farmPad = new THREE.Mesh(farmPadGeo, mat.concretePlaza);
-  farmPad.position.set(0, 0.15, 0);
-  farmPad.receiveShadow = true;
-  inlandFarmGroup.add(farmPad);
+  // High-Tech Digital Twin Dark Facility Floor (USD Simulation Grid)
+  const facilityFloorGeo = new THREE.BoxGeometry(34, 0.3, 24);
+  const facilityFloor = new THREE.Mesh(facilityFloorGeo, mat.darkFacilityFloor);
+  facilityFloor.position.set(0, 0.15, 0);
+  facilityFloor.receiveShadow = true;
+  inlandFarmGroup.add(facilityFloor);
 
-  // Mud Wallower Pen Ground Inset (East Pen)
-  const mudPenGeo = new THREE.PlaneGeometry(12, 10);
-  const mudPen = new THREE.Mesh(mudPenGeo, mat.pigMud);
-  mudPen.rotation.x = -Math.PI / 2;
-  mudPen.position.set(4.5, 0.31, 2.0);
-  mudPen.receiveShadow = true;
-  inlandFarmGroup.add(mudPen);
+  // Fine Digital Twin Grid Floor Lines
+  const gridHelper = new THREE.GridHelper(32, 32, 0x00f2fe, 0x1e293b);
+  gridHelper.position.set(0, 0.31, 0);
+  inlandFarmGroup.add(gridHelper);
 
-  // Golden Straw Bedding Ground Inset (West Pen)
-  const strawPenGeo = new THREE.PlaneGeometry(10, 8);
-  const strawPen = new THREE.Mesh(strawPenGeo, mat.pigStraw);
-  strawPen.rotation.x = -Math.PI / 2;
-  strawPen.position.set(-5.5, 0.31, 2.0);
-  strawPen.receiveShadow = true;
-  inlandFarmGroup.add(strawPen);
-
-  // Timber Perimeter Ranch Fence
-  const fenceMat = mat.treeTrunkWood || mat.treeTrunk;
-  const fencePosts = [
-    [-13.8, -11.8], [13.8, -11.8], [-13.8, 11.8], [13.8, 11.8],
-    [0, -11.8], [0, 11.8], [-13.8, 0], [13.8, 0], [0, 0]
+  // 4 AI Vision Pens in a 2x2 Layout (Matching Image 1)
+  const penPositions = [
+    { x: -7.5, z: -5.0, id: "PEN 01 (N-WEST)", tagX: -7.5, tagZ: -1.8 },
+    { x: 7.5,  z: -5.0, id: "PEN 02 (S-WEST)", tagX: 7.5,  tagZ: -1.8 },
+    { x: -7.5, z: 5.0,  id: "PEN 03 (N-EAST)", tagX: -7.5, tagZ: 8.2 },
+    { x: 7.5,  z: 5.0,  id: "PEN 04 (S-EAST)", tagX: 7.5,  tagZ: 8.2 }
   ];
-  fencePosts.forEach(([px, pz]) => {
-    const postGeo = new THREE.CylinderGeometry(0.12, 0.12, 1.4, 6);
-    const post = new THREE.Mesh(postGeo, fenceMat);
-    post.position.set(px, 0.7, pz);
-    post.castShadow = true;
-    inlandFarmGroup.add(post);
+
+  penPositions.forEach(pen => {
+    // 1. Glowing AI Detection Circle on the Pen Floor
+    const circleGeo = new THREE.RingGeometry(3.8, 3.95, 32);
+    const circleMesh = new THREE.Mesh(circleGeo, mat.aiFloorCircleMat);
+    circleMesh.rotation.x = -Math.PI / 2;
+    circleMesh.position.set(pen.x, 0.32, pen.z);
+    inlandFarmGroup.add(circleMesh);
+
+    // 2. Translucent Volumetric AI Camera Spotlight Cone Beaming Down from Ceiling
+    const coneGeo = new THREE.ConeGeometry(4.0, 7.5, 24, 1, true);
+    const coneMesh = new THREE.Mesh(coneGeo, mat.aiConeBeamMat);
+    coneMesh.position.set(pen.x, 4.05, pen.z);
+    inlandFarmGroup.add(coneMesh);
+
+    // 3. Precision Steel Pen Fences (3-tier rails)
+    const penW = 12.0;
+    const penD = 8.5;
+    for (let r = 0; r < 3; r++) {
+      const ry = 0.5 + r * 0.35;
+      // Front rail
+      const fr = new THREE.Mesh(new THREE.BoxGeometry(penW, 0.05, 0.05), mat.steelGantryMat);
+      fr.position.set(pen.x, ry, pen.z + penD / 2);
+      inlandFarmGroup.add(fr);
+      // Back rail
+      const br = new THREE.Mesh(new THREE.BoxGeometry(penW, 0.05, 0.05), mat.steelGantryMat);
+      br.position.set(pen.x, ry, pen.z - penD / 2);
+      inlandFarmGroup.add(br);
+      // Left rail
+      const lr = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, penD), mat.steelGantryMat);
+      lr.position.set(pen.x - penW / 2, ry, pen.z);
+      inlandFarmGroup.add(lr);
+      // Right rail
+      const rr = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, penD), mat.steelGantryMat);
+      rr.position.set(pen.x + penW / 2, ry, pen.z);
+      inlandFarmGroup.add(rr);
+    }
+
+    // Fence Corner Posts
+    for (let px of [-penW / 2, penW / 2]) {
+      for (let pz of [-penD / 2, penD / 2]) {
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 1.4, 8), mat.steelGantryMat);
+        post.position.set(pen.x + px, 0.95, pen.z + pz);
+        inlandFarmGroup.add(post);
+      }
+    }
+
+    // 4. Equipment: Smart Feed Trough (Pellets)
+    const trough = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.6, 0.9), mat.buildingDarkSteel);
+    trough.position.set(pen.x - 3.8, 0.5, pen.z);
+    inlandFarmGroup.add(trough);
+
+    const pelletFeed = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.1, 0.7), mat.cropGold);
+    pelletFeed.position.set(pen.x - 3.8, 0.75, pen.z);
+    inlandFarmGroup.add(pelletFeed);
+
+    // 5. Equipment: Fresh Flow Water Bowl
+    const waterBowl = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.28, 0.35, 12), mat.buildingDarkSteel);
+    waterBowl.position.set(pen.x + 3.8, 0.45, pen.z - 2.5);
+    inlandFarmGroup.add(waterBowl);
+
+    const freshWater = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.05, 12), mat.riverWater);
+    freshWater.position.set(pen.x + 3.8, 0.58, pen.z - 2.5);
+    inlandFarmGroup.add(freshWater);
+
+    // 6. Floating Status Pill Tag above Pen (Matching Image 1)
+    const penTag = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.5, 0.06), mat.buildingDarkSteel);
+    penTag.position.set(pen.x, 1.8, pen.z);
+    inlandFarmGroup.add(penTag);
   });
 
-  // Top Fence Rails
-  const northRail = new THREE.Mesh(new THREE.BoxGeometry(27.6, 0.1, 0.1), fenceMat);
-  northRail.position.set(0, 1.1, -11.8);
-  inlandFarmGroup.add(northRail);
+  // Ceiling Overhead Steel Gantries & AI Cameras (Matching Image 1)
+  for (let gz of [-5.0, 5.0]) {
+    // Longitudinal Gantry Rails
+    const gantry = new THREE.Mesh(new THREE.BoxGeometry(32, 0.25, 0.3), mat.steelGantryMat);
+    gantry.position.set(0, 7.8, gz);
+    inlandFarmGroup.add(gantry);
 
-  const southRail = new THREE.Mesh(new THREE.BoxGeometry(27.6, 0.1, 0.1), fenceMat);
-  southRail.position.set(0, 1.1, 11.8);
-  inlandFarmGroup.add(southRail);
+    // AI Camera Pods & LED Lights
+    for (let cx of [-7.5, 7.5]) {
+      const camMount = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.6, 6), mat.buildingDarkSteel);
+      camMount.position.set(cx, 7.5, gz);
+      inlandFarmGroup.add(camMount);
 
-  const midFence = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 14), fenceMat);
-  midFence.position.set(0, 1.1, 3.0);
-  inlandFarmGroup.add(midFence);
+      const camPod = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.25, 0.4), mat.buildingDarkSteel);
+      camPod.position.set(cx, 7.2, gz);
+      inlandFarmGroup.add(camPod);
 
-  // Wooden Feed Trough
-  const troughGeo = new THREE.BoxGeometry(4.2, 0.5, 1.0);
-  const trough = new THREE.Mesh(troughGeo, fenceMat);
-  trough.position.set(0, 0.4, -2.5);
-  trough.castShadow = true;
-  inlandFarmGroup.add(trough);
+      const camLens = new THREE.Mesh(new THREE.SphereGeometry(0.08, 6, 6), mat.neonCyan);
+      camLens.position.set(cx, 7.1, gz);
+      inlandFarmGroup.add(camLens);
+    }
+  }
 
-  const cornFeed = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.1, 0.7), mat.cropGold);
-  cornFeed.position.set(0, 0.6, -2.5);
-  inlandFarmGroup.add(cornFeed);
-
-  // 3D Modeled Animated Pigs
-  const pigsData = [
-    { scale: 1.15, pos: [0, 0.3, -1.2], rotY: 0 },         // Mother Sow at feed trough
-    { scale: 1.10, pos: [5.0, 0.3, 3.0], rotY: 1.6 },      // Boar roaming mud pen
-    { scale: 0.95, pos: [-5.0, 0.3, 2.5], rotY: -1.2 },    // Foraging pig on straw
-    { scale: 0.55, pos: [2.5, 0.3, 1.2], rotY: 0.7 },      // Piglet in mud
-    { scale: 0.50, pos: [-6.5, 0.3, 4.5], rotY: 2.2 }      // Resting piglet
+  // High-Detail 3D Pigs in their respective pens (Matching Image 1)
+  const swinePigsData = [
+    // PEN 01 (N-WEST)
+    { scale: 1.15, pos: [-8.5, 0.3, -5.0], rotY: 0.2 },
+    { scale: 0.95, pos: [-6.0, 0.3, -4.5], rotY: -0.6 },
+    // PEN 02 (S-WEST)
+    { scale: 1.10, pos: [6.5, 0.3, -5.2],  rotY: 1.4 },
+    { scale: 1.05, pos: [8.8, 0.3, -4.8],  rotY: 2.8 },
+    // PEN 03 (N-EAST) - Mother Sow Facing Feeder
+    { scale: 1.30, pos: [-7.0, 0.3, 5.0],   rotY: -1.5 },
+    // PEN 04 (S-EAST)
+    { scale: 1.05, pos: [6.2, 0.3, 5.2],   rotY: 0.8 },
+    { scale: 1.12, pos: [8.6, 0.3, 4.6],   rotY: -0.4 }
   ];
 
-  pigsData.forEach((pd, pIdx) => {
+  swinePigsData.forEach(pd => {
     const pig = createPigMesh(mat, pd.scale);
     pig.group.position.set(pd.pos[0], pd.pos[1], pd.pos[2]);
     pig.group.rotation.y = pd.rotY;
@@ -362,32 +470,27 @@ export function buildAquacultureFishFarm(parent, mat, animatedItems, interactive
     animatedItems.pigs.push(pig);
   });
 
-  // Livestock Feeding Barn Shelter & Filtration Shed
-  const shedGeo = new THREE.BoxGeometry(10, 4.5, 6.0);
-  const shed = new THREE.Mesh(shedGeo, mat.buildingDarkSteel);
-  shed.position.set(0, 2.25, -8.5);
-  shed.castShadow = true;
-  inlandFarmGroup.add(shed);
+  // Edge AI Processing Station: NVIDIA JETSON AGX Enclosure on Perimeter Wall (Image 1)
+  const jetsonRack = new THREE.Group();
+  jetsonRack.position.set(13.5, 0.3, 7.5);
 
-  // Shaded Shelter Overhang
-  const overhangGeo = new THREE.BoxGeometry(10.4, 0.2, 3.5);
-  const overhang = new THREE.Mesh(overhangGeo, mat.fireEngineRed);
-  overhang.position.set(0, 4.5, -5.8);
-  overhang.rotation.x = 0.15;
-  inlandFarmGroup.add(overhang);
+  const jetsonBase = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.8, 1.2), mat.buildingDarkSteel);
+  jetsonBase.position.y = 0.9;
+  jetsonRack.add(jetsonBase);
 
-  // Silo & Automated Feed Hopper
-  const siloGeo = new THREE.CylinderGeometry(1.6, 1.6, 5.8, 16);
-  const silo = new THREE.Mesh(siloGeo, mat.highVoltagePylonSteel);
-  silo.position.set(-8.0, 2.9, -8.5);
-  silo.castShadow = true;
-  inlandFarmGroup.add(silo);
+  // Glowing Green & Blue LED Status Indicators
+  for (let l = 0; l < 3; l++) {
+    const led = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.08, 0.05), mat.neonEmerald);
+    led.position.set(-0.6 + l * 0.6, 0.6, 0.62);
+    jetsonRack.add(led);
+  }
 
-  // Stationed Farm Specialist & Agronomist
-  const aquaTech = createStaticHumanMesh(mat, mat.humanCoatWhite, null);
-  aquaTech.position.set(7.5, 0.3, -4.5);
-  aquaTech.rotation.y = -Math.PI / 4;
-  inlandFarmGroup.add(aquaTech);
+  // Telemetry Sign
+  const tagSign = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.6, 0.06), mat.buildingDarkSteel);
+  tagSign.position.set(0, 2.1, 0.6);
+  jetsonRack.add(tagSign);
+
+  inlandFarmGroup.add(jetsonRack);
 
   interactiveObjects.push(inlandFarmGroup);
   aquaGroup.add(inlandFarmGroup);
