@@ -9,6 +9,7 @@ import EmbedModal from './components/EmbedModal';
 import LiveSimulationViewer from './components/LiveSimulationViewer';
 import City3DCanvas from './components/city/City3DCanvas';
 import IntroSplashOverlay from './components/IntroSplashOverlay';
+import HologramMirrorController from './components/HologramMirrorController';
 import { Layers } from 'lucide-react';
 
 const STORAGE_KEY = 'REALTIME_SHOWCASE_CONTENT_V10';
@@ -87,6 +88,22 @@ export default function App() {
   const hideFooterFromUrl = queryParams.get('hideFooter') === 'true';
   const hideControlsFromUrl = queryParams.get('hideControls') === 'true';
   const initialAutoRotate = queryParams.get('autoRotate') !== 'false';
+
+  // Hologram Mirror Mode from URL (?mirror=v, ?mirror=vertical, ?mirror=h, ?mirror=both, ?hologram=true)
+  const mirrorFromUrl = (() => {
+    const m = (queryParams.get('mirror') || queryParams.get('hologram') || '').toLowerCase();
+    if (['v', 'vert', 'vertical', 'true', '1'].includes(m)) return 'vertical';
+    if (['h', 'horiz', 'horizontal'].includes(m)) return 'horizontal';
+    if (['both', '180', 'all'].includes(m)) return 'both';
+    return 'none';
+  })();
+
+  const pureBlackFromUrl = queryParams.get('pureBlack') === 'true' || 
+                           queryParams.get('black') === 'true' || 
+                           queryParams.get('dark') === 'pure';
+
+  const [mirrorMode, setMirrorMode] = useState(mirrorFromUrl);
+  const [pureBlackBg, setPureBlackBg] = useState(pureBlackFromUrl);
 
   const [isEmbedMode, setIsEmbedMode] = useState(isEmbedFromUrl);
   const [selectedThemeId, setSelectedThemeId] = useState(initialThemeFromUrl);
@@ -371,10 +388,18 @@ export default function App() {
   const shouldHideFooter = isEmbedMode || hideFooterFromUrl;
 
   return (
-    <div className={`showcase-app-root ${isEmbedMode ? 'is-embed-mode' : ''}`}>
+    <div className={`showcase-app-root ${isEmbedMode ? 'is-embed-mode' : ''} ${mirrorMode !== 'none' ? `mirror-${mirrorMode}` : ''} ${pureBlackBg ? 'is-pure-black-hologram' : ''}`}>
       <div className="ambient-background-glow glow-top-left" />
       <div className="ambient-background-glow glow-bottom-right" />
       <div className="ambient-grid-overlay" />
+
+      {/* Hologram & Pepper's Ghost Mirror Controller */}
+      <HologramMirrorController 
+        mirrorMode={mirrorMode}
+        onChangeMirrorMode={setMirrorMode}
+        pureBlackBg={pureBlackBg}
+        onTogglePureBlack={() => setPureBlackBg(prev => !prev)}
+      />
 
       {/* Cinematic Intro Splash Entrance */}
       {showSplash && (
