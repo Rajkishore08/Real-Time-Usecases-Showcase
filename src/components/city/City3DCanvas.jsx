@@ -11,6 +11,7 @@ export default function City3DCanvas({
   allUseCases = [],
   onOpenDossier,
   onLaunchLiveDemo,
+  onOpenRaieLabModal,
   initialDistrictId = null,
   initialAutoRotate = true,
   hideControls = false,
@@ -19,6 +20,11 @@ export default function City3DCanvas({
   const mountRef = useRef(null);
   const wrapperRef = useRef(null);
   const markersRef = useRef({});
+  const onOpenRaieLabModalRef = useRef(onOpenRaieLabModal);
+
+  useEffect(() => {
+    onOpenRaieLabModalRef.current = onOpenRaieLabModal;
+  }, [onOpenRaieLabModal]);
 
   const [selectedDistrictId, setSelectedDistrictId] = useState(initialDistrictId || null);
   const [hoveredDistrictId, setHoveredDistrictId] = useState(null);
@@ -344,7 +350,9 @@ export default function City3DCanvas({
 
     // 6. 3D Architectural City Builder
     const materials = createCityMaterials();
-    const cityState = buildCityScene(scene, materials);
+    const cityState = buildCityScene(scene, materials, {
+      onOpenRaieLabModal: () => onOpenRaieLabModalRef.current?.()
+    });
     cityStateRef.current = cityState;
 
     // Apply initial celestial state
@@ -369,9 +377,20 @@ export default function City3DCanvas({
         const intersects = raycaster.intersectObjects(cityState.interactiveObjects, true);
         if (intersects.length > 0) {
           let obj = intersects[0].object;
+          let clickedHandler = obj.userData?.onClick;
+          let isLab = obj.userData?.isRaieLab || obj.userData?.districtId === 'raie_lab';
+
           while (obj && !obj.userData?.districtId && obj.parent && obj.parent !== scene) {
             obj = obj.parent;
+            if (obj.userData?.onClick) clickedHandler = obj.userData.onClick;
+            if (obj.userData?.isRaieLab || obj.userData?.districtId === 'raie_lab') isLab = true;
           }
+
+          if (isLab) {
+            if (clickedHandler) clickedHandler();
+            else onOpenRaieLabModalRef.current?.();
+          }
+
           if (obj && obj.userData?.districtId) {
             handleSelectDistrict(obj.userData.districtId);
           }
@@ -512,6 +531,7 @@ export default function City3DCanvas({
           allUseCases={allUseCases}
           onOpenDossier={onOpenDossier}
           onLaunchLiveDemo={onLaunchLiveDemo}
+          onOpenRaieLabModal={onOpenRaieLabModal}
           onClose={() => handleSelectDistrict(null)}
           onResetCamera={handleResetView}
         />

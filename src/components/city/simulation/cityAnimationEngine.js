@@ -292,5 +292,14 @@ export function createCityAnimationUpdater(animatedItems) {
         sky.starField.rotation.y = elapsedTime * 0.0008 * effectiveSpeed;
       }
     }
+
+    // S. Rooftop Beacons & Misc Spinners
+    if (animatedItems.miscSpinners) {
+      animatedItems.miscSpinners.forEach(s => {
+        if (s.mesh) {
+          s.mesh.rotation.y += (s.speed || 0.02) * effectiveSpeed;
+        }
+      });
+    }
   };
 }

@@ -4,12 +4,13 @@ import {
   ExternalLink, 
   Layers, 
   Cpu, 
-  Sparkles,
-  Compass,
-  ArrowRight,
-  Maximize2,
-  Activity,
-  CheckCircle2
+  Sparkles, 
+  Compass, 
+  ArrowRight, 
+  Maximize2, 
+  Activity, 
+  CheckCircle2,
+  Bot
 } from 'lucide-react';
 import UseCaseVisual from '../UseCaseVisual';
 
@@ -19,7 +20,8 @@ export default function CityContextCard({
   onOpenDossier,
   onLaunchLiveDemo,
   onClose,
-  onResetCamera
+  onResetCamera,
+  onOpenRaieLabModal
 }) {
   if (!district) return null;
 
@@ -194,6 +196,26 @@ export default function CityContextCard({
 
         {/* Footer Actions */}
         <div className="context-card-footer">
+          {/* Direct Enter RAIE Lab Modal Action */}
+          {district.id === 'raie_lab' && onOpenRaieLabModal && (
+            <button 
+              className="btn-launch-live-sim raie-enter-special-btn"
+              style={{
+                borderColor: '#00F2FE',
+                boxShadow: '0 0 25px rgba(0, 242, 254, 0.45)',
+                background: 'linear-gradient(135deg, rgba(0, 242, 254, 0.25), rgba(56, 189, 248, 0.15))'
+              }}
+              onClick={onOpenRaieLabModal}
+              title="Open full interactive inside experience of RAIE Lab and Smart Kit"
+            >
+              <Bot size={18} className="cyan-glow-icon" />
+              <span className="btn-launch-text" style={{ fontWeight: 700, color: '#fff' }}>
+                🔬 Enter RAIE Lab &amp; Smart Kit Inside
+              </span>
+              <ExternalLink size={15} />
+            </button>
+          )}
+
           {/* Live Web Twin Simulation Launcher */}
           {(district.liveDemoUrl || activeUseCase?.liveDemoUrl) && onLaunchLiveDemo && (
             <button 

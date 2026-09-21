@@ -12,10 +12,33 @@ import {
   Send, 
   Train, 
   Satellite,
-  Waves
+  Waves,
+  Bot
 } from 'lucide-react';
 
 export const CITY_DISTRICTS = [
+  {
+    id: "raie_lab",
+    name: "ARCS - RAIE Innovation Lab & Smart Kit",
+    shortLabel: "RAIE Lab",
+    icon: Bot,
+    category: "Robotics & AI Lab",
+    color: "#00F2FE",
+    accentColor: "#38BDF8",
+    position: [16, 2, -15],
+    markerOffset: [0, 9.5, 0],
+    hologramOffset: [12, 14, 8],
+    cameraTarget: {
+      position: [32, 18, 5],
+      lookAt: [16, 4, -15]
+    },
+    useCaseIds: ["t6-u1", "t9-u1"],
+    primaryCaseId: "t6-u1",
+    tagline: "Research Academy of Innovation & Excellence: 12 embodied robotics systems, Smart Kit hardware toolkit & virtual lab.",
+    simulationType: "Embodied Robotics & Smart Kit Twin",
+    simulationStatus: "ROS2 & Hardware Loop Active",
+    technologies: ["LeRobot SO-ARM101", "JetTank SLAM", "Ainex Humanoid", "JetHexa", "CubeSat Gen 2", "Bambu Lab 3D", "Smart Kit 4WD", "Meta Quest 3"]
+  },
   {
     id: "commercial",
     name: "Commercial Real Estate & GCC Tech Center",

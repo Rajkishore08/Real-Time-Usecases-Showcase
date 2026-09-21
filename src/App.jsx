@@ -10,6 +10,7 @@ import LiveSimulationViewer from './components/LiveSimulationViewer';
 import City3DCanvas from './components/city/City3DCanvas';
 import IntroSplashOverlay from './components/IntroSplashOverlay';
 import HologramMirrorController from './components/HologramMirrorController';
+import RaieLabModal from './components/RaieLabModal';
 import { Layers } from 'lucide-react';
 
 const STORAGE_KEY = 'REALTIME_SHOWCASE_CONTENT_V10';
@@ -145,6 +146,13 @@ export default function App() {
 
   // Live Simulation Viewer State
   const [activeLiveDemo, setActiveLiveDemo] = useState(null);
+
+  // RAIE Lab Modal State
+  const isRaieFromUrl = queryParams.get('lab') === 'true' || 
+                        queryParams.get('raie') === 'true' || 
+                        queryParams.get('smartkit') === 'true' ||
+                        queryParams.get('district') === 'raie_lab';
+  const [isRaieLabOpen, setIsRaieLabOpen] = useState(() => isRaieFromUrl);
 
   // Suppress intro splash if accessing Grid View directly or embed or splash=false
   const isSplashSuppressed = isEmbedFromUrl || 
@@ -437,6 +445,7 @@ export default function App() {
             allUseCases={useCases}
             onOpenDossier={setActiveDossierCase}
             onLaunchLiveDemo={handleLaunchLiveDemo}
+            onOpenRaieLabModal={() => setIsRaieLabOpen(true)}
             initialDistrictId={activeDistrictId}
             initialAutoRotate={initialAutoRotate}
             hideControls={hideControlsFromUrl}
@@ -543,6 +552,13 @@ export default function App() {
           onBackToCity={handleBackToCityFromLiveDemo}
         />
       )}
+
+      {/* Modal: ARCS - RAIE Lab & Smart Kit Interactive Inside Explorer */}
+      <RaieLabModal
+        isOpen={isRaieLabOpen}
+        onClose={() => setIsRaieLabOpen(false)}
+        onLaunchDemo={handleLaunchLiveDemo}
+      />
     </div>
   );
 }

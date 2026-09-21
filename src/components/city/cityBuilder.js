@@ -24,6 +24,7 @@ import { buildWalmartLogisticsDistrict } from './districts/warehousingDistrict.j
 import { buildDroneVertiportDistrict } from './districts/droneVertiportDistrict.js';
 import { buildRailAndBridgeDistrict } from './districts/railDistrict.js';
 import { buildAquacultureFishFarm } from './districts/aquacultureFishAndPigFarm.js';
+import { buildRaieLabDistrict } from './districts/raieLabDistrict.js';
 
 // Simulation & Animation Engine
 import { buildPopulatedHumans } from './simulation/populatedHumans.js';
@@ -39,9 +40,10 @@ export { createCityMaterials };
  * 
  * @param {THREE.Scene} scene - Three.js root scene
  * @param {Object} mat - Material palette created by createCityMaterials
+ * @param {Object} callbacks - Optional UI triggers like onOpenRaieLabModal
  * @returns {Object} { cityRoot, interactiveObjects, animatedItems, updateCity }
  */
-export function buildCityScene(scene, mat) {
+export function buildCityScene(scene, mat, callbacks = {}) {
   const cityRoot = new THREE.Group();
   cityRoot.name = "CityRoot";
   scene.add(cityRoot);
@@ -67,7 +69,8 @@ export function buildCityScene(scene, mat) {
     lighthouseBeam: null,
     fishSchools: [],
     fishAerators: [],
-    pigs: []
+    pigs: [],
+    miscSpinners: []
   };
 
   // 1. Natural Landscape, Mountain Ranges, Cascading Waterfall & River
@@ -79,8 +82,9 @@ export function buildCityScene(scene, mat) {
   // 3. Road Network, Sidewalks, Crosswalks & Streetlamps
   buildRoadNetwork(cityRoot, mat);
 
-  // 3. 13 Specialized High-Fidelity Industry Districts
+  // 3. 14 Specialized High-Fidelity Industry Districts
   buildCommercialDistrict(cityRoot, mat, animatedItems, interactiveObjects);
+  buildRaieLabDistrict(cityRoot, mat, animatedItems, interactiveObjects, callbacks.onOpenRaieLabModal);
   buildManufacturingDistrict(cityRoot, mat, animatedItems, interactiveObjects);
   buildAdditiveDistrict(cityRoot, mat, interactiveObjects);
   buildDisasterDistrict(cityRoot, mat, animatedItems, interactiveObjects); // Beside Mountain River Waterfall
